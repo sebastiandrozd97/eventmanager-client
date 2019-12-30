@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <Navbar />
-    <h1>Test</h1>
   </div>
 </template>
 
@@ -15,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+body {
+  background: grey;
+}
+</style>
