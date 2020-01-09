@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <Home />
+    <Navbar />
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Home from '@/views/Home'
+import Navbar from '@/components/Navbar'
 export default {
   name: 'App',
   components: {
-    Home
+    Navbar,
   }
 }
 </script>
 
 <style lang="scss">
-
+body {
+  background: #ffffff;
+}
 </style>

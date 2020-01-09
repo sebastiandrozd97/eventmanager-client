@@ -1,11 +1,10 @@
 <template>
   <div id="navbar">
-    <img class="logo" src="@/assets/logo.svg" alt="logo">
+    <router-link :to="{ name: 'Events' }" class="logo"><img src="@/assets/logo-dark.svg" alt="logo"></router-link>
     <nav class="navbar">
       <ul class="navbar-items">
-        <li><a href="#">Events</a></li>
-        <li><a href="#">Friends</a></li>
-        <li><a href="#">Profile</a></li>
+        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Events' }">Events</router-link></li>
+        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Profile' }">Profile</router-link></li>
       </ul>
     </nav>
     <button class="logout-button">Logout</button>
@@ -23,55 +22,53 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Montserrat:500&display=swap');
 
-* {
-  
+#navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 5%;
+  height: 10vh;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid rgba(189, 195, 199,0.8)
 }
 
-ul{
-  padding: 0;
-}
-
-li, a, .logout-button {
+.navbar-item, .router-links, .logout-button {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   font-size: 16px;
-  color: #edf0f1;
+  color: black;
   text-decoration: none;
-}
-
-#navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 5%;
-  height: 50px;
-  box-sizing: border-box;
-  background: #24252A;
 }
 
 .logo {
   cursor: pointer;
-  height: 40px;
+  margin-right: auto;
+  img {
+    height: 40px;
+  }
 }
 
 .navbar-items {
+  padding: 0;
   list-style: none;
   margin: 0;
 
-  li {
+  .navbar-item {
     display: inline-block;
     padding: 0px 20px;
 
-    a {
+    .router-links {
       transition: all 0.3s ease 0s;
     }
 
-    a:hover {
-      color: #0088a9;
+    .router-links:hover {
+      color: #2ecc71;
+      cursor: pointer;
+      text-decoration: none;
     }
   }
 }
@@ -80,14 +77,16 @@ li, a, .logout-button {
   height: 35px;
   line-height: 0px;
   padding: 9px 25px;
-  background: rgba(0,136,169,1);
+  margin-left: 20px;
+  background: rgb(0, 123, 255);
+  color: white;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease 0s;
 }
 
 .logout-button:hover {
-  background: rgba(0,136,169,0.8);
+  background: rgb(0, 104, 216);
 }
 
 </style>
