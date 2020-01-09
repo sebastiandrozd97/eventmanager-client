@@ -1,6 +1,6 @@
 <template>
   <div id="navbar">
-    <router-link :to="{ name: 'Events' }" class="logo"><img src="@/assets/logo-dark.svg" alt="logo"></router-link>
+    <router-link :to="{ name: 'Events' }" class="logo"><img src="@/assets/img/logo-dark.svg" alt="logo"></router-link>
     <nav class="navbar">
       <ul class="navbar-items">
         <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Events' }">Events</router-link></li>
@@ -66,7 +66,7 @@ export default {
     }
 
     .router-links:hover {
-      color: #2ecc71;
+      color: rgb(0, 123, 255);
       cursor: pointer;
       text-decoration: none;
     }
