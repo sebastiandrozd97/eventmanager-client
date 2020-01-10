@@ -29,7 +29,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 10px 5%;
+  padding: 10px 1%;
   height: 10vh;
   box-sizing: border-box;
   background: #fff;

@@ -86,7 +86,4 @@ export default {
   padding-top: 20px;
 }
 
-.btn {
-  background: rgba(0,136,169,1);
-}
 </style>

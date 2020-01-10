@@ -26,29 +26,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.list-group-item {
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-}
-
-.list-group-item.active {
-  .text-muted {
-    color: white !important;
-  }
-}
-
-.list-group-item:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-top: 0;
-}
-
-.list-group-item:last-child {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
 .list-group {
   height: 90vh;
   overflow-y: scroll;
