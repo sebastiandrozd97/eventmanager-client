@@ -2,208 +2,23 @@
   <div id="event-list">
     <div class="list-group">
       <input class="list-group-item list-group-item-action" type="text" placeholder="Search...">
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">New Year's Eve 2019</h5>
-        <p class="mb-1">Snowboarding, then drinking</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Szczyrk</small>
-          <small>31.12.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Go karting</h5>
-        <p class="mb-1">Riding on go karts with few friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bielsko-Biała</small>
-          <small>20.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action active">
-        <h5 class="mb-1">Birthday Party</h5>
-        <p class="mb-1">My 22nd birthday</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bzie</small>
-          <small>5.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Drinking in the mountains</h5>
-        <p class="mb-1">Party!</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Brenna</small>
-          <small>19-23.07.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">London</h5>
-        <p class="mb-1">Trip to London for few days</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">London</small>
-          <small>07-10.02.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Coimbra</h5>
-        <p class="mb-1">Spontaneous trip to visit our friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Coimbra</small>
-          <small>12-19.10.2018</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">New Year's Eve 2019</h5>
-        <p class="mb-1">Snowboarding, then drinking</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Szczyrk</small>
-          <small>31.12.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Go karting</h5>
-        <p class="mb-1">Riding on go karts with few friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bielsko-Biała</small>
-          <small>20.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Birthday Party</h5>
-        <p class="mb-1">My 22nd birthday</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bzie</small>
-          <small>5.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Drinking in the mountains</h5>
-        <p class="mb-1">Party!</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Brenna</small>
-          <small>19-23.07.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">London</h5>
-        <p class="mb-1">Trip to London for few days</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">London</small>
-          <small>07-10.02.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Coimbra</h5>
-        <p class="mb-1">Spontaneous trip to visit our friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Coimbra</small>
-          <small>12-19.10.2018</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">New Year's Eve 2019</h5>
-        <p class="mb-1">Snowboarding, then drinking</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Szczyrk</small>
-          <small>31.12.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Go karting</h5>
-        <p class="mb-1">Riding on go karts with few friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bielsko-Biała</small>
-          <small>20.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Birthday Party</h5>
-        <p class="mb-1">My 22nd birthday</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bzie</small>
-          <small>5.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Drinking in the mountains</h5>
-        <p class="mb-1">Party!</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Brenna</small>
-          <small>19-23.07.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">London</h5>
-        <p class="mb-1">Trip to London for few days</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">London</small>
-          <small>07-10.02.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Coimbra</h5>
-        <p class="mb-1">Spontaneous trip to visit our friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Coimbra</small>
-          <small>12-19.10.2018</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">New Year's Eve 2019</h5>
-        <p class="mb-1">Snowboarding, then drinking</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Szczyrk</small>
-          <small>31.12.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Go karting</h5>
-        <p class="mb-1">Riding on go karts with few friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bielsko-Biała</small>
-          <small>20.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Birthday Party</h5>
-        <p class="mb-1">My 22nd birthday</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Bzie</small>
-          <small>5.10.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Drinking in the mountains</h5>
-        <p class="mb-1">Party!</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Brenna</small>
-          <small>19-23.07.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">London</h5>
-        <p class="mb-1">Trip to London for few days</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">London</small>
-          <small>07-10.02.2019</small>
-        </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Coimbra</h5>
-        <p class="mb-1">Spontaneous trip to visit our friends</p>
-        <div class="d-flex w-100 justify-content-between">
-          <small class="text-muted">Coimbra</small>
-          <small>12-19.10.2018</small>
-        </div>
-      </a>
+      <Event v-for="(event, index) in events" :key="index" :event="event" />
     </div>
   </div>
 </template>
 
 <script>
+import Event from '@/components/Event'
+import events from '@/assets/events.json'
+
 export default {
   name: 'EventList',
+  components: {
+    Event
+  },
   data(){
     return {
-      
+      events
     }
   }
 }
