@@ -1,8 +1,8 @@
 <template>
   <div id="event-list">
     <div class="list-group">
-      <input class="list-group-item list-group-item-action" type="text" placeholder="Search...">
-      <Event v-for="(event, index) in events" :key="index" :event="event" />
+      <input v-model="searchText" class="list-group-item list-group-item-action" type="text" placeholder="Search...">
+      <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
     </div>
   </div>
 </template>
@@ -18,7 +18,15 @@ export default {
   },
   data(){
     return {
-      events
+      events,
+      searchText: ''
+    }
+  },
+  computed: {
+    filteredEvents: function(){
+      return this.events.filter(event => {
+        return event.title.toLowerCase().trim().match(this.searchText.toLowerCase().trim())
+      })
     }
   }
 }

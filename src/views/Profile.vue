@@ -78,8 +78,8 @@ export default {
 <style lang="scss">
 .container {
   width: 60%;
-  color:white;
-  padding-top: 20px;
+  color:black;
+  margin-top: 30px;
 }
 
 .profile-details {
