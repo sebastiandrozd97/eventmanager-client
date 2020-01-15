@@ -9,7 +9,7 @@
 
 <script>
 import Event from '@/components/Event'
-import events from '@/assets/events.json'
+import events from '@/assets/json/events.json'
 
 export default {
   name: 'EventList',
