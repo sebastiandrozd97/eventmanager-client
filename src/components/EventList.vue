@@ -22,6 +22,9 @@ export default {
       searchText: ''
     }
   },
+  methods: {
+    
+  },
   computed: {
     filteredEvents: function(){
       return this.events.filter(event => {

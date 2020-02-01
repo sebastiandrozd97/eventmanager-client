@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a href="#" class="list-group-item list-group-item-action" :class = "event.active">
+    <a href="#/events" class="list-group-item list-group-item-action" :class = "event.active">
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">

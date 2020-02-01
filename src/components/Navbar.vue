@@ -3,6 +3,7 @@
     <router-link :to="{ name: 'Events' }" class="logo"><img src="@/assets/img/logo-dark.svg" alt="logo"></router-link>
     <nav class="navbar">
       <ul class="navbar-items">
+        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'NewEvent' }">New event</router-link></li>
         <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Events' }">Events</router-link></li>
         <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Profile' }">Profile</router-link></li>
       </ul>

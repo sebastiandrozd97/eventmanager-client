@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import NewEvent from '../views/NewEvent.vue'
 import Events from '../views/Events.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
@@ -21,6 +22,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/new-event',
+    name: 'NewEvent',
+    component: NewEvent
   },
   // {
   //   path: '/about',
