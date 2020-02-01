@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar v-if="show"/>
     <router-view/>
   </div>
 </template>
@@ -11,6 +11,11 @@ export default {
   name: 'App',
   components: {
     Navbar,
+  },
+  computed: {
+    show() {
+      return this.$route.path !== '/';
+    }
   }
 }
 </script>

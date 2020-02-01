@@ -2,12 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Events from '../views/Events.vue'
 import Profile from '../views/Profile.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/events',
     name: 'Events',
     component: Events
   },

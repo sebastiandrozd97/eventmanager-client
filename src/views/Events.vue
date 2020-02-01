@@ -48,7 +48,7 @@ export default {
   background-image: url("../assets/img/map.png");
 }
 
-.map{
+.map {
   width:100%;
   max-height:100%;
 }
