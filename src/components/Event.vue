@@ -5,7 +5,7 @@
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
         <small class="text-muted">{{ event.location }}</small>
-        <small class="text-muted">{{ event.date }}</small>
+        <small class="text-muted">{{ event.date | timestampToDate }}</small>
       </div>
     </a>
   </div>

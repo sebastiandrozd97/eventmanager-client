@@ -10,6 +10,7 @@
 <script>
 import Event from '@/components/Event'
 import events from '@/assets/json/events.json'
+import db from '@/firebase/init'
 
 export default {
   name: 'EventList',
@@ -18,7 +19,9 @@ export default {
   },
   data(){
     return {
+      event,
       events,
+      events2: [],
       searchText: ''
     }
   },
@@ -27,15 +30,26 @@ export default {
   },
   computed: {
     filteredEvents: function(){
-      return this.events.filter(event => {
+      return this.events2.filter(event => {
         return event.title.toLowerCase().trim().match(this.searchText.toLowerCase().trim())
       })
     }
-  }
+  },
+  async created() {
+      const eventsSnapshot = await db.collection('events').get()
+      eventsSnapshot.forEach(async doc => {
+        let event = doc.data()
+        event.id = doc.id
+        const location = await db.collection('locations').doc(event.locationId).get()
+        event.location = location.data().city
+        this.events2.push(event)
+      })
+    }
 }
+
+    
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .list-group {
   height: 90vh;

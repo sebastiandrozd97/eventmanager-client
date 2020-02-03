@@ -5,7 +5,7 @@
         <EventList />
       </div>
       <div class="content">
-        <!-- <img class="map" src="@/assets/img/map.png"> -->
+        
       </div>
       <div class="categories">
         <Categories />
