@@ -55,10 +55,9 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       .then(cred => {
         db.collection('users').doc(cred.user.uid).set({
-          email: this.email,
           gender: null,
-          firstname: null,
-          surname: null
+          firstname: 'user',
+          surname: ""
         }).then(() =>{
           this.$router.push({ name: 'Events' })
         })

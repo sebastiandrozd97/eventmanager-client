@@ -1,49 +1,51 @@
 <template>
   <div class="profile">
-    <div class="container">
-      <h2>Hello, {{user.Firstname}} {{user.Surname}}</h2>
-      <form class="profile-details">
+    <div v-if="user" class="container">
+      <h2>Hello, {{user.firstname}} {{user.surname}}</h2>
+      <form @submit.prevent="updateProfile" class="profile-details">
         <div class="form-group row">
           <label for="inputFirstname" class="col-sm-2 col-form-label">Firstname</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputFirstname" :value="user.Firstname">
+            <input type="text" class="form-control" id="inputFirstname" v-model="user.firstname">
           </div>
         </div>
         <div class="form-group row">
           <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputSurname" :value="user.Surname">
+            <input type="text" class="form-control" id="inputSurname" v-model="user.surname">
           </div>
         </div>
         <div class="form-group row">
           <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail" :value="user.Email" disabled>
+            <input type="email" class="form-control" id="inputEmail" v-model="this.user.email" disabled>
           </div>
         </div>
         <div class="form-group row">
           <label for="gender" class="col-sm-2 col-form-label">Gender</label>
           <div class="col-sm-10">
-            <select class="form-control" id="gender" :value="user.Gender">
+            <select class="form-control" id="gender" v-model="user.gender">
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
           </div>
         </div>
+        <small v-if="this.feedback" class="form-text text-success">{{ feedback }}</small>
+          <ModalChangePassword />
         <div class="form-group row">
-          <div class="col-sm-10">
-            <button @click="saveProfile" class="btn btn-primary">Save</button>
+          <div class="col-sm-10 mt-3">
+            <button class="btn btn-primary">Update</button>
           </div>
         </div>
       </form>
-      <ModalChangePassword />
     </div>
   </div>
 </template>
 
 <script>
-import user from '@/assets/json/user.json'
 import ModalChangePassword from '@/components/ModalChangePassword'
+import firebase from 'firebase'
+import db from '@/firebase/init'
 
 export default {
   name: 'Profile',
@@ -52,13 +54,27 @@ export default {
   },
   data(){
     return {
-      user
+      user: null,
+      feedback: null,
     }
   },
   methods: {
-    saveProfile(){
-
+    updateProfile(){
+      db.collection('users').doc(firebase.auth().currentUser.uid).set({
+        firstname: this.user.firstname,
+        surname: this.user.surname,
+        gender: this.user.gender
+      }).then(() =>{
+        this.feedback = 'Profile has beed updated'
+      }).catch(err => {
+        this.feedback = err.message
+      })
     }
+  },
+  async created(){
+    const snapshot = await db.collection('users').doc(firebase.auth().currentUser.uid).get()
+    this.user = snapshot.data()
+    this.user.email = firebase.auth().currentUser.email
   }
 }
 </script>
