@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import db from '../firebase/init'
 import firebase from 'firebase'
 
 export default {
@@ -52,17 +53,20 @@ export default {
   signup(){
     if(this.email && this.password){
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+      .then(cred => {
+        db.collection('users').doc(cred.user.uid).set({
+          email: this.email,
+          gender: null,
+          firstname: null,
+          surname: null
+        }).then(() =>{
+          this.$router.push({ name: 'Events' })
+        })
+      })
       .catch(error => {
         console.log(error)
         this.feedback = error.message
       })
-      // this.shortEmail = this.email.slice(0, this.email.indexOf('@'))
-      // this.slug = slugify(this.shortEmail, {
-      //   replacement: '-',
-      //   remove: /[$*_+~.()'"!\-:@]/g,
-      //   lower: true
-      // })
-      // console.log(this.slug)
     } else {
       this.feedback = "You must enter all fields"
     }

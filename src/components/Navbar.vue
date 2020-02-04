@@ -8,16 +8,25 @@
         <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Profile' }">Profile</router-link></li>
       </ul>
     </nav>
-    <button class="logout-button">Logout</button>
+    <button @click="logout" class="logout-button">Logout</button>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'Navbar',
   data(){
     return {
       
+    }
+  },
+  methods: {
+    logout(){
+      firebase.auth().signOut().then(() => {
+        this.$router.push({ name: 'Index' })
+      })
     }
   }
 }

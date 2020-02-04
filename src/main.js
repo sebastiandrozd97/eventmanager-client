@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import VModal from 'vue-js-modal'
 import moment from 'moment'
+import firebase from 'firebase'
+
+Vue.config.productionTip = false
 
 Vue.use(VModal)
 
@@ -12,9 +15,13 @@ Vue.filter('timestampToDate', function (timestamp) {
   return timestamp
 })
 
-Vue.config.productionTip = false
+let app = null
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+firebase.auth().onAuthStateChanged(() => {
+  if(!app){
+    app = new Vue({
+      router,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})

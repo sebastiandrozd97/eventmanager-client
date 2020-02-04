@@ -36,14 +36,32 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'Index',
   data(){
     return {
-      
+      email: null,
+      password: null,
+      feedback: null,
     }
   },
   methods: {
+    signin(){
+      if(this.email && this.password){
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.$router.push({ name: 'Events' })
+        })
+        .catch(err => {
+          this.feedback = err.message
+        })
+      } else {
+        this.feedback = 'You must enter all fields'
+      }
+      
+    }
   }
 }
 </script>

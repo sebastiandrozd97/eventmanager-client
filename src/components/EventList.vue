@@ -10,6 +10,7 @@
 <script>
 import Event from '@/components/Event'
 import db from '@/firebase/init'
+import firebase from 'firebase'
 
 export default {
   name: 'EventList',
@@ -34,15 +35,15 @@ export default {
     }
   },
   async created() {
-      const eventsSnapshot = await db.collection('events').get()
-      eventsSnapshot.forEach(async doc => {
-        let event = doc.data()
-        event.id = doc.id
-        const location = await db.collection('locations').doc(event.locationId).get()
-        event.location = location.data().city
-        this.events.push(event)
-      })
-    }
+    const eventsSnapshot = await db.collection('events').where('userId', '==', firebase.auth().currentUser.uid).get()
+    eventsSnapshot.forEach(async doc => {
+      let event = doc.data()
+      event.id = doc.id
+      const location = await db.collection('locations').doc(event.locationId).get()
+      event.location = location.data().city
+      this.events.push(event)
+    })
+  }
 }   
 </script>
 
