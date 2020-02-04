@@ -9,7 +9,6 @@
 
 <script>
 import Event from '@/components/Event'
-import events from '@/assets/json/events.json'
 import db from '@/firebase/init'
 
 export default {
@@ -20,8 +19,7 @@ export default {
   data(){
     return {
       event,
-      events,
-      events2: [],
+      events: [],
       searchText: ''
     }
   },
@@ -30,7 +28,7 @@ export default {
   },
   computed: {
     filteredEvents: function(){
-      return this.events2.filter(event => {
+      return this.events.filter(event => {
         return event.title.toLowerCase().trim().match(this.searchText.toLowerCase().trim())
       })
     }
@@ -42,12 +40,10 @@ export default {
         event.id = doc.id
         const location = await db.collection('locations').doc(event.locationId).get()
         event.location = location.data().city
-        this.events2.push(event)
+        this.events.push(event)
       })
     }
-}
-
-    
+}   
 </script>
 
 <style lang="scss">

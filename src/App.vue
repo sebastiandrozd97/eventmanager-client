@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     show() {
-      return this.$route.path !== '/';
+      return this.$route.path !== '/' && this.$route.path !== '/signup';
     }
   }
 }

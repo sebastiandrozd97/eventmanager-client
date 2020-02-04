@@ -3,15 +3,21 @@ import VueRouter from 'vue-router'
 import NewEvent from '../views/NewEvent.vue'
 import Events from '../views/Events.vue'
 import Profile from '../views/Profile.vue'
-import Login from '../views/Login.vue'
+import Index from '../views/Index.vue'
+import SignUp from '../views/SignUp.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: Login
+    name: 'Index',
+    component: Index
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp
   },
   {
     path: '/events',

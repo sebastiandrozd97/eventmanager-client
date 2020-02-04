@@ -1,62 +1,74 @@
 <template>
-  <div id="login">
-    <div class="whole-login">
-      <div class="login-form">
-        <div class="login-logo">
+  <div id="index">
+    <div class="whole-index">
+      <div class="index-form">
+        <div class="index-logo">
           <img src="../assets/img/logo-dark.svg" alt="logo">
         </div>
-        <div class="login-welcome">
+        <div class="index-welcome">
           <h5>Welcome!</h5>
           <small id="emailHelp" class="form-text text-muted">Ready to plan your next event?</small>
         </div>
         <div>
-          <form>
+          <form @submit.prevent="signin">
             <div class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email">
+              <input type="email" class="form-control" id="email" v-model="email">
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="passwird">
+              <input type="password" class="form-control" id="password" v-model="password">
+              <small id="emailHelp" class="form-text text-muted">
+                Doesn't have an account yet? 
+                <router-link class="login-register" :to="{ name: 'SignUp' }">
+                  Sign up
+                </router-link>
+              </small>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
           </form>
         </div>
       </div>
-      <div class="login-photo"></div>
+      <div class="index-photo"></div>
     </div>
   </div>
 </template>
 
 <script>
+
   export default {
-    name: 'Login',
+    name: 'Index',
     data(){
       return {
-        
+        email: null,
+        password: null
+      }
+    },
+    methods: {
+      signin(){
+
       }
     }
   }
 </script>
 
 <style lang="scss">
-#login {
+#index {
   width:100vw;
   height: 100vh;
-  // background: #f1dbd4;
+  background: #c9c9c9;
   padding-top: 10vh;
 }
 
-.whole-login {
+.whole-index {
   width:70vw;
   height: 80vh;
-  background: white;
   margin:auto;
   box-shadow: 5px 10px 8px #888888;
   display: flex;
 }
 
-.login-form {
+.index-form {
   width: 50%;
   height:100%;
   padding-top: 3%;
@@ -66,11 +78,11 @@
   align-content: center;
   background: #fcfcfc;
 
-  .login-logo {
+  .index-logo {
     height: 10%;
   }
 
-  .login-welcome {
+  .index-welcome {
     margin-top: 5vh;
     span {
       font-size: 0.8em;
@@ -86,7 +98,7 @@
   }
 }
 
-.login-photo {
+.index-photo {
   width:50%;
   height: 100%;
   background-image: url('../assets/img/party.jpg');
