@@ -18,6 +18,7 @@
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control" id="password" v-model="password">
+              <small v-if="feedback" id="emailHelp" class="form-text text-danger">{{ feedback }}</small>
               <small id="emailHelp" class="form-text text-muted">
                 Doesn't have an account yet? 
                 <router-link class="login-register" :to="{ name: 'SignUp' }">
@@ -35,21 +36,16 @@
 </template>
 
 <script>
-
-  export default {
-    name: 'Index',
-    data(){
-      return {
-        email: null,
-        password: null
-      }
-    },
-    methods: {
-      signin(){
-
-      }
+export default {
+  name: 'Index',
+  data(){
+    return {
+      
     }
+  },
+  methods: {
   }
+}
 </script>
 
 <style lang="scss">
