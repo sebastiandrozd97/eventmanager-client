@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import NewEvent from '../views/NewEvent.vue'
-import Events from '../views/Events.vue'
-import Profile from '../views/Profile.vue'
-import Index from '../views/Index.vue'
-import SignUp from '../views/SignUp.vue'
+import NewEvent from '@/views/NewEvent.vue'
+import Events from '@/views/Events.vue'
+import Profile from '@/views/Profile.vue'
+import Index from '@/views/Index.vue'
+import SignUp from '@/views/SignUp.vue'
+import Details from '@/components/Details'
+import Location from '@/components/Location'
+import People from '@/components/People'
 
 Vue.use(VueRouter)
 
@@ -22,7 +25,22 @@ const routes = [
   {
     path: '/events',
     name: 'Events',
-    component: Events
+    component: Events,
+    children: [
+      {
+        path: ':id/details',
+        name: 'Details',
+        component: Details,
+      }, {
+        path: ':id/location',
+        name: 'Location',
+        component: Location,
+      }, {
+        path: ':id/people',
+        name: 'People',
+        component: People,
+      },
+    ]
   },
   {
     path: '/profile',
@@ -45,7 +63,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router

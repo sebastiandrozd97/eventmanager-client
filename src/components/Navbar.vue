@@ -19,7 +19,6 @@ export default {
   name: 'Navbar',
   data(){
     return {
-      
     }
   },
   methods: {
@@ -28,7 +27,7 @@ export default {
         this.$router.push({ name: 'Index' })
       })
     }
-  }
+  },
 }
 </script>
 

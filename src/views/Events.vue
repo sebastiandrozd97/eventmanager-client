@@ -4,11 +4,11 @@
       <div class="event-selection">
         <EventList />
       </div>
-      <div class="content">
-        
-      </div>
       <div class="categories">
         <Categories />
+      </div>
+      <div class="content">
+        <router-view></router-view>
       </div>
     </div>
   </div>

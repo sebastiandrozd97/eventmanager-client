@@ -1,13 +1,15 @@
 <template>
   <div>
-    <a href="#/events" class="list-group-item list-group-item-action" :class = "event.active">
+    <router-link 
+      class="router-links list-group-item list-group-item-action" 
+      :to="{ name: 'Details', params: { id: event.id } }">
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
         <small class="text-muted">{{ event.location }}</small>
         <small class="text-muted">{{ event.date | timestampToDate }}</small>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 

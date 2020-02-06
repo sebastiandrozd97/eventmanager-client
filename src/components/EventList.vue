@@ -10,7 +10,7 @@
 <script>
 import Event from '@/components/Event'
 import db from '@/firebase/init'
-//mport firebase from 'firebase'
+import firebase from 'firebase'
 
 export default {
   name: 'EventList',
@@ -24,9 +24,6 @@ export default {
       searchText: ''
     }
   },
-  methods: {
-    
-  },
   computed: {
     filteredEvents: function(){
       return this.events.filter(event => {
@@ -35,7 +32,10 @@ export default {
     }
   },
   async created() {
-    const eventsSnapshot = await db.collection('events').get()
+    let eventsSnapshot = await db.collection('events')
+      .where('userId', '==', firebase.auth().currentUser.uid)
+      .orderBy('date', 'asc')
+      .get()
     eventsSnapshot.forEach(async doc => {
       let event = doc.data()
       event.id = doc.id

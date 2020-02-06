@@ -1,9 +1,15 @@
 <template>
-  <div id="categories">
+  <div v-if="this.$route.params.id" id="categories">
     <div class="btn-group" role="group">
-      <button type="button" class="btn">Details</button>
-      <button type="button" class="btn">Location</button>
-      <button type="button" class="btn">People</button>
+      <router-link :to="{ name: 'Details' }">
+        <button type="button" class="btn">Details</button>
+      </router-link>
+      <router-link :to="{ name: 'Location' }">
+        <button type="button" class="btn">Location</button>
+      </router-link>
+      <router-link :to="{ name: 'People' }">
+        <button type="button" class="btn">People</button>
+      </router-link>
     </div>
   </div>
 </template>

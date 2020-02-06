@@ -3,15 +3,15 @@
     <form @submit.prevent="addEvent">
       <div class="form-group">
         <label for="event-title">Event title:</label>
-        <input type="text" placeholder="Skiing in Alps" class="form-control" id="event-title" v-model="title">
+        <input type="text" placeholder="Skiing in Alps" class="form-control" id="event-title" v-model="title" required>
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" placeholder="Write something about this event!" class="form-control" id="description" v-model="description">
+        <input type="text" placeholder="Write something about this event!" class="form-control" id="description" v-model="description" required>
       </div>
       <div class="form-group">
         <label for="location">Location</label>
-        <input type="text" placeholder="Where are you going to have fun?" class="form-control" id="location" v-model="location">
+        <input type="text" placeholder="Where are you going to have fun?" class="form-control" id="location" v-model="location" required>
       </div>
       <div class="form-group">
         <label for="participants">Participants</label>
@@ -28,9 +28,9 @@
             id="item"
             ref="itemName">
           <input
-            type="text" 
+            type="number" 
             @keydown.tab.prevent="addItem" 
-            v-model="item.cost" 
+            v-model.number="item.cost" 
             placeholder="Press tab to add" 
             class="form-control item-cost" 
             id="cost">
@@ -84,24 +84,29 @@ export default {
       }
     },
     async addEvent(){
-      if(this.title && this.description && this.location && (this.participants || this.participant)){
+      if(this.participants || this.participant){
         this.addParticipant()
         this.addItem()
-        const slug = slugify(this.location, {
+        const slugLocation = slugify(this.location, {
           replacement: '-',
           remove: /[*+~.()'"!:@]/g,
           lower: true
         })
-        let location = await db.collection('locations').doc(slug).get()
+        let location = await db.collection('locations').doc(slugLocation).get()
         if(location.exists){
-          this.locationId = slug
+          this.locationId = slugLocation
         } else {
-          await db.collection('locations').doc(slug).set({
+          await db.collection('locations').doc(slugLocation).set({
             location: this.location
           })
-          this.locationId = slug
+          this.locationId = slugLocation
         }
-        await db.collection('events').add({
+        const slugTitle = slugify(this.title, {
+          replacement: '-',
+          remove: /[*+~.()'"!:@]/g,
+          lower: true
+        })
+        await db.collection('events').doc(slugTitle).set({
           userId: firebase.auth().currentUser.uid,
           title: this.title,
           description: this.description,
@@ -110,6 +115,7 @@ export default {
           participants: this.participants,
           items: this.items
         })
+        this.$router.push({ name: 'Events' })
       }
     }
   }
