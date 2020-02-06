@@ -1,10 +1,9 @@
 <template>
   <div id="categories">
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn"><img class="icon" src="@/assets/img/paper.svg"></button>
-      <button type="button" class="btn"><img class="compass-icon" src="@/assets/img/compass.svg"></button>
-      <button type="button" class="btn"><img class="people-icon" src="@/assets/img/group.svg"></button>
-      <button type="button" class="btn"><img class="icon" src="@/assets/img/money.svg"></button>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn">Details</button>
+      <button type="button" class="btn">Location</button>
+      <button type="button" class="btn">People</button>
     </div>
   </div>
 </template>
@@ -34,6 +33,7 @@
 
 #categories > .btn-group :nth-child(2) {
     background-color: #007bff;
+    color: white;
 }
 
 #categories > div > .btn:focus {

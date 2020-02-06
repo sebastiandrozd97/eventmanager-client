@@ -1,7 +1,7 @@
 <template>
   <div id="event-list">
     <div class="list-group">
-      <input v-model="searchText" class="list-group-item list-group-item-action" type="text" placeholder="Search...">
+      <input v-model="searchText" class="list-group-item search" type="text" placeholder="Search...">
       <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
     </div>
   </div>
@@ -10,7 +10,7 @@
 <script>
 import Event from '@/components/Event'
 import db from '@/firebase/init'
-import firebase from 'firebase'
+//mport firebase from 'firebase'
 
 export default {
   name: 'EventList',
@@ -35,12 +35,12 @@ export default {
     }
   },
   async created() {
-    const eventsSnapshot = await db.collection('events').where('userId', '==', firebase.auth().currentUser.uid).get()
+    const eventsSnapshot = await db.collection('events').get()
     eventsSnapshot.forEach(async doc => {
       let event = doc.data()
       event.id = doc.id
       const location = await db.collection('locations').doc(event.locationId).get()
-      event.location = location.data().city
+      event.location = location.data().location
       this.events.push(event)
     })
   }
@@ -53,16 +53,17 @@ export default {
   overflow-y: scroll;
 }
 
-.list-group::-webkit-scrollbar
-{
+.list-group::-webkit-scrollbar {
     width: 5px;
     background-color: #F5F5F5;
 }
 
-.list-group::-webkit-scrollbar-thumb
-{
+.list-group::-webkit-scrollbar-thumb {
     background-color: rgba(200, 205, 209, 0.8);
-   
     border-radius: 3px;
+}
+
+.search {
+  background:#f6f6f6;
 }
 </style>

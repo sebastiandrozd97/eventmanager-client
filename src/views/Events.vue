@@ -32,10 +32,10 @@ export default {
   height: 90vh;
   display: grid;
   grid-template-columns: 1fr 3fr;
-  grid-template-rows: 10fr 1fr;
+  grid-template-rows: 1fr 10fr;
   grid-template-areas: 
-  "selection details"
   "selection categories"
+  "selection details"
 }
 
 .event-selection {
@@ -43,7 +43,7 @@ export default {
 }
 
 .content {
-  border-bottom: 1px solid rgba(189, 195, 199,0.8);
+  border-top: 1px solid rgba(189, 195, 199,0.8);
   grid-area: details;
   background-image: url("../assets/img/map.png");
 }

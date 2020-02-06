@@ -18,7 +18,7 @@
         <div class="form-group row">
           <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail" v-model="this.user.email" disabled>
+            <input type="email" class="form-control" id="inputEmail" v-model="user.email" disabled>
           </div>
         </div>
         <div class="form-group row">
@@ -30,7 +30,7 @@
             </select>
           </div>
         </div>
-        <small v-if="this.feedback" class="form-text text-success">{{ feedback }}</small>
+        <small v-if="feedback" class="form-text text-success">{{ feedback }}</small>
           <ModalChangePassword />
         <div class="form-group row">
           <div class="col-sm-10 mt-3">

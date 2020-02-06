@@ -11,8 +11,7 @@ Vue.use(VModal)
 
 Vue.filter('timestampToDate', function (timestamp) {
   if (!timestamp) return ''
-  timestamp = moment(timestamp).subtract(10, 'days').calendar();
-  return timestamp
+  return moment(timestamp).format('DD.MM.YYYY');
 })
 
 let app = null

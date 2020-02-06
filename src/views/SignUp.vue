@@ -63,7 +63,6 @@ export default {
         })
       })
       .catch(error => {
-        console.log(error)
         this.feedback = error.message
       })
     } else {
