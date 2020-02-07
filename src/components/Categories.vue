@@ -1,14 +1,20 @@
 <template>
-  <div v-if="this.$route.params.id" id="categories">
-    <div class="btn-group" role="group">
-      <router-link :to="{ name: 'Details' }">
-        <button type="button" class="btn">Details</button>
+  <div v-if="this.$route.params.slug" id="categories">
+    <div class="btn-group categories-group" role="group">
+      <router-link class="categories-link" :to="{ name: 'Details' }">
+        <button type="button" class="btn">
+          Details
+        </button>
       </router-link>
-      <router-link :to="{ name: 'Location' }">
-        <button type="button" class="btn">Location</button>
+      <router-link class="categories-link" :to="{ name: 'Location' }">
+        <button type="button" class="btn">
+          Location
+        </button>
       </router-link>
-      <router-link :to="{ name: 'People' }">
-        <button type="button" class="btn">People</button>
+      <router-link class="categories-link" :to="{ name: 'People' }">
+        <button type="button" class="btn">
+          People
+        </button>
       </router-link>
     </div>
   </div>
@@ -38,7 +44,6 @@
 }
 
 #categories > .btn-group :nth-child(2) {
-    background-color: #007bff;
     color: white;
 }
 
@@ -46,16 +51,25 @@
     box-shadow: none;
 }
 
-.icon {
-  height: 30px;
+.categories-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .categories-link {
+    width: calc(100% / 3);
+    text-align: center;
+  }
+
+  .router-link-active{
+  background:#007bff;
 }
 
-.compass-icon {
-  height: 30px;
-  content: url("../assets/img/compass2.png");
+  button {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
 }
 
-.people-icon {
-  height: 35px;
-}
 </style>

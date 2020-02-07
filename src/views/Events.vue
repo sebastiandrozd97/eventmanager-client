@@ -8,7 +8,9 @@
         <Categories />
       </div>
       <div class="content">
-        <router-view></router-view>
+        <router-view>
+          
+        </router-view>
       </div>
     </div>
   </div>
@@ -45,7 +47,6 @@ export default {
 .content {
   border-top: 1px solid rgba(189, 195, 199,0.8);
   grid-area: details;
-  background-image: url("../assets/img/map.png");
 }
 
 .map {

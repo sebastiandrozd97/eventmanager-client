@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="single-event">
     <router-link 
       class="router-links list-group-item list-group-item-action" 
-      :to="{ name: 'Details', params: { id: event.id } }">
+      :to="{ name: 'Event', params: { slug: event.id } }">
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
@@ -32,13 +32,6 @@ export default {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.list-group-item.active {
-  .text-muted {
-    color: white !important;
-    font-size: 0.7em;
-  }
-}
-
 .description {
   font-size: 0.8em;
 }
@@ -52,5 +45,17 @@ export default {
 .list-group-item:last-child {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.single-event {
+  .router-link-active {
+    background-color: #007bff;
+    color: white;
+
+    .text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
+    font-size: 0.7em;
+  }
+  }
 }
 </style>

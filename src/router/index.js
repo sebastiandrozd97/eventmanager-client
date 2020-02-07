@@ -25,18 +25,24 @@ const routes = [
   {
     path: '/events',
     name: 'Events',
+    component: Events
+  },
+  {
+    path: '/events/:slug',
+    name: 'Event',
     component: Events,
+    redirect: { name: 'Details'},
     children: [
       {
-        path: ':id/details',
+        path: 'details',
         name: 'Details',
         component: Details,
       }, {
-        path: ':id/location',
+        path: 'location',
         name: 'Location',
         component: Location,
       }, {
-        path: ':id/people',
+        path: 'people',
         name: 'People',
         component: People,
       },
@@ -64,7 +70,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'history',
 })
 
 export default router
