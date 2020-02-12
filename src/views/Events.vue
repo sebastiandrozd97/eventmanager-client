@@ -4,13 +4,8 @@
       <div class="event-selection">
         <EventList />
       </div>
-      <div class="categories">
-        <Categories />
-      </div>
       <div class="content">
-        <router-view>
-          
-        </router-view>
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -18,13 +13,11 @@
 
 <script>
 import EventList from '@/components/EventList'
-import Categories from '@/components/Categories'
 
 export default {
   name: 'Events',
   components: {
     EventList,
-    Categories
   }
 }
 </script>
@@ -32,25 +25,17 @@ export default {
 <style lang="scss">
 .container-events {
   height: 90vh;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 1fr 10fr;
-  grid-template-areas: 
-  "selection categories"
-  "selection details"
+  display: flex;
+  flex-direction: row;
 }
 
 .event-selection {
-    grid-area: selection;
+  width: 35vw;
 }
 
 .content {
-  border-top: 1px solid rgba(189, 195, 199,0.8);
-  grid-area: details;
+  width: 65vw;
 }
 
-.map {
-  width:100%;
-  max-height:100%;
-}
+
 </style>

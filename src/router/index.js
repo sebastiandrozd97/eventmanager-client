@@ -5,9 +5,7 @@ import Events from '@/views/Events.vue'
 import Profile from '@/views/Profile.vue'
 import Index from '@/views/Index.vue'
 import SignUp from '@/views/SignUp.vue'
-import Details from '@/components/Details'
-import Location from '@/components/Location'
-import People from '@/components/People'
+import EventDetails from '@/components/EventDetails'
 
 Vue.use(VueRouter)
 
@@ -29,23 +27,13 @@ const routes = [
   },
   {
     path: '/events/:slug',
-    name: 'Event',
     component: Events,
-    redirect: { name: 'Details'},
     children: [
       {
-        path: 'details',
-        name: 'Details',
-        component: Details,
-      }, {
-        path: 'location',
-        name: 'Location',
-        component: Location,
-      }, {
-        path: 'people',
-        name: 'People',
-        component: People,
-      },
+        path: '',
+        name: 'Event',
+        component: EventDetails,
+      }
     ]
   },
   {
