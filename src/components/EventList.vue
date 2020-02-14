@@ -9,18 +9,17 @@
 
 <script>
 import Event from '@/components/Event'
-import db from '@/firebase/init'
-import firebase from 'firebase'
+
 
 export default {
   name: 'EventList',
   components: {
     Event
   },
+  props: ['events'],
   data(){
     return {
       event,
-      events: [],
       searchText: ''
     }
   },
@@ -31,19 +30,6 @@ export default {
       })
     }
   },
-  async created() {
-    let eventsSnapshot = await db.collection('events')
-      .where('userId', '==', firebase.auth().currentUser.uid)
-      .orderBy('date', 'asc')
-      .get()
-    eventsSnapshot.forEach(async doc => {
-      let event = doc.data()
-      event.id = doc.id
-      const location = await db.collection('locations').doc(event.locationId).get()
-      event.location = location.data().location
-      this.events.push(event)
-    })
-  }
 }   
 </script>
 
@@ -59,8 +45,12 @@ export default {
 }
 
 .list-group::-webkit-scrollbar-thumb {
-    background-color: rgba(200, 205, 209, 0.8);
+    background-color: rgba(0, 0, 0, 0.15);
     border-radius: 3px;
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
 }
 
 .search {

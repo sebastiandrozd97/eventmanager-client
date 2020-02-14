@@ -15,8 +15,8 @@
       </div>
       <div class="form-group">
         <label for="participants">Participants</label>
-        <input type="text" @keydown.tab.prevent="addParticipant" v-model="participant" placeholder="Press tab to add participant" class="form-control" id="participants">
-        <div v-for="(participant, index) in this.participants" :key="index" class="participant"><small class="form-text">{{ participant }}</small></div>
+        <input type="text" @keydown.enter.prevent="addParticipant" v-model="participant.name" placeholder="Press tab to add participant" class="form-control" id="participants">
+        <div v-for="(participant, index) in this.participants" :key="index" class="participant"><small class="form-text">{{ participant.name }}</small></div>
       </div>
       <div class="form-group">
         <label for="participants">Items and costs</label>
@@ -29,7 +29,7 @@
             ref="itemName">
           <input
             type="number" 
-            @keydown.tab.prevent="addItem" 
+            @keydown.enter.prevent="addItem" 
             v-model.number="item.cost" 
             placeholder="Press tab to add" 
             class="form-control item-cost" 
@@ -59,7 +59,10 @@ export default {
       description: null,
       location: null,
       locationId: null,
-      participant: null,
+      participant: {
+        name: null,
+        status: 'Not paid'
+      },
       participants: [],
       item: {
         name: null,
@@ -71,8 +74,8 @@ export default {
   methods: {
     addParticipant(){
       if(this.participant){
-        this.participants.push(this.participant)
-        this.participant = null
+        this.participants.push({...this.participant})
+        this.participant.name = null
       }
     },
     addItem(){
