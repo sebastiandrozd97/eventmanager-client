@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <Navbar v-if="show"/>
-    <router-view/>
+    <Navbar v-if="show" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/Navbar';
 export default {
   name: 'App',
   components: {
@@ -15,9 +15,9 @@ export default {
   computed: {
     show() {
       return this.$route.path !== '/' && this.$route.path !== '/signup';
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">

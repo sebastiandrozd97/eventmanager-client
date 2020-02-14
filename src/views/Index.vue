@@ -3,24 +3,42 @@
     <div class="whole-index">
       <div class="index-form">
         <div class="index-logo">
-          <img src="../assets/img/logo-dark.svg" alt="logo">
+          <img src="../assets/img/logo-dark.svg" alt="logo" />
         </div>
         <div class="index-welcome">
           <h5>Welcome!</h5>
-          <small id="emailHelp" class="form-text text-muted">Ready to plan your next event?</small>
+          <small id="emailHelp" class="form-text text-muted">
+            Ready to plan your next event?
+          </small>
         </div>
         <div>
           <form @submit.prevent="signin">
             <div class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" v-model="email">
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                v-model="email"
+              />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" v-model="password">
-              <small v-if="feedback" id="emailHelp" class="form-text text-danger">{{ feedback }}</small>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="password"
+              />
+              <small
+                v-if="feedback"
+                id="emailHelp"
+                class="form-text text-danger"
+              >
+                {{ feedback }}
+              </small>
               <small id="emailHelp" class="form-text text-muted">
-                Doesn't have an account yet? 
+                Doesn't have an account yet?
                 <router-link class="login-register" :to="{ name: 'SignUp' }">
                   Sign up
                 </router-link>
@@ -36,55 +54,56 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 export default {
   name: 'Index',
-  data(){
+  data() {
     return {
       email: null,
       password: null,
       feedback: null,
-    }
+    };
   },
   methods: {
-    signin(){
-      if(this.email && this.password){
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push({ name: 'Events' })
-        })
-        .catch(err => {
-          this.feedback = err.message
-        })
+    signin() {
+      if (this.email && this.password) {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            this.$router.push({ name: 'Events' });
+          })
+          .catch(err => {
+            this.feedback = err.message;
+          });
       } else {
-        this.feedback = 'You must enter all fields'
+        this.feedback = 'You must enter all fields';
       }
-      
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 #index {
-  width:100vw;
+  width: 100vw;
   height: 100vh;
   background: #c9c9c9;
   padding-top: 10vh;
 }
 
 .whole-index {
-  width:70vw;
+  width: 70vw;
   height: 80vh;
-  margin:auto;
+  margin: auto;
   box-shadow: 5px 10px 8px #888888;
   display: flex;
 }
 
 .index-form {
   width: 50%;
-  height:100%;
+  height: 100%;
   padding-top: 3%;
   text-align: center;
   display: flex;
@@ -113,7 +132,7 @@ export default {
 }
 
 .index-photo {
-  width:50%;
+  width: 50%;
   height: 100%;
   background-image: url('../assets/img/party.jpg');
   background-size: 100% 100%;

@@ -12,48 +12,52 @@
 </template>
 
 <script>
-import EventList from '@/components/EventList'
-import db from '@/firebase/init'
-import firebase from 'firebase'
+import EventList from '@/components/EventList';
+import db from '@/firebase/init';
+import firebase from 'firebase';
 
 export default {
   name: 'Events',
   components: {
     EventList,
   },
-  data(){
+  data() {
     return {
       event: ['empty'],
       events: [],
-    }
+    };
   },
   computed: {
-    selectedEvent(){
+    selectedEvent() {
       return this.$route.path != '/events';
-    }
+    },
   },
-  async created(){
-    let eventsSnapshot = await db.collection('events')
+  async created() {
+    let eventsSnapshot = await db
+      .collection('events')
       .where('userId', '==', firebase.auth().currentUser.uid)
       .orderBy('date', 'asc')
-      .get()
+      .get();
     eventsSnapshot.forEach(async doc => {
-      let event = doc.data()
-      event.id = doc.id
-      const location = await db.collection('locations').doc(event.locationId).get()
-      event.location = location.data().location
-      this.events.push(event)
-    })
+      let event = doc.data();
+      event.id = doc.id;
+      const location = await db
+        .collection('locations')
+        .doc(event.locationId)
+        .get();
+      event.location = location.data().location;
+      this.events.push(event);
+    });
   },
-  beforeUpdate(){
-    this.event = this.events.filter( event => {
-      if(event.id == this.$route.params.slug){
+  beforeUpdate() {
+    this.event = this.events.filter(event => {
+      if (event.id == this.$route.params.slug) {
         //console.log(this.event[0].id)
-        return event
+        return event;
       }
-    })
-  }
-}
+    });
+  },
+};
 </script>
 
 <style lang="scss">
@@ -72,11 +76,9 @@ export default {
 }
 
 .selected-event {
-  background-image: url("../assets/img/event-details-placeholder.svg");
+  background-image: url('../assets/img/event-details-placeholder.svg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% auto;
 }
-
-
 </style>

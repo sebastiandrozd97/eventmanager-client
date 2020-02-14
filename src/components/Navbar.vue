@@ -1,11 +1,25 @@
 <template>
   <div id="navbar">
-    <router-link :to="{ name: 'Events'}" class="logo"><img src="@/assets/img/logo-dark.svg" alt="logo"></router-link>
+    <router-link :to="{ name: 'Events' }" class="logo">
+      <img src="@/assets/img/logo-dark.svg" alt="logo" />
+    </router-link>
     <nav class="navbar">
       <ul class="navbar-items">
-        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'NewEvent' }">New event</router-link></li>
-        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Events' }">Events</router-link></li>
-        <li class="navbar-item"><router-link class="router-links" :to="{ name: 'Profile' }">Profile</router-link></li>
+        <li class="navbar-item">
+          <router-link class="router-links" :to="{ name: 'NewEvent' }">
+            New event
+          </router-link>
+        </li>
+        <li class="navbar-item">
+          <router-link class="router-links" :to="{ name: 'Events' }">
+            Events
+          </router-link>
+        </li>
+        <li class="navbar-item">
+          <router-link class="router-links" :to="{ name: 'Profile' }">
+            Profile
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button @click="logout" class="logout-button">Logout</button>
@@ -13,22 +27,24 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 export default {
   name: 'Navbar',
-  data(){
-    return {
-    }
+  data() {
+    return {};
   },
   methods: {
-    logout(){
-      firebase.auth().signOut().then(() => {
-        this.$router.push({ name: 'Index' })
-      })
-    }
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push({ name: 'Index' });
+        });
+    },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -42,11 +58,13 @@ export default {
   height: 10vh;
   box-sizing: border-box;
   background: #fff;
-  border-bottom: 1px solid rgba(189, 195, 199,0.8)
+  border-bottom: 1px solid rgba(189, 195, 199, 0.8);
 }
 
-.navbar-item, .router-links, .logout-button {
-  font-family: "Montserrat", sans-serif;
+.navbar-item,
+.router-links,
+.logout-button {
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: black;
@@ -97,5 +115,4 @@ export default {
 .logout-button:hover {
   background: rgb(0, 104, 216);
 }
-
 </style>
