@@ -15,7 +15,7 @@
       </div>
       <div class="form-group">
         <label for="participants">Participants</label>
-        <input type="text" @keydown.enter.prevent="addParticipant" v-model="participant.name" placeholder="Press tab to add participant" class="form-control" id="participants">
+        <input type="text" @keydown.enter.prevent="addParticipant" v-model="participant.name" placeholder="Press enter to add participant" class="form-control" id="participants">
         <div v-for="(participant, index) in this.participants" :key="index" class="participant"><small class="form-text">{{ participant.name }}</small></div>
       </div>
       <div class="form-group">
@@ -31,7 +31,7 @@
             type="number" 
             @keydown.enter.prevent="addItem" 
             v-model.number="item.cost" 
-            placeholder="Press tab to add" 
+            placeholder="Press enter to add" 
             class="form-control item-cost" 
             id="cost">
         </div>
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     addParticipant(){
-      if(this.participant){
+      if(this.participant.name){
         this.participants.push({...this.participant})
         this.participant.name = null
       }
@@ -87,7 +87,7 @@ export default {
       }
     },
     async addEvent(){
-      if(this.participants || this.participant){
+      if(this.participants || this.participant.name){
         this.addParticipant()
         this.addItem()
         const slugLocation = slugify(this.location, {
@@ -109,14 +109,15 @@ export default {
           remove: /[*+~.()'"!:@]/g,
           lower: true
         })
-        await db.collection('events').doc(slugTitle).set({
+        await db.collection('events').add({
           userId: firebase.auth().currentUser.uid,
           title: this.title,
           description: this.description,
           date: Date.now(),
           locationId: this.locationId,
           participants: this.participants,
-          items: this.items
+          items: this.items,
+          slug: slugTitle
         })
         this.$router.push({ name: 'Events' })
       }

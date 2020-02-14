@@ -1,19 +1,19 @@
 <template>
   <div class="event-details">
-    <div v-if="this.event" class="details-container">
+    <div v-if="event" class="details-container">
       <div class="details-section">
         <h1>Information</h1>
         <div class="info-row">
           <span>Title</span>
-          <input @keyup="updateEvent" type="text" :value="this.event.title">
+          <input type="text" v-model="event.title">
         </div>
         <div class="info-row">
           <span>Description</span>
-          <input type="text" :value="this.event.description">
+          <input type="text" v-model="event.description">
         </div>
         <div class="info-row">
           <span>Date</span>
-          <input type="text" :value="this.event.date | timestampToDate">
+          <input type="text" :value="event.date | timestampToDate">
         </div>
       </div>
       <div class="details-section">
@@ -22,9 +22,13 @@
       </div>
       <div class="details-section">
         <h1>Costs</h1>
-        <div v-for="(item, index) in this.event.items" :key="index" class="info-row">
+        <div v-for="(item, index) in event.items" :key="index" class="info-row">
           <span class="expense" @click="deleteExpense" :data_index="index">{{ item.name }}</span>
           <input type="number" v-model="item.cost">
+        </div>
+        <div class="info-row">
+          <input type="text" >
+          <input type="number" >
         </div>
         <div class="info-row">
           <span>Total</span>
@@ -34,7 +38,7 @@
       <div class="details-section">
         <h1>People</h1>
         <div class="total-cost">Each pays {{ calculateEachPayment }}</div>
-        <div v-for="(participant, index) in this.event.participants" :key="index" class="payments-row">
+        <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
           <span>{{ participant.name }}</span>
           <button class="payment-button" :class="participant.status">{{ participant.status }}</button>
         </div>
@@ -51,9 +55,8 @@ export default {
   props: ['event'],
   data(){
     return {
-      something: 'title',
-      updateDelay: 1000,
-      costs: [100, 300, 75, 1800, 200, 150],
+      updateDelay: null,
+
     }
   },
   methods: {
@@ -62,32 +65,19 @@ export default {
       const indexOfCost = element.getAttribute('data_index')
       element.parentNode.remove()
       this.event.items[indexOfCost].cost = 0
-      db.collection('events').doc(this.event.id).update({
-        items: this.event.items.filter((item, index) => {
-          if(index != indexOfCost){
-            return item
-          }
-        })
-      })
-    },
-    async updateEvent(){
-      console.log(this.event.id)
-      console.log(this.event.title)
-      // e.currentTarget.classList.add('loading-animation')
-      // await db.collection('events').doc(this.event.id).update({
-      //   title: this.event.title
+      // db.collection('events').doc(this.event.id).update({
+      //   items: this.event.items.filter((item, index) => {
+      //     if(index != indexOfCost){
+      //       return item
+      //     }
+      //   })
       // })
-      // e.currentTarget.classList.remove('loading-animation')
-      // console.log(this.event.id)
-      // console.log(this.event.title)
-    }
+    },
   },
   computed: {
     calculateTotal(){
       if(this.event && this.event.items){
-        return this.event.items.reduce((acc, item) => {
-          return acc + parseFloat(item.cost)
-        }, 0)
+        return this.event.items.reduce((acc, item) => acc + parseFloat(item.cost), 0)
       } else {
         return 0 
       }    
@@ -100,6 +90,30 @@ export default {
       }
     }
   },
+  watch: {
+    event: {
+      handler(){
+        if(this.event) {
+          if (this.updateDelay) {
+              clearTimeout(this.updateDelay)
+              this.updateDelay = null
+          }
+          this.updateDelay = setTimeout(async () => {
+            const element = document.activeElement
+            element.classList.add('loading-animation')
+            await db.collection('events').doc(this.event.id).update({
+              title: this.event.title,
+              description: this.event.description,
+              items: this.event.items.filter(item => item.cost > 0),
+              participants: this.event.participants.filter(participant => participant.status != 'toDelete')
+            })
+            element.classList.remove('loading-animation')
+          }, 1000)
+        }
+      },
+      deep: true      
+    }
+  }
 }
 </script>
 
