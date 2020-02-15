@@ -2,7 +2,7 @@
   <div class="single-event">
     <router-link
       class="router-links list-group-item list-group-item-action"
-      :to="{ name: 'Event', params: { slug: event.id } }"
+      :to="{ name: 'Event', params: { slug: event.slug } }"
     >
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>

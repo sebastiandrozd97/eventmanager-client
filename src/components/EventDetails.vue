@@ -23,7 +23,9 @@
       <div class="details-section">
         <h1>Costs</h1>
         <div v-for="(item, index) in event.items" :key="index" class="info-row">
-          <span class="expense" @click="deleteExpense" :data_index="index">{{ item.name }}</span>
+          <span class="expense" @click="deleteExpense" :data_index="index">
+            {{ item.name }}
+          </span>
           <input type="number" v-model="item.cost" />
         </div>
         <div class="info-row">
@@ -38,9 +40,15 @@
       <div class="details-section">
         <h1>People</h1>
         <div class="total-cost">Each pays {{ calculateEachPayment }}</div>
-        <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
+        <div
+          v-for="(participant, index) in event.participants"
+          :key="index"
+          class="payments-row"
+        >
           <span>{{ participant.name }}</span>
-          <button class="payment-button" :class="participant.status">{{ participant.status }}</button>
+          <button class="payment-button" :class="participant.status">
+            {{ participant.status }}
+          </button>
         </div>
       </div>
     </div>

@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       event: ['empty'],
+      locationsArray: [],
       events: [],
     };
   },
@@ -33,26 +34,26 @@ export default {
     },
   },
   async created() {
-    let eventsSnapshot = await db
+    const eventsSnapshot = await db
       .collection('events')
       .where('userId', '==', firebase.auth().currentUser.uid)
       .orderBy('date', 'asc')
       .get();
-    eventsSnapshot.forEach(async doc => {
+    const locations = await db.collection('locations').get();
+    eventsSnapshot.forEach(doc => {
       let event = doc.data();
       event.id = doc.id;
-      const location = await db
-        .collection('locations')
-        .doc(event.locationId)
-        .get();
-      event.location = location.data().location;
+      locations.forEach(doc => {
+        if (doc.id == event.locationId) {
+          event.location = doc.data().location;
+        }
+      });
       this.events.push(event);
     });
   },
   beforeUpdate() {
     this.event = this.events.filter(event => {
-      if (event.id == this.$route.params.slug) {
-        //console.log(this.event[0].id)
+      if (event.slug == this.$route.params.slug) {
         return event;
       }
     });
