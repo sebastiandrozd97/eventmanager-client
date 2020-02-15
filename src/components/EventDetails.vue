@@ -1,5 +1,5 @@
 <template>
-  <div class="event-details">
+  <div ref="details" class="event-details">
     <div v-if="event" class="details-container">
       <div class="details-section">
         <h1>Information</h1>
@@ -8,12 +8,12 @@
           <input type="text" v-model="event.title" />
         </div>
         <div class="info-row">
-          <span>Description</span>
-          <input type="text" v-model="event.description" />
+          <span>Date</span>
+          <input type="date" v-model="event.date" />
         </div>
         <div class="info-row">
-          <span>Date</span>
-          <input type="text" :value="event.date | timestampToDate" />
+          <span>Description</span>
+          <input type="text" v-model="event.description" />
         </div>
       </div>
       <div class="details-section">
@@ -22,19 +22,32 @@
       </div>
       <div class="details-section">
         <h1>Costs</h1>
-        <div v-for="(item, index) in event.items" :key="index" class="info-row">
+        <div
+          v-for="(expense, index) in event.expenses"
+          :key="index"
+          class="info-row"
+        >
           <span class="expense" @click="deleteExpense" :data_index="index">
-            {{ item.name }}
+            {{ expense.name }}
           </span>
-          <input type="number" v-model="item.cost" />
-        </div>
-        <div class="info-row">
-          <input type="text" />
-          <input type="number" />
+          <input type="number" v-model="expense.cost" />
         </div>
         <div class="info-row">
           <span>Total</span>
           <span>{{ calculateTotal }}</span>
+        </div>
+        <div class="info-row new-expense">
+          <input
+            placeholder="Expense's name"
+            type="text"
+            v-model="expense.name"
+          />
+          <input
+            @keydown.enter.prevent="newExpense"
+            placeholder="Cost | Press enter to add"
+            type="number"
+            v-model="expense.cost"
+          />
         </div>
       </div>
       <div class="details-section">
@@ -46,9 +59,9 @@
           class="payments-row"
         >
           <span>{{ participant.name }}</span>
-          <button class="payment-button" :class="participant.status">
+          <span class="payment-status" :class="participant.status">
             {{ participant.status }}
-          </button>
+          </span>
         </div>
       </div>
     </div>
@@ -64,6 +77,10 @@ export default {
   data() {
     return {
       updateDelay: null,
+      expense: {
+        name: null,
+        cost: null,
+      },
     };
   },
   methods: {
@@ -71,21 +88,21 @@ export default {
       const element = e.currentTarget;
       const indexOfCost = element.getAttribute('data_index');
       element.parentNode.remove();
-      this.event.items[indexOfCost].cost = 0;
-      // db.collection('events').doc(this.event.id).update({
-      //   items: this.event.items.filter((item, index) => {
-      //     if(index != indexOfCost){
-      //       return item
-      //     }
-      //   })
-      // })
+      this.event.expenses[indexOfCost].cost = 0;
+    },
+    newExpense() {
+      if (this.expense.name && this.expense.cost) {
+        this.event.expenses.push({ ...this.expense });
+        this.expense.name = null;
+        this.expense.cost = null;
+      }
     },
   },
   computed: {
     calculateTotal() {
-      if (this.event && this.event.items) {
-        return this.event.items.reduce(
-          (acc, item) => acc + parseFloat(item.cost),
+      if (this.event && this.event.expenses && this.event.date) {
+        return this.event.expenses.reduce(
+          (acc, expense) => acc + parseFloat(expense.cost),
           0
         );
       } else {
@@ -121,7 +138,10 @@ export default {
               .update({
                 title: this.event.title,
                 description: this.event.description,
-                items: this.event.items.filter(item => item.cost > 0),
+                date: Date.parse(this.event.date),
+                expenses: this.event.expenses.filter(
+                  expense => expense.cost > 0
+                ),
                 participants: this.event.participants.filter(
                   participant => participant.status != 'toDelete'
                 ),
@@ -200,7 +220,7 @@ export default {
   margin-bottom: 10px;
 
   span:first-child {
-    width: 30%;
+    width: 35%;
     font-weight: 700;
   }
 
@@ -210,7 +230,7 @@ export default {
   }
 
   input {
-    width: 70%;
+    width: 65%;
     border: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     outline: none;
@@ -229,6 +249,17 @@ export default {
   }
 }
 
+.new-expense {
+  input:first-child {
+    width: 30%;
+    margin-right: 5%;
+  }
+
+  input:last-child {
+    width: 65%;
+  }
+}
+
 .payments-row {
   display: flex;
   align-items: center;
@@ -239,18 +270,16 @@ export default {
     font-weight: 700;
   }
 
-  .payment-button {
-    width: 20%;
-    color: white;
+  .payment-status {
     border: none;
     outline: none;
   }
 
   .Not {
-    background-color: #ea2027;
+    color: #ea2027;
   }
   .Paid {
-    background-color: #009432;
+    color: #009432;
   }
 }
 

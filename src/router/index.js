@@ -9,8 +9,7 @@ import EventDetails from '@/components/EventDetails'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Index',
     component: Index
@@ -28,13 +27,11 @@ const routes = [
   {
     path: '/events/:slug',
     component: Events,
-    children: [
-      {
-        path: '',
-        name: 'Event',
-        component: EventDetails,
-      }
-    ]
+    children: [{
+      path: '',
+      name: 'Event',
+      component: EventDetails,
+    }]
   },
   {
     path: '/profile',

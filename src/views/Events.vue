@@ -13,6 +13,7 @@
 
 <script>
 import EventList from '@/components/EventList';
+import moment from 'moment';
 import db from '@/firebase/init';
 import firebase from 'firebase';
 
@@ -48,6 +49,7 @@ export default {
           event.location = doc.data().location;
         }
       });
+      event.date = moment(event.date).format('YYYY-MM-DD');
       this.events.push(event);
     });
   },

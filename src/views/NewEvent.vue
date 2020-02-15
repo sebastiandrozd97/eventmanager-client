@@ -53,27 +53,33 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="participants">Items and costs</label>
+        <label for="participants">Expenses and costs</label>
         <div class="form-group row items">
           <input
             type="text"
-            v-model="item.name"
-            placeholder="Name of item and cost"
+            v-model="expense.name"
+            placeholder="Expense's name"
             class="form-control item-cost"
             id="item"
-            ref="itemName"
+            ref="expenseName"
           />
           <input
             type="number"
             @keydown.enter.prevent="addItem"
-            v-model.number="item.cost"
-            placeholder="Press enter to add"
+            v-model.number="expense.cost"
+            placeholder="Cost | Press enter to add"
             class="form-control item-cost"
             id="cost"
           />
         </div>
-        <div v-for="(item, index) in items" :key="index" class="participant">
-          <small class="form-text">{{ item.name }}: {{ item.cost }}</small>
+        <div
+          v-for="(expense, index) in expenses"
+          :key="index"
+          class="participant"
+        >
+          <small class="form-text">
+            {{ expense.name }}: {{ expense.cost }}
+          </small>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Create</button>
@@ -99,7 +105,7 @@ export default {
         status: 'Not paid',
       },
       participants: [],
-      item: {
+      expense: {
         name: null,
         cost: null,
       },
@@ -113,18 +119,18 @@ export default {
         this.participant.name = null;
       }
     },
-    addItem() {
-      if (this.item.name && this.item.cost) {
-        this.items.push({ ...this.item });
-        this.item.name = null;
-        this.item.cost = null;
-        this.$refs.itemName.focus();
+    addExpense() {
+      if (this.expense.name && this.expense.cost) {
+        this.expenses.push({ ...this.item });
+        this.expense.name = null;
+        this.expense.cost = null;
+        this.$refs.expenseName.focus();
       }
     },
     async addEvent() {
       if (this.participants || this.participant.name) {
         this.addParticipant();
-        this.addItem();
+        this.addExpense();
         const slugLocation = slugify(this.location, {
           replacement: '-',
           remove: /[*+~.()'"!:@]/g,
@@ -157,7 +163,7 @@ export default {
           date: Date.now(),
           locationId: this.locationId,
           participants: this.participants,
-          items: this.items,
+          expenses: this.items,
           slug: slugTitle,
         });
         this.$router.push({ name: 'Events' });
@@ -192,13 +198,13 @@ export default {
   margin: 0;
   input {
     border-radius: 0;
-    width: 30%;
+    width: 40%;
     &:focus {
       z-index: 2;
     }
     &:first-child {
       border-right: 0;
-      width: 70%;
+      width: 60%;
     }
   }
 }
