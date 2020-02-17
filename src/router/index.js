@@ -5,7 +5,7 @@ import Events from '@/views/Events.vue'
 import Profile from '@/views/Profile.vue'
 import Index from '@/views/Index.vue'
 import SignUp from '@/views/SignUp.vue'
-import EventDetails from '@/components/EventDetails'
+import EventDetails from '@/components/EventDetails/EventDetails'
 
 Vue.use(VueRouter)
 
