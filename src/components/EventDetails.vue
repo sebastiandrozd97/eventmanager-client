@@ -2,7 +2,7 @@
   <div ref="details" class="event-details">
     <div v-if="event" class="details-container">
       <div class="details-section">
-        <h1>Information</h1>
+        <h2>Information</h2>
         <div class="info-row">
           <span>Title</span>
           <input type="text" v-model="event.title" />
@@ -17,13 +17,15 @@
         </div>
       </div>
       <div class="details-section">
-        <h1>Location</h1>
+        <h2>Location</h2>
         <div class="details-map"></div>
       </div>
       <div class="details-section">
-        <h1>Costs</h1>
+        <h2>Costs</h2>
         <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
-          <span class="expense" @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
+          <span class="expense">
+            <span @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
+          </span>
           <input type="number" v-model="expense.cost" />
         </div>
         <div class="info-row">
@@ -31,7 +33,7 @@
           <span>{{ calculateTotal }}</span>
         </div>
         <div class="info-row new-expense">
-          <input placeholder="Expense's name" type="text" v-model="expense.name" />
+          <input placeholder="Expense" ref="expenseName" type="text" v-model="expense.name" />
           <input
             @keydown.enter.prevent="newExpense"
             placeholder="Cost | Press enter to add"
@@ -41,10 +43,12 @@
         </div>
       </div>
       <div class="details-section">
-        <h1>People</h1>
+        <h2>People</h2>
         <div class="total-cost">Each pays {{ calculateEachPayment }}</div>
         <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
-          <span @click="deleteParticipant" :data_index="index">{{ participant.name }}</span>
+          <span>
+            <span @click="deleteParticipant" :data_index="index">{{ participant.name }}</span>
+          </span>
           <span
             class="payment-status"
             :data_index="index"
@@ -55,10 +59,16 @@
         <div class="info-row new-participant">
           <input
             @keydown.enter.prevent="newParticipant"
-            placeholder="Name | Press enter to add"
+            placeholder="Name | Press enter to add new participant"
             type="text"
             v-model="participant.name"
           />
+        </div>
+      </div>
+      <div class="details-section">
+        <h2>Delete event</h2>
+        <div class="delete-event">
+          <button @click="deleteEvent(); $emit('delete-event', event.id)">Delete</button>
         </div>
       </div>
     </div>
@@ -102,6 +112,7 @@ export default {
         this.event.expenses.push({ ...this.expense });
         this.expense.name = null;
         this.expense.cost = null;
+        this.$refs.expenseName.focus();
       }
     },
     newParticipant() {
@@ -122,6 +133,13 @@ export default {
         element.classList.add('Paid');
         element.classList.remove('Not');
       }
+    },
+    async deleteEvent() {
+      await db
+        .collection('events')
+        .doc(this.event.id)
+        .delete();
+      this.$router.push({ name: 'Events' });
     },
   },
   computed: {
@@ -234,7 +252,7 @@ export default {
 
 .details-section {
   margin-top: 3%;
-  h1 {
+  h2 {
     padding-bottom: 10px;
     margin-bottom: 20px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
@@ -255,9 +273,11 @@ export default {
     font-weight: 700;
   }
 
-  .expense:hover {
-    color: red;
-    cursor: pointer;
+  .expense {
+    span:hover {
+      color: red;
+      cursor: pointer;
+    }
   }
 
   input {
@@ -311,11 +331,12 @@ export default {
   margin-bottom: 5px;
 
   span:first-child {
-    width: 30%;
+    width: 35%;
     font-weight: 700;
 
-    &:hover {
+    span:hover {
       color: red;
+      cursor: pointer;
     }
   }
 
@@ -346,5 +367,22 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.delete-event {
+  width: 100%;
+  text-align: center;
+
+  button {
+    color: white;
+    background-color: #007bff;
+    border: none;
+    width: 30%;
+    height: 2.5em;
+
+    &:hover {
+      background-color: #0061cc;
+    }
+  }
 }
 </style>

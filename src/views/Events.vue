@@ -5,7 +5,7 @@
         <EventList :events="events" />
       </div>
       <div class="content" :class="{ 'selected-event': !selectedEvent }">
-        <router-view :event="event[0]"></router-view>
+        <router-view :event="event[0]" v-on:delete-event="onEventDelete"></router-view>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      event: ['empty'],
+      event: [],
       locationsArray: [],
       events: [],
     };
@@ -32,6 +32,11 @@ export default {
   computed: {
     selectedEvent() {
       return this.$route.path != '/events';
+    },
+  },
+  methods: {
+    onEventDelete(id) {
+      this.events = this.events.filter(event => event.id != id);
     },
   },
   async created() {

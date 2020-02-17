@@ -44,42 +44,32 @@
           class="form-control"
           id="participants"
         />
-        <div
-          v-for="(participant, index) in this.participants"
-          :key="index"
-          class="participant"
-        >
+        <div v-for="(participant, index) in this.participants" :key="index" class="participant">
           <small class="form-text">{{ participant.name }}</small>
         </div>
       </div>
       <div class="form-group">
         <label for="participants">Expenses and costs</label>
-        <div class="form-group row items">
+        <div class="form-group row expenses">
           <input
             type="text"
             v-model="expense.name"
             placeholder="Expense's name"
-            class="form-control item-cost"
-            id="item"
+            class="form-control expense-cost"
+            id="expense"
             ref="expenseName"
           />
           <input
             type="number"
-            @keydown.enter.prevent="addItem"
+            @keydown.enter.prevent="addExpense"
             v-model.number="expense.cost"
             placeholder="Cost | Press enter to add"
-            class="form-control item-cost"
+            class="form-control expense-cost"
             id="cost"
           />
         </div>
-        <div
-          v-for="(expense, index) in expenses"
-          :key="index"
-          class="participant"
-        >
-          <small class="form-text">
-            {{ expense.name }}: {{ expense.cost }}
-          </small>
+        <div v-for="(expense, index) in expenses" :key="index" class="participant">
+          <small class="form-text">{{ expense.name }}: {{ expense.cost }}</small>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Create</button>
@@ -109,7 +99,7 @@ export default {
         name: null,
         cost: null,
       },
-      items: [],
+      expenses: [],
     };
   },
   methods: {
@@ -121,7 +111,7 @@ export default {
     },
     addExpense() {
       if (this.expense.name && this.expense.cost) {
-        this.expenses.push({ ...this.item });
+        this.expenses.push({ ...this.expense });
         this.expense.name = null;
         this.expense.cost = null;
         this.$refs.expenseName.focus();
@@ -163,7 +153,7 @@ export default {
           date: Date.now(),
           locationId: this.locationId,
           participants: this.participants,
-          expenses: this.items,
+          expenses: this.expenses,
           slug: slugTitle,
         });
         this.$router.push({ name: 'Events' });
@@ -193,7 +183,7 @@ export default {
   margin: 10px 5px 0 0;
 }
 
-.items {
+.expenses {
   width: 100%;
   margin: 0;
   input {
