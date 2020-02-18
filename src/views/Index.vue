@@ -19,9 +19,14 @@
               <label for="password">Password</label>
               <input type="password" class="form-control" id="password" v-model="password" />
               <small v-if="feedback" id="emailHelp" class="form-text text-danger">{{ feedback }}</small>
-              <small id="emailHelp" class="form-text text-muted">
+              <small class="form-text text-muted">
                 Doesn't have an account yet?
                 <router-link class="login-register" :to="{ name: 'SignUp' }">Sign up</router-link>
+              </small>
+              <small class="form-text text-muted modal-pwd-reset">
+                <span>
+                  <ModalResetPassword />
+                </span>?
               </small>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
@@ -34,10 +39,15 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import ModalResetPassword from '@/components/ModalResetPassword';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export default {
   name: 'Index',
+  components: {
+    ModalResetPassword,
+  },
   data() {
     return {
       email: null,
@@ -54,7 +64,7 @@ export default {
             .signInWithEmailAndPassword(this.email, this.password);
           this.$router.push({ name: 'Events' });
         } catch (e) {
-          console.log(e.message);
+          this.feedback = e.message;
         }
       } else {
         this.feedback = 'You must enter all fields';
@@ -117,5 +127,10 @@ export default {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.modal-pwd-reset {
+  display: flex;
+  flex-direction: row;
 }
 </style>

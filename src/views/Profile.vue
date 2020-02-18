@@ -31,7 +31,7 @@
           </div>
         </div>
         <small v-if="feedback" class="form-text text-success">{{ feedback }}</small>
-        <ModalChangePassword :userAuth="userAuth" />
+        <ModalChangePassword />
         <div class="form-group row">
           <div class="col-sm-10 mt-3">
             <button class="btn btn-primary">Update</button>

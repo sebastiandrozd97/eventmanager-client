@@ -1,6 +1,6 @@
 <template>
   <div class="change-pwd">
-    <a href="/Profile" @click.prevent="show">Change password</a>
+    <a href="/Profile" @click.prevent="show">Reset password</a>
     <modal
       class="change-pwd-modal"
       name="change-password"
