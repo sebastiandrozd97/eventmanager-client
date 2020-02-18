@@ -43,7 +43,7 @@ export default {
     const eventsSnapshot = await db
       .collection('events')
       .where('userId', '==', firebase.auth().currentUser.uid)
-      .orderBy('date', 'asc')
+      .orderBy('dateFrom', 'asc')
       .get();
     const locations = await db.collection('locations').get();
     eventsSnapshot.forEach(doc => {
@@ -54,7 +54,8 @@ export default {
           event.location = doc.data().location;
         }
       });
-      event.date = moment(event.date).format('YYYY-MM-DD');
+      event.dateFrom = moment(event.dateFrom).format('YYYY-MM-DD');
+      event.dateTo = moment(event.dateTo).format('YYYY-MM-DD');
       this.events.push(event);
     });
   },

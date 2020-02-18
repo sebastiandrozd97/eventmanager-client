@@ -68,7 +68,8 @@ export default {
       if (
         this.event &&
         this.event.participants &&
-        this.event.participants.length > 0
+        this.event.participants.length > 0 &&
+        this.totalExpenses
       ) {
         let validParticipants = 0;
         for (let i = 0; i < this.event.participants.length; i++) {

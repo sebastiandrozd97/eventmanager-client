@@ -1,6 +1,6 @@
 <template>
   <div class="new-event">
-    <form @submit.prevent="addEvent">
+    <form class="new-event-form" @submit.prevent="addEvent">
       <div class="form-group">
         <label for="event-title">Event title:</label>
         <input
@@ -33,6 +33,33 @@
           v-model="location"
           required
         />
+      </div>
+      <div class="form-group">
+        <label for="location">Date</label>
+        <div class="event-date-selection form-group">
+          <label for="eventLength">How long the event will last?</label>
+          <select v-model="eventLength" name="eventLength" id="eventLength">
+            <option value="one">One day</option>
+            <option value="several">Several days</option>
+          </select>
+        </div>
+        <div v-if="eventLength" class="dates">
+          <input
+            type="date"
+            class="form-control date-from"
+            id="dateFrom"
+            v-model="dateFrom"
+            required
+          />
+          <input
+            v-if="eventLength == 'several'"
+            type="date"
+            class="form-control date-to"
+            id="dateTo"
+            v-model="dateTo"
+            required
+          />
+        </div>
       </div>
       <div class="form-group">
         <label for="participants">Participants</label>
@@ -90,6 +117,9 @@ export default {
       description: null,
       location: null,
       locationId: null,
+      eventLength: null,
+      dateFrom: null,
+      dateTo: null,
       participant: {
         name: null,
         status: 'Not paid',
@@ -117,45 +147,54 @@ export default {
         this.$refs.expenseName.focus();
       }
     },
-    async addEvent() {
-      if (this.participants || this.participant.name) {
-        this.addParticipant();
-        this.addExpense();
-        const slugLocation = slugify(this.location, {
-          replacement: '-',
-          remove: /[*+~.()'"!:@]/g,
-          lower: true,
-        });
-        let location = await db
+    async setLocation() {
+      const slugLocation = slugify(this.location, {
+        replacement: '-',
+        remove: /[*+~.()'"!:@]/g,
+        lower: true,
+      });
+      let locationDoc = await db
+        .collection('locations')
+        .doc(slugLocation)
+        .get();
+      if (!locationDoc.exists) {
+        await db
           .collection('locations')
           .doc(slugLocation)
-          .get();
-        if (location.exists) {
-          this.locationId = slugLocation;
-        } else {
-          await db
-            .collection('locations')
-            .doc(slugLocation)
-            .set({
-              location: this.location,
-            });
-          this.locationId = slugLocation;
+          .set({
+            location: this.location,
+          });
+      }
+      this.locationId = slugLocation;
+    },
+    async addEventDocument(slugTitle) {
+      await db.collection('events').add({
+        userId: firebase.auth().currentUser.uid,
+        title: this.title,
+        description: this.description,
+        eventLength: this.eventLength,
+        dateFrom: Date.parse(this.dateFrom),
+        dateTo: Date.parse(this.dateTo),
+        locationId: this.locationId,
+        participants: this.participants,
+        expenses: this.expenses,
+        slug: slugTitle,
+      });
+    },
+    async addEvent() {
+      if ((this.participants || this.participant.name) && this.dateFrom) {
+        this.addParticipant();
+        this.addExpense();
+        await this.setLocation();
+        if (!this.dateTo) {
+          this.dateTo = this.dateFrom;
         }
         const slugTitle = slugify(this.title, {
           replacement: '-',
           remove: /[*+~.()'"!:@]/g,
           lower: true,
         });
-        await db.collection('events').add({
-          userId: firebase.auth().currentUser.uid,
-          title: this.title,
-          description: this.description,
-          date: Date.now(),
-          locationId: this.locationId,
-          participants: this.participants,
-          expenses: this.expenses,
-          slug: slugTitle,
-        });
+        await this.addEventDocument(slugTitle);
         this.$router.push({ name: 'Events' });
       }
     },
@@ -165,10 +204,32 @@ export default {
 
 <style lang="scss">
 .new-event {
-  padding-top: 3vh;
   width: 40vw;
   height: 90vh;
   margin: auto;
+}
+
+.new-event-form {
+  margin: 3vh 0 3vh 0;
+}
+
+.dates {
+  display: flex;
+  width: 100%;
+
+  .date-to {
+    margin-left: 10px;
+  }
+}
+
+.event-date-selection {
+  select {
+    width: 100%;
+    height: 38px;
+    padding: 6px 12px 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+  }
 }
 
 .add-participant {
@@ -187,14 +248,19 @@ export default {
   width: 100%;
   margin: 0;
   input {
-    border-radius: 0;
     width: 40%;
     &:focus {
       z-index: 2;
     }
     &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       border-right: 0;
       width: 60%;
+    }
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 }

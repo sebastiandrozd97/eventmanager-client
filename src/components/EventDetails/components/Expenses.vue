@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     calculateTotal() {
-      if (this.event && this.event.expenses && this.event.date) {
+      if (this.event && this.event.expenses) {
         return this.event.expenses.reduce(
           (acc, expense) => acc + parseFloat(expense.cost),
           0
@@ -61,6 +61,9 @@ export default {
         return 0;
       }
     },
+  },
+  created() {
+    this.$emit('total-expenses', this.calculateTotal);
   },
   updated() {
     this.$emit('total-expenses', this.calculateTotal);

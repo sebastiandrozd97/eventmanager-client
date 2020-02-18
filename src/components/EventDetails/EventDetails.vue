@@ -21,6 +21,7 @@ import Location from '@/components/EventDetails/components/Location';
 import Expenses from '@/components/EventDetails/components/Expenses';
 import People from '@/components/EventDetails/components/People';
 import db from '@/firebase/init';
+import slugify from 'slugify';
 
 export default {
   name: 'EventDetails',
@@ -48,6 +49,13 @@ export default {
     totalExpensesComputed(val) {
       this.totalExpenses = val;
     },
+    slugifyTitle() {
+      return slugify(this.event.title, {
+        replacement: '-',
+        remove: /[*+~.()'"!:@]/g,
+        lower: true,
+      });
+    },
   },
   watch: {
     event: {
@@ -58,15 +66,16 @@ export default {
             this.updateDelay = null;
           }
           this.updateDelay = setTimeout(async () => {
-            const element = document.activeElement;
-            element.classList.add('loading-animation');
             await db
               .collection('events')
               .doc(this.event.id)
               .update({
                 title: this.event.title,
+                slug: this.slugifyTitle(),
+                eventLength: this.event.eventLength,
+                dateFrom: Date.parse(this.event.dateFrom),
+                dateTo: Date.parse(this.event.dateTo),
                 description: this.event.description,
-                date: Date.parse(this.event.date),
                 expenses: this.event.expenses.filter(
                   expense => expense.cost > 0
                 ),
@@ -74,7 +83,6 @@ export default {
                   participant => participant.status != 'To delete'
                 ),
               });
-            element.classList.remove('loading-animation');
           }, 1000);
         }
       },
