@@ -7,41 +7,21 @@
         </div>
         <div class="index-welcome">
           <h5>Welcome!</h5>
-          <small id="emailHelp" class="form-text text-muted">
-            Ready to plan your next event?
-          </small>
+          <small id="emailHelp" class="form-text text-muted">Ready to plan your next event?</small>
         </div>
         <div>
           <form @submit.prevent="signin">
             <div class="form-group">
               <label for="email">Email address</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                v-model="email"
-              />
+              <input type="email" class="form-control" id="email" v-model="email" />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                v-model="password"
-              />
-              <small
-                v-if="feedback"
-                id="emailHelp"
-                class="form-text text-danger"
-              >
-                {{ feedback }}
-              </small>
+              <input type="password" class="form-control" id="password" v-model="password" />
+              <small v-if="feedback" id="emailHelp" class="form-text text-danger">{{ feedback }}</small>
               <small id="emailHelp" class="form-text text-muted">
                 Doesn't have an account yet?
-                <router-link class="login-register" :to="{ name: 'SignUp' }">
-                  Sign up
-                </router-link>
+                <router-link class="login-register" :to="{ name: 'SignUp' }">Sign up</router-link>
               </small>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
@@ -66,17 +46,16 @@ export default {
     };
   },
   methods: {
-    signin() {
+    async signin() {
       if (this.email && this.password) {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(this.email, this.password)
-          .then(() => {
-            this.$router.push({ name: 'Events' });
-          })
-          .catch(err => {
-            this.feedback = err.message;
-          });
+        try {
+          await firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password);
+          this.$router.push({ name: 'Events' });
+        } catch (e) {
+          console.log(e.message);
+        }
       } else {
         this.feedback = 'You must enter all fields';
       }
