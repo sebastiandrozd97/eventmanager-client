@@ -62,6 +62,9 @@ export default {
       }
     },
   },
+  updated() {
+    this.$emit('total-expenses', this.calculateTotal);
+  },
 };
 </script>
 

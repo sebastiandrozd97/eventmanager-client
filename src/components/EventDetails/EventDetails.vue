@@ -3,8 +3,8 @@
     <div v-if="event" class="details-container">
       <Information :event="event" />
       <Location :event="event" />
-      <Expenses :event="event" />
-      <People :event="event" />
+      <Expenses :event="event" @total-expenses="totalExpensesComputed" />
+      <People :event="event" :totalExpenses="totalExpenses" />
       <div class="details-section">
         <h2>Delete event</h2>
         <div class="delete-event">
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       updateDelay: null,
+      totalExpenses: null,
     };
   },
   methods: {
@@ -43,6 +44,9 @@ export default {
         .doc(this.event.id)
         .delete();
       this.$router.push({ name: 'Events' });
+    },
+    totalExpensesComputed(val) {
+      this.totalExpenses = val;
     },
   },
   watch: {
@@ -130,10 +134,6 @@ export default {
     padding-bottom: 10px;
     margin-bottom: 20px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-  }
-
-  div.total-cost {
-    margin-bottom: 10px;
   }
 }
 

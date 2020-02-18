@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'People',
-  props: ['event'],
+  props: ['event', 'totalExpenses'],
   data() {
     return {
       participant: {
@@ -76,7 +76,7 @@ export default {
             validParticipants++;
           }
         }
-        return (this.calculateTotal / validParticipants).toFixed(2);
+        return (this.totalExpenses / validParticipants).toFixed(2);
       } else {
         return 0;
       }
@@ -86,4 +86,7 @@ export default {
 </script>
 
 <style lang="scss">
+div.total-cost {
+  margin-bottom: 10px;
+}
 </style>

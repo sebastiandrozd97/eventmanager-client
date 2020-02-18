@@ -7,11 +7,7 @@
         type="text"
         placeholder="Search..."
       />
-      <Event
-        v-for="(event, index) in filteredEvents"
-        :key="index"
-        :event="event"
-      />
+      <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
     </div>
   </div>
 </template>
@@ -65,6 +61,10 @@ export default {
 }
 
 .search {
-  background: #f6f6f6;
+  background: #ebebeb;
+
+  &:focus {
+    outline: none;
+  }
 }
 </style>
