@@ -150,7 +150,7 @@ export default {
     async setLocation() {
       const slugLocation = slugify(this.location, {
         replacement: '-',
-        remove: /[*+~.()'"!:@]/g,
+        remove: /[*+~.,()'"!:@]/g,
         lower: true,
       });
       let locationDoc = await db
@@ -211,6 +211,16 @@ export default {
 
 .new-event-form {
   margin: 3vh 0 3vh 0;
+
+  .event-date-selection {
+    select {
+      width: 100%;
+      height: 38px;
+      padding: 6px 12px 6px 12px;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+  }
 }
 
 .dates {
@@ -219,16 +229,6 @@ export default {
 
   .date-to {
     margin-left: 10px;
-  }
-}
-
-.event-date-selection {
-  select {
-    width: 100%;
-    height: 38px;
-    padding: 6px 12px 6px 12px;
-    border-radius: 5px;
-    border: 1px solid #ced4da;
   }
 }
 

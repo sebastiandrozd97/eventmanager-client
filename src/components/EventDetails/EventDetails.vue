@@ -66,6 +66,9 @@ export default {
             this.updateDelay = null;
           }
           this.updateDelay = setTimeout(async () => {
+            if (this.event.eventLength == 'one') {
+              this.event.dateTo = this.event.dateFrom;
+            }
             await db
               .collection('events')
               .doc(this.event.id)
@@ -181,12 +184,16 @@ export default {
     outline: none;
   }
 
-  .loading-animation {
-    background-color: #fff;
-    background-image: url('../../assets/img/animation.gif');
-    background-size: 25px 25px;
-    background-position: right center;
-    background-repeat: no-repeat;
+  select {
+    width: 65%;
+    border: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    outline: none;
+    padding-left: 0;
+
+    &:focus {
+      border-bottom-color: #007bff;
+    }
   }
 }
 

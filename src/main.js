@@ -9,15 +9,20 @@ Vue.config.productionTip = false
 
 Vue.use(VModal)
 
-Vue.filter('timestampToDate', function (timestamp) {
-  if (!timestamp) return ''
-  return moment(timestamp).format('DD.MM.YYYY');
+Vue.filter('getDay', function (date) {
+  if (!date) return ''
+  return moment(date).format('DD.MM');
+})
+
+Vue.filter('dateFormat', function (date) {
+  if (!date) return ''
+  return moment(date).format('DD.MM.YYYY');
 })
 
 let app = null
 
 firebase.auth().onAuthStateChanged(() => {
-  if(!app){
+  if (!app) {
     app = new Vue({
       router,
       render: h => h(App)

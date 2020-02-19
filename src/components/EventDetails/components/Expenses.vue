@@ -49,6 +49,9 @@ export default {
         this.$refs.expenseName.focus();
       }
     },
+    emitTotalExpenses() {
+      this.$emit('total-expenses', this.calculateTotal);
+    },
   },
   computed: {
     calculateTotal() {
@@ -63,10 +66,10 @@ export default {
     },
   },
   created() {
-    this.$emit('total-expenses', this.calculateTotal);
+    this.emitTotalExpenses();
   },
   updated() {
-    this.$emit('total-expenses', this.calculateTotal);
+    this.emitTotalExpenses();
   },
 };
 </script>

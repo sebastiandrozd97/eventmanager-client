@@ -8,7 +8,11 @@
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
         <small class="text-muted">{{ event.location }}</small>
-        <small class="text-muted">{{ event.date | timestampToDate }}</small>
+        <small
+          v-if="event.dateFrom != event.dateTo"
+          class="text-muted"
+        >{{ event.dateFrom | getDay }}-{{ event.dateTo | dateFormat }}</small>
+        <small v-else class="text-muted">{{ event.dateFrom | dateFormat }}</small>
       </div>
     </router-link>
   </div>
@@ -47,13 +51,17 @@ export default {
 }
 
 .single-event {
+  .text-muted {
+    font-size: 0.7em;
+  }
+
   .router-link-active {
     background-color: #007bff;
     color: white;
 
     .text-muted {
       color: rgba(255, 255, 255, 0.75) !important;
-      font-size: 0.7em;
+      font-size: 0.8em;
     }
   }
 }
