@@ -15,11 +15,11 @@
     <div class="info-row">
       <span v-if="event.eventLength == 'one'">Date</span>
       <span v-else>Start date</span>
-      <input type="date" v-model="event.dateFrom" />
+      <input type="date" v-model="event.dateFrom" required />
     </div>
     <div v-if="event.eventLength == 'several'" class="info-row">
       <span>End</span>
-      <input type="date" v-model="event.dateTo" />
+      <input type="date" v-model="event.dateTo" required />
     </div>
     <div class="info-row">
       <span>Description</span>

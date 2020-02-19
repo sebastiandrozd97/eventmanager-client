@@ -74,7 +74,7 @@ export default {
               .doc(this.event.id)
               .update({
                 title: this.event.title,
-                slug: this.slugifyTitle(),
+                // slug: this.slugifyTitle(),
                 eventLength: this.event.eventLength,
                 dateFrom: Date.parse(this.event.dateFrom),
                 dateTo: Date.parse(this.event.dateTo),
