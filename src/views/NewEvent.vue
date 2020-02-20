@@ -71,7 +71,13 @@
           class="form-control"
           id="participants"
         />
-        <div v-for="(participant, index) in this.participants" :key="index" class="participant">
+        <div
+          v-for="(participant, index) in this.participants"
+          :key="index"
+          @click="deleteParticipant"
+          :data_index="index"
+          class="item"
+        >
           <small class="form-text">{{ participant.name }}</small>
         </div>
       </div>
@@ -95,7 +101,13 @@
             id="cost"
           />
         </div>
-        <div v-for="(expense, index) in expenses" :key="index" class="participant">
+        <div
+          v-for="(expense, index) in expenses"
+          :key="index"
+          @click="deleteExpense"
+          :data_index="index"
+          class="item"
+        >
           <small class="form-text">{{ expense.name }}: {{ expense.cost }}</small>
         </div>
       </div>
@@ -140,6 +152,9 @@ export default {
         this.participant.name = null;
       }
     },
+    deleteParticipant(e) {
+      this.participants.splice(e.currentTarget.getAttribute('data_index'), 1);
+    },
     addExpense() {
       if (this.expense.name && this.expense.cost) {
         this.expenses.push({ ...this.expense });
@@ -147,6 +162,9 @@ export default {
         this.expense.cost = null;
         this.$refs.expenseName.focus();
       }
+    },
+    deleteExpense(e) {
+      this.expenses.splice(e.currentTarget.getAttribute('data_index'), 1);
     },
     async setLocation() {
       const slugLocation = slugify(this.location, {
@@ -238,12 +256,18 @@ export default {
   margin-top: 10px;
 }
 
-.participant {
+.item {
   background-color: #dfe4ea;
   border-radius: 2px;
   display: inline-block;
   padding: 2px 6px;
   margin: 10px 5px 0 0;
+
+  &:hover {
+    background-color: red;
+    color: white;
+    cursor: pointer;
+  }
 }
 
 .expenses {
