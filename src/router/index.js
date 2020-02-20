@@ -3,16 +3,18 @@ import VueRouter from 'vue-router'
 import NewEvent from '@/views/NewEvent.vue'
 import Events from '@/views/Events.vue'
 import Profile from '@/views/Profile.vue'
-import Index from '@/views/Index.vue'
+import SignIn from '@/views/SignIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import EventDetails from '@/components/EventDetails/EventDetails'
+import PageNotFound from '@/views/PageNotFound.vue'
+import firebase from 'firebase'
 
 Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
-    name: 'Index',
-    component: Index
+    name: 'SignIn',
+    component: SignIn
   },
   {
     path: '/signup',
@@ -22,11 +24,17 @@ const routes = [{
   {
     path: '/events',
     name: 'Events',
-    component: Events
+    component: Events,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/events/:slug',
     component: Events,
+    meta: {
+      requiresAuth: true
+    },
     children: [{
       path: '',
       name: 'Event',
@@ -36,26 +44,51 @@ const routes = [{
   {
     path: '/profile',
     name: 'Profile',
-    component: Profile
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/new-event',
     name: 'NewEvent',
-    component: NewEvent
+    component: NewEvent,
+    meta: {
+      requiresAuth: true
+    }
   },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
+  {
+    path: '/page-not-found',
+    name: 'PageNotFound',
+    component: PageNotFound,
+  },
+  {
+    path: '/events/*',
+    redirect: '/page-not-found'
+  }, {
+    path: '*',
+    redirect: '/page-not-found'
+  }
 ]
 
 const router = new VueRouter({
   routes,
   mode: 'history',
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+    const user = firebase.auth().currentUser
+    if (user) {
+      next();
+    } else {
+      next({
+        name: 'SignIn'
+      })
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

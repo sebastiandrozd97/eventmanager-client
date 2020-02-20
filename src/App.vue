@@ -14,13 +14,14 @@ export default {
   },
   computed: {
     show() {
-      return this.$route.path !== '/' && this.$route.path !== '/signup';
+      return this.$route.path !== '/' && this.$route.path !== '/signup' && this.$route.path !== '/page-not-found';
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500&display=swap');
 body {
   background: #ffffff;
 }

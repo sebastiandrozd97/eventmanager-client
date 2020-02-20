@@ -6,19 +6,13 @@
     <nav class="navbar">
       <ul class="navbar-items">
         <li class="navbar-item">
-          <router-link class="router-links" :to="{ name: 'NewEvent' }">
-            New event
-          </router-link>
+          <router-link class="router-links" :to="{ name: 'NewEvent' }">New event</router-link>
         </li>
         <li class="navbar-item">
-          <router-link class="router-links" :to="{ name: 'Events' }">
-            Events
-          </router-link>
+          <router-link class="router-links" :to="{ name: 'Events' }">Events</router-link>
         </li>
         <li class="navbar-item">
-          <router-link class="router-links" :to="{ name: 'Profile' }">
-            Profile
-          </router-link>
+          <router-link class="router-links" :to="{ name: 'Profile' }">Profile</router-link>
         </li>
       </ul>
     </nav>
@@ -40,7 +34,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$router.push({ name: 'Index' });
+          this.$router.push({ name: 'SignIn' });
         });
     },
   },
@@ -48,8 +42,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Montserrat:500&display=swap');
-
 #navbar {
   display: flex;
   justify-content: flex-end;
