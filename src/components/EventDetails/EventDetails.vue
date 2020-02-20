@@ -22,6 +22,7 @@ import Expenses from '@/components/EventDetails/components/Expenses';
 import People from '@/components/EventDetails/components/People';
 import db from '@/firebase/init';
 import slugify from 'slugify';
+import { checkSlugAvailability } from '@/utils/checkSlugAvailability.js';
 
 export default {
   name: 'EventDetails',
@@ -36,6 +37,7 @@ export default {
     return {
       updateDelay: null,
       totalExpenses: null,
+      initEvent: null,
     };
   },
   methods: {
@@ -69,12 +71,18 @@ export default {
             if (this.event.eventLength == 'one') {
               this.event.dateTo = this.event.dateFrom;
             }
+            let verifiedSlug = null;
+            if(this.initTitle === this.event.title){
+              verifiedSlug = this.event.slug;
+            } else {
+              verifiedSlug = await checkSlugAvailability(this.slugifyTitle());
+            }
             await db
               .collection('events')
               .doc(this.event.id)
               .update({
                 title: this.event.title,
-                // slug: this.slugifyTitle(),
+                slug: verifiedSlug,
                 eventLength: this.event.eventLength,
                 dateFrom: Date.parse(this.event.dateFrom),
                 dateTo: Date.parse(this.event.dateTo),
@@ -92,6 +100,9 @@ export default {
       deep: true,
     },
   },
+  updated(){
+    this.initTitle = this.event.title;
+  }
 };
 </script>
 
@@ -99,35 +110,6 @@ export default {
 .event-details {
   height: 90vh;
   overflow-y: scroll;
-}
-
-.event-details::-webkit-scrollbar {
-  width: 14px;
-  height: 18px;
-}
-
-.event-details::-webkit-scrollbar-thumb {
-  height: 6px;
-  border: 4px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  -webkit-border-radius: 7px;
-  background-color: rgba(0, 0, 0, 0.15);
-  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05),
-    inset 1px 1px 0px rgba(0, 0, 0, 0.05);
-
-  &:active {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-}
-
-.event-details::-webkit-scrollbar-button {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-.event-details::-webkit-scrollbar-corner {
-  background-color: transparent;
 }
 
 .details-container {
@@ -197,67 +179,6 @@ export default {
   }
 }
 
-.new-expense {
-  input:first-child {
-    width: 30%;
-    margin-right: 5%;
-  }
-
-  input:last-child {
-    width: 65%;
-  }
-}
-
-.new-participant {
-  input {
-    width: 100%;
-  }
-}
-
-.payments-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-
-  span:first-child {
-    width: 35%;
-    font-weight: 700;
-
-    span:hover {
-      color: red;
-      cursor: pointer;
-    }
-  }
-
-  .payment-status {
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .Not {
-    color: #ea2027;
-  }
-  .Paid {
-    color: #009432;
-  }
-}
-
-.details-map {
-  background-image: url('../../assets/img/map.png');
-  background-size: no-repeat;
-  background-size: contain;
-  width: 100%;
-  height: 0;
-  padding-top: 57.53%; //height to width ratio
-}
-
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 .delete-event {
   width: 100%;
   text-align: center;
@@ -273,5 +194,34 @@ input[type='number']::-webkit-outer-spin-button {
       background-color: #0061cc;
     }
   }
+}
+
+.event-details::-webkit-scrollbar {
+  width: 14px;
+  height: 18px;
+}
+
+.event-details::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  -webkit-border-radius: 7px;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05),
+    inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.event-details::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.event-details::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 </style>

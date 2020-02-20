@@ -13,4 +13,14 @@ export default {
 </script>
 
 <style lang="scss">
+
+.details-map {
+  background-image: url('../../../assets/img/map.png');
+  background-size: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 0;
+  padding-top: 57.53%; //height to width ratio
+}
+
 </style>

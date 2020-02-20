@@ -75,4 +75,22 @@ export default {
 </script>
 
 <style lang="scss">
+
+.new-expense {
+  input:first-child {
+    width: 30%;
+    margin-right: 5%;
+  }
+
+  input:last-child {
+    width: 65%;
+  }
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 </style>

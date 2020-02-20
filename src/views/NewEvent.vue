@@ -38,12 +38,7 @@
         <label for="location">Date</label>
         <div class="event-date-selection form-group">
           <label for="eventLength">How long the event will last?</label>
-          <select
-            v-model="eventLength"
-            name="eventLength"
-            id="eventLength"
-            required
-          >
+          <select v-model="eventLength" name="eventLength" id="eventLength" required>
             <option value="one">One day</option>
             <option value="several">Several days</option>
           </select>
@@ -76,11 +71,7 @@
           class="form-control"
           id="participants"
         />
-        <div
-          v-for="(participant, index) in this.participants"
-          :key="index"
-          class="participant"
-        >
+        <div v-for="(participant, index) in this.participants" :key="index" class="participant">
           <small class="form-text">{{ participant.name }}</small>
         </div>
       </div>
@@ -104,14 +95,8 @@
             id="cost"
           />
         </div>
-        <div
-          v-for="(expense, index) in expenses"
-          :key="index"
-          class="participant"
-        >
-          <small class="form-text">
-            {{ expense.name }}: {{ expense.cost }}
-          </small>
+        <div v-for="(expense, index) in expenses" :key="index" class="participant">
+          <small class="form-text">{{ expense.name }}: {{ expense.cost }}</small>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Create</button>
@@ -210,11 +195,7 @@ export default {
           remove: /[*+~.()'"!:@]/g,
           lower: true,
         });
-        const events = await db
-          .collection('events')
-          .orderBy('slug')
-          .get();
-        const slugTitleVerified = checkSlugAvailability(events, slugTitle);
+        const slugTitleVerified = await checkSlugAvailability(slugTitle);
         await this.addEventDocument(slugTitleVerified);
         this.$router.push({ name: 'Events' });
       }

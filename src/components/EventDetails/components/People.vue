@@ -87,6 +87,42 @@ export default {
 </script>
 
 <style lang="scss">
+
+.payments-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+  span:first-child {
+    width: 35%;
+    font-weight: 700;
+
+    span:hover {
+      color: red;
+      cursor: pointer;
+    }
+  }
+
+  .payment-status {
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .Not {
+    color: #ea2027;
+  }
+  .Paid {
+    color: #009432;
+  }
+}
+
+.new-participant {
+  input {
+    width: 100%;
+  }
+}
+
 div.total-cost {
   margin-bottom: 10px;
 }
