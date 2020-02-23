@@ -7,7 +7,7 @@
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
-        <small class="text-muted">{{ event.location }}</small>
+        <small class="text-muted">{{ event.location.place }}</small>
         <small
           v-if="event.dateFrom != event.dateTo"
           class="text-muted"

@@ -4,10 +4,18 @@ import router from './router'
 import VModal from 'vue-js-modal'
 import moment from 'moment'
 import firebase from 'firebase'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.config.productionTip = false
 
 Vue.use(VModal)
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+    libraries: 'places',
+  }
+})
 
 Vue.filter('getDay', function (date) {
   if (!date) return ''

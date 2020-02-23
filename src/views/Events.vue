@@ -5,7 +5,7 @@
         <EventList :events="events" />
       </div>
       <div class="content" :class="{ 'selected-event': !selectedEvent }">
-        <router-view :event="event[0]" v-on:delete-event="onEventDelete"></router-view>
+        <router-view :event="event[0]" v-on:delete-event="onEventDelete" :key="renderKey"></router-view>
       </div>
     </div>
   </div>
@@ -24,6 +24,7 @@ export default {
   },
   data() {
     return {
+      renderKey: 0,
       event: [],
       locationsArray: [],
       events: [],
@@ -35,8 +36,16 @@ export default {
     },
   },
   methods: {
-    onEventDelete(id) {
+    forceEventDetailsRerender() {
+      this.renderKey += 1;
+    },
+    async onEventDelete(id) {
       this.events = this.events.filter(event => event.id != id);
+      await db
+        .collection('events')
+        .doc(id)
+        .delete();
+      this.$router.push({ name: 'Events' });
     },
   },
   async created() {
@@ -45,15 +54,15 @@ export default {
       .where('userId', '==', firebase.auth().currentUser.uid)
       .orderBy('dateFrom', 'asc')
       .get();
-    const locations = await db.collection('locations').get();
+    // const locations = await db.collection('locations').get();
     eventsSnapshot.forEach(doc => {
       let event = doc.data();
       event.id = doc.id;
-      locations.forEach(doc => {
-        if (doc.id == event.locationId) {
-          event.location = doc.data().location;
-        }
-      });
+      // locations.forEach(doc => {
+      //   if (doc.id == event.locationId) {
+      //     event.location = doc.data().location;
+      //   }
+      // });
       event.dateFrom = moment(event.dateFrom).format('YYYY-MM-DD');
       event.dateTo = moment(event.dateTo).format('YYYY-MM-DD');
       this.events.push(event);
@@ -61,10 +70,11 @@ export default {
   },
   beforeUpdate() {
     this.event = this.events.filter(event => {
-      if (event.slug == this.$route.params.slug) {
+      if (event.slug === this.$route.params.slug) {
         return event;
       }
     });
+    this.forceEventDetailsRerender();
   },
 };
 </script>

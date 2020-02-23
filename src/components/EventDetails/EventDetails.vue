@@ -2,19 +2,22 @@
   <div ref="details" class="event-details">
     <div v-if="event" class="details-container">
       <Information :event="event" />
-      <Location :event="event" />
+      <Location :event="event" ref="locationComponent" />
       <Expenses :event="event" @total-expenses="totalExpensesComputed" />
       <People :event="event" :totalExpenses="totalExpenses" />
       <div class="details-section">
-        <h2>Delete event</h2>
-        <div class="delete-event">
-          <button @click="deleteEvent(); $emit('delete-event', event.id)">Delete</button>
+        <h2>Update or delete event</h2>
+        <div class="save-delete">
+          <button id="update-button" @click="updateEvent">Update</button>
+          <button
+            class="delete-button"
+            @click="deleteEvent(); $emit('delete-event', event.id)"
+          >Delete</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import Information from '@/components/EventDetails/components/Information';
 import Location from '@/components/EventDetails/components/Location';
@@ -41,12 +44,44 @@ export default {
     };
   },
   methods: {
-    async deleteEvent() {
+    async updateEvent() {
+      if (this.event.eventLength == 'one') {
+        this.event.dateTo = this.event.dateFrom;
+      }
+      let verifiedSlug = null;
+      if(this.initTitle === this.event.title){
+        verifiedSlug = this.event.slug;
+      } else {
+        verifiedSlug = await checkSlugAvailability(this.slugifyTitle());
+      }
+      this.$refs.locationComponent.getAddr();
       await db
         .collection('events')
         .doc(this.event.id)
-        .delete();
-      this.$router.push({ name: 'Events' });
+        .update({
+          title: this.event.title,
+          slug: verifiedSlug,
+          location: {
+            place: this.event.location.place,
+            address: this.event.location.address,
+            lat: this.event.location.lat,
+            lng: this.event.location.lng
+          },
+          eventLength: this.event.eventLength,
+          dateFrom: Date.parse(this.event.dateFrom),
+          dateTo: Date.parse(this.event.dateTo),
+          description: this.event.description,
+          expenses: this.event.expenses.filter(
+            expense => expense.cost > 0
+          ),
+          participants: this.event.participants.filter(
+            participant => participant.status != 'To delete'
+          ),
+        });
+      document.getElementById("update-button").style.background = "green";
+      setTimeout(() => {
+        document.getElementById("update-button").style.background = "#007bff";
+      }, 1000)
     },
     totalExpensesComputed(val) {
       this.totalExpenses = val;
@@ -59,49 +94,10 @@ export default {
       });
     },
   },
-  watch: {
-    event: {
-      handler() {
-        if (this.event) {
-          if (this.updateDelay) {
-            clearTimeout(this.updateDelay);
-            this.updateDelay = null;
-          }
-          this.updateDelay = setTimeout(async () => {
-            if (this.event.eventLength == 'one') {
-              this.event.dateTo = this.event.dateFrom;
-            }
-            let verifiedSlug = null;
-            if(this.initTitle === this.event.title){
-              verifiedSlug = this.event.slug;
-            } else {
-              verifiedSlug = await checkSlugAvailability(this.slugifyTitle());
-            }
-            await db
-              .collection('events')
-              .doc(this.event.id)
-              .update({
-                title: this.event.title,
-                slug: verifiedSlug,
-                eventLength: this.event.eventLength,
-                dateFrom: Date.parse(this.event.dateFrom),
-                dateTo: Date.parse(this.event.dateTo),
-                description: this.event.description,
-                expenses: this.event.expenses.filter(
-                  expense => expense.cost > 0
-                ),
-                participants: this.event.participants.filter(
-                  participant => participant.status != 'To delete'
-                ),
-              });
-          }, 1000);
-        }
-      },
-      deep: true,
-    },
-  },
-  updated(){
-    this.initTitle = this.event.title;
+  created() {
+    if(this.event){
+      this.initTitle = this.event.title;
+    }
   }
 };
 </script>
@@ -179,9 +175,12 @@ export default {
   }
 }
 
-.delete-event {
+.save-delete {
   width: 100%;
   text-align: center;
+  display: flex;
+  justify-content: space-around;
+
 
   button {
     color: white;
@@ -192,6 +191,10 @@ export default {
 
     &:hover {
       background-color: #0061cc;
+    }
+
+    &:last-child {
+      background-color: red;
     }
   }
 }
