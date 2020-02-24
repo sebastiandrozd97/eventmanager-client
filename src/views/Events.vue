@@ -54,15 +54,9 @@ export default {
       .where('userId', '==', firebase.auth().currentUser.uid)
       .orderBy('dateFrom', 'asc')
       .get();
-    // const locations = await db.collection('locations').get();
     eventsSnapshot.forEach(doc => {
       let event = doc.data();
       event.id = doc.id;
-      // locations.forEach(doc => {
-      //   if (doc.id == event.locationId) {
-      //     event.location = doc.data().location;
-      //   }
-      // });
       event.dateFrom = moment(event.dateFrom).format('YYYY-MM-DD');
       event.dateTo = moment(event.dateTo).format('YYYY-MM-DD');
       this.events.push(event);

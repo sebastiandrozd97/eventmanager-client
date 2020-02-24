@@ -3,7 +3,12 @@
     <h2>Location</h2>
     <div class="info-row">
       <span>Place a marker on a map</span>
-      <input placeholder="and manually name the location" type="text" v-model="manualAddress" />
+      <input
+        placeholder="and manually name the location"
+        type="text"
+        v-model="manualAddress"
+        @focus="clearAutocomplete"
+      />
     </div>
     <div class="info-row">
       <span>or find location</span>
@@ -48,7 +53,27 @@ export default {
         });
       }
     },
-    getAddr(){
+    clearAutocomplete(){
+      this.address = null;
+    },
+    initAutocomplete(google){
+      const input = document.getElementById('searchForLocation');
+
+      let autocomplete = new google.maps.places.Autocomplete(input);
+
+      autocomplete.addListener('place_changed', () => {
+        const locationInfo = autocomplete.getPlace();
+        this.place = locationInfo.name;
+        this.address = locationInfo.vicinity;
+        this.latLng = {lat: locationInfo.geometry.location.lat(), lng: locationInfo.geometry.location.lng()}
+        this.map.setCenter(this.latLng);
+        this.setMarker(this.latLng);
+        this.manualLatLng = null;
+        this.manualAddress = null;
+      });
+      this.geolocate(google, autocomplete);
+    },
+    setAddress(){
       if(this.address){
         this.event.location.address = this.address;
         this.event.location.place = this.place;
@@ -100,30 +125,14 @@ export default {
     },
   },
   async created() {
-    this.$emit('getAddr')
+    this.$emit('setAddress')
     this.google = await this.$gmapApiPromiseLazy()
     if(this.google && this.event){
       this.renderMap();
     }
 
-    const input = document.getElementById('searchForLocation');
-    const options = {
-      types: ['establishment'],
-    };
+    this.initAutocomplete(this.google);
 
-    let autocomplete = new this.google.maps.places.Autocomplete(input, options);
-
-    autocomplete.addListener('place_changed', () => {
-      const placee = autocomplete.getPlace();
-      this.place = placee.name;
-      this.address = placee.vicinity;
-      this.latLng = {lat: placee.geometry.location.lat(), lng: placee.geometry.location.lng()}
-      this.map.setCenter(this.latLng);
-      this.setMarker(this.latLng);
-      this.manualLatLng = null;
-      this.manualAddress = null;
-    });
-    this.geolocate(this.google, autocomplete);
   }
 };
 </script>
@@ -131,10 +140,8 @@ export default {
 <style lang="scss">
 
 .details-map {
-  background-size: no-repeat;
-  background-size: contain;
   width: 100%;
   height: 0;
-  padding-top: 57.53%; //height to width ratio
+  padding-top: 60%;
 }
 </style>

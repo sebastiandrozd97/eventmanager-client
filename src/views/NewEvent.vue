@@ -26,12 +26,20 @@
       <div class="form-group">
         <label for="location">Location</label>
         <input
+          placeholder="Find your location"
           type="text"
-          placeholder="Where are you going to have fun?"
-          class="form-control"
-          id="location"
-          v-model="location"
-          required
+          id="searchForLocation"
+          class="form-control location-autocomplete"
+          autocomplete="new-password"
+          onfocus="this.setAttribute('autocomplete', 'new-password');"
+        />
+        <div class="new-event-map" id="map"></div>
+        <input
+          type="text"
+          placeholder="or place a marker and write the name"
+          class="form-control custom-address"
+          id="manualAddress"
+          v-model="manualAddress"
         />
       </div>
       <div class="form-group">
@@ -128,8 +136,14 @@ export default {
     return {
       title: null,
       description: null,
-      location: null,
-      locationId: null,
+      map: null,
+      marker: null,
+      autocomplete: null,
+      address: null,
+      place: null,
+      latLng: null,
+      manualLatLng: null,
+      manualAddress: null,
       eventLength: null,
       dateFrom: null,
       dateTo: null,
@@ -166,25 +180,74 @@ export default {
     deleteExpense(e) {
       this.expenses.splice(e.currentTarget.getAttribute('data_index'), 1);
     },
-    async setLocation() {
-      const slugLocation = slugify(this.location, {
-        replacement: '-',
-        remove: /[*+~.,()'"!:@]/g,
-        lower: true,
-      });
-      let locationDoc = await db
-        .collection('locations')
-        .doc(slugLocation)
-        .get();
-      if (!locationDoc.exists) {
-        await db
-          .collection('locations')
-          .doc(slugLocation)
-          .set({
-            location: this.location,
-          });
+    geolocate(google, autocomplete) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var circle = new google.maps.Circle(
+              {center: geolocation, radius: position.coords.accuracy});
+          autocomplete.setBounds(circle.getBounds());
+        });
       }
-      this.locationId = slugLocation;
+    },
+    initAutocomplete(google){
+      const input = document.getElementById('searchForLocation');
+
+      let autocomplete = new google.maps.places.Autocomplete(input);
+
+      autocomplete.addListener('place_changed', () => {
+        const locationInfo = autocomplete.getPlace();
+        this.place = locationInfo.name;
+        this.address = locationInfo.vicinity;
+        this.latLng = {lat: locationInfo.geometry.location.lat(), lng: locationInfo.geometry.location.lng()}
+        this.map.setCenter(this.latLng);
+        this.setMarker(this.latLng);
+        this.manualLatLng = null;
+        this.manualAddress = null;
+      });
+      this.geolocate(google, autocomplete);
+    },
+    chooseAddressType(){
+      if(this.manualAddress && this.manualLatLng){
+        this.address = this.manualAddress;
+        this.place = this.manualAddress;
+        this.latLng = this.manualLatLng;
+      }
+    },
+    renderMap(){
+      this.map = new this.google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: 52.2297,
+          lng: 21.0122 
+        },
+        zoom: 8,
+        maxZoom: 20,
+        minZoom: 5,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false
+      })
+
+      this.marker = new this.google.maps.Marker({
+          position: {
+            lat: 52.2297,
+            lng: 21.0122
+          },
+          map: this.map,
+      })
+      
+      this.map.addListener('click', event => {
+        this.setMarker(event.latLng);
+      })
+
+      return this.map;
+    },
+    setMarker(location = { lat: this.event.location.lat, lng: this.event.location.lng}){
+      this.marker.setPosition(location);
+      this.manualLatLng = location;
     },
     async addEventDocument(slugTitle) {
       await db.collection('events').add({
@@ -194,7 +257,12 @@ export default {
         eventLength: this.eventLength,
         dateFrom: Date.parse(this.dateFrom),
         dateTo: Date.parse(this.dateTo),
-        locationId: this.locationId,
+        location: {
+          place: this.place,
+          address: this.address,
+          lat: this.latLng.lat(),
+          lng: this.latLng.lng()
+        },
         participants: this.participants,
         expenses: this.expenses,
         slug: slugTitle,
@@ -204,7 +272,8 @@ export default {
       if ((this.participants || this.participant.name) && this.dateFrom) {
         this.addParticipant();
         this.addExpense();
-        await this.setLocation();
+        this.chooseAddressType();
+        console.log(this.place, this.address, this.latLng.lat(), this.latLng.lng());
         if (!this.dateTo) {
           this.dateTo = this.dateFrom;
         }
@@ -214,11 +283,19 @@ export default {
           lower: true,
         });
         const slugTitleVerified = await checkSlugAvailability(slugTitle);
+        debugger;
         await this.addEventDocument(slugTitleVerified);
         this.$router.push({ name: 'Events' });
       }
     },
   },
+  async created() {
+    this.google = await this.$gmapApiPromiseLazy()
+    if(this.google){
+      this.renderMap();
+    }
+    this.initAutocomplete(this.google);
+  }
 };
 </script>
 
@@ -241,6 +318,21 @@ export default {
       border: 1px solid #ced4da;
     }
   }
+}
+
+.location-autocomplete {
+  margin-bottom: 20px;
+}
+
+.custom-address {
+  margin-top: 20px;
+}
+
+.new-event-map {
+  width: 100%;
+  height: 0;
+  padding-top: 60%;
+  background: black;
 }
 
 .dates {

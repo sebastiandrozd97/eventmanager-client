@@ -9,10 +9,7 @@
         <h2>Update or delete event</h2>
         <div class="save-delete">
           <button id="update-button" @click="updateEvent">Update</button>
-          <button
-            class="delete-button"
-            @click="deleteEvent(); $emit('delete-event', event.id)"
-          >Delete</button>
+          <button class="delete-button" @click="$emit('delete-event', event.id)">Delete</button>
         </div>
       </div>
     </div>
@@ -54,7 +51,7 @@ export default {
       } else {
         verifiedSlug = await checkSlugAvailability(this.slugifyTitle());
       }
-      this.$refs.locationComponent.getAddr();
+      this.$refs.locationComponent.setAddress();
       await db
         .collection('events')
         .doc(this.event.id)
