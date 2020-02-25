@@ -5,10 +5,12 @@
       <Location :event="event" ref="locationComponent" />
       <Expenses :event="event" @total-expenses="totalExpensesComputed" />
       <People :event="event" :totalExpenses="totalExpenses" />
-      <div class="details-section">
-        <h2>Update or delete event</h2>
+      <div class="details-section update-section">
+        <h2>Event</h2>
+        <h5 v-if="eventShareLink">{{ eventShareLink }}</h5>
         <div class="save-delete">
           <button id="update-button" @click="updateEvent">Update</button>
+          <button id="generate-button" @click="generateLink">Generate link</button>
           <button class="delete-button" @click="$emit('delete-event', event.id)">Delete</button>
         </div>
       </div>
@@ -38,6 +40,7 @@ export default {
       updateDelay: null,
       totalExpenses: null,
       initEvent: null,
+      eventShareLink: null,
     };
   },
   methods: {
@@ -83,6 +86,9 @@ export default {
     totalExpensesComputed(val) {
       this.totalExpenses = val;
     },
+    generateLink() {
+      this.eventShareLink = "http://localhost:8080/event-summary/" + this.event.id;
+    },
     slugifyTitle() {
       return slugify(this.event.title, {
         replacement: '-',
@@ -95,6 +101,7 @@ export default {
     if(this.event){
       this.initTitle = this.event.title;
     }
+    this.eventShareLink = null;
   }
 };
 </script>
@@ -103,98 +110,104 @@ export default {
 .event-details {
   height: 90vh;
   overflow-y: scroll;
-}
 
-.details-container {
-  width: 80%;
-  margin: 0 auto;
-
-  &:last-child {
-    margin-bottom: 3%;
-  }
-}
-
-.details-section {
-  margin-top: 3%;
-  h2 {
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-  }
-}
-
-.info-row {
-  display: flex;
-  min-height: 5vh;
-  margin-bottom: 10px;
-
-  span:first-child {
-    width: 35%;
-    font-weight: 700;
-  }
-
-  .expense {
-    span:hover {
-      color: red;
-      cursor: pointer;
-    }
-  }
-
-  input {
-    width: 65%;
-    border: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    outline: none;
-
-    &:focus {
-      border-bottom-color: #007bff;
-    }
-  }
-
-  textarea {
-    width: 65%;
-    resize: none;
-    border: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    outline: none;
-  }
-
-  select {
-    width: 65%;
-    border: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    outline: none;
-    padding-left: 0;
-
-    &:focus {
-      border-bottom-color: #007bff;
-    }
-  }
-}
-
-.save-delete {
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: space-around;
-
-
-  button {
-    color: white;
-    background-color: #007bff;
-    border: none;
-    width: 30%;
-    height: 2.5em;
-
-    &:hover {
-      background-color: #0061cc;
-    }
+  .details-container {
+    width: 80%;
+    margin: 0 auto;
 
     &:last-child {
-      background-color: red;
+      margin-bottom: 3%;
+    }
+  }
+
+  .details-section {
+    margin-top: 3%;
+    h2 {
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .info-row {
+    display: flex;
+    min-height: 5vh;
+    margin-bottom: 10px;
+
+    span:first-child {
+      width: 35%;
+      font-weight: 700;
+    }
+
+    .expense {
+      span:hover {
+        color: #c0392b;
+        cursor: pointer;
+      }
+    }
+
+    input {
+      width: 65%;
+      border: none;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      outline: none;
+
+      &:focus {
+        border-bottom-color: #007bff;
+      }
+    }
+
+    textarea {
+      width: 65%;
+      resize: none;
+      border: none;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      outline: none;
+    }
+
+    select {
+      width: 65%;
+      border: none;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      outline: none;
+      padding-left: 0;
+
+      &:focus {
+        border-bottom-color: #007bff;
+      }
+    }
+  }
+
+  .update-section {
+    text-align: center;
+  }
+
+  .save-delete {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+
+
+    button {
+      color: white;
+      background-color: #007bff;
+      border: none;
+      width: 30%;
+      height: 2.5em;
+
+      &:nth-child(2) {
+        background-color: #2ecc71;
+      }
+
+      &:last-child {
+        background-color: #c0392b;
+      }
     }
   }
 }
+
+
 
 .event-details::-webkit-scrollbar {
   width: 14px;

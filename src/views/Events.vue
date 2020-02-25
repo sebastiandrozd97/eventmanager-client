@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     selectedEvent() {
-      return this.$route.path != '/events';
+      return this.$route.path !== '/events';
     },
   },
   methods: {

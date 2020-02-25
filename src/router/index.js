@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import NewEvent from '@/views/NewEvent.vue'
-import Events from '@/views/Events.vue'
-import Profile from '@/views/Profile.vue'
-import SignIn from '@/views/SignIn.vue'
-import SignUp from '@/views/SignUp.vue'
+import NewEvent from '@/views/NewEvent'
+import Events from '@/views/Events'
+import Profile from '@/views/Profile'
+import SignIn from '@/views/SignIn'
+import SignUp from '@/views/SignUp'
 import EventDetails from '@/components/EventDetails/EventDetails'
-import PageNotFound from '@/views/PageNotFound.vue'
+import EventSummary from '@/views/EventSummary'
+import PageNotFound from '@/views/PageNotFound'
 import firebase from 'firebase'
 
 Vue.use(VueRouter)
@@ -58,6 +59,11 @@ const routes = [{
     }
   },
   {
+    path: '/event-summary/:id',
+    name: 'EventSummary',
+    component: EventSummary,
+  },
+  {
     path: '/page-not-found',
     name: 'PageNotFound',
     component: PageNotFound,
@@ -65,7 +71,8 @@ const routes = [{
   {
     path: '/events/*',
     redirect: '/page-not-found'
-  }, {
+  },
+  {
     path: '*',
     redirect: '/page-not-found'
   }

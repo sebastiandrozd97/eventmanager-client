@@ -1,24 +1,15 @@
 <template>
-  <div class="details-section">
+  <div class="summary-section">
     <h2>Expenses</h2>
     <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
       <span class="expense">
-        <span @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
+        <span>{{ expense.name }}</span>
       </span>
-      <input type="number" v-model="expense.cost" />
+      <input type="number" v-model="expense.cost" readonly />
     </div>
     <div class="info-row">
       <span>Total</span>
       <span>{{ calculateTotal }}</span>
-    </div>
-    <div class="info-row new-expense">
-      <input placeholder="Expense" ref="expenseName" type="text" v-model="expense.name" />
-      <input
-        @keydown.enter.prevent="newExpense"
-        placeholder="Cost | Press enter to add"
-        type="number"
-        v-model="expense.cost"
-      />
     </div>
   </div>
 </template>
@@ -36,19 +27,6 @@ export default {
     };
   },
   methods: {
-    deleteExpense(e) {
-      const indexOfExpense = e.currentTarget.getAttribute('data_index');
-      this.event.expenses[indexOfExpense].cost = 0;
-      this.event.expenses.splice(indexOfExpense, 1);
-    },
-    newExpense() {
-      if (this.expense.name && this.expense.cost) {
-        this.event.expenses.push({ ...this.expense });
-        this.expense.name = null;
-        this.expense.cost = null;
-        this.$refs.expenseName.focus();
-      }
-    },
     emitTotalExpenses() {
       this.$emit('total-expenses', this.calculateTotal);
     },
@@ -68,15 +46,12 @@ export default {
   created() {
     this.emitTotalExpenses();
   },
-  updated() {
-    this.emitTotalExpenses();
-  },
 };
 </script>
 
 <style lang="scss">
 
-.details-section {
+.summary-section {
   .new-expense {
     input:first-child {
       width: 30%;

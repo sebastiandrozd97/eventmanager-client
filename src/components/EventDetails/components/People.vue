@@ -88,42 +88,45 @@ export default {
 
 <style lang="scss">
 
-.payments-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+.details-section {
+  .payments-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 
-  span:first-child {
-    width: 35%;
-    font-weight: 700;
+    span:first-child {
+      width: 35%;
+      font-weight: 700;
 
-    span:hover {
-      color: red;
+      span:hover {
+        color: red;
+        cursor: pointer;
+      }
+    }
+
+    .payment-status {
+      border: none;
+      outline: none;
       cursor: pointer;
+    }
+
+    .Not {
+      color: #ea2027;
+    }
+    .Paid {
+      color: #009432;
     }
   }
 
-  .payment-status {
-    border: none;
-    outline: none;
-    cursor: pointer;
+  .new-participant {
+    input {
+      width: 100%;
+    }
   }
 
-  .Not {
-    color: #ea2027;
-  }
-  .Paid {
-    color: #009432;
+  div.total-cost {
+    margin-bottom: 10px;
   }
 }
 
-.new-participant {
-  input {
-    width: 100%;
-  }
-}
-
-div.total-cost {
-  margin-bottom: 10px;
-}
 </style>
