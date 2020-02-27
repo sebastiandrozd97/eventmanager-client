@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     show() {
-      return this.$route.path !== '/' && this.$route.path !== '/signup' && this.$route.path !== '/page-not-found' && !this.$route.path.includes('/event-summary/');
+      return this.$route.path !== '/' && this.$route.path !== '/signup' && this.$route.path !== '/page-not-found' && !this.$route.path.includes('/event-overview/');
     },
   },
 };

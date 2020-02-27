@@ -1,10 +1,14 @@
 <template>
-  <div class="details-section">
+  <div class="section">
     <h2>People</h2>
-    <div class="total-cost">Each pays {{ calculateEachPayment }}</div>
+    <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
     <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
       <span>
-        <span @click="deleteParticipant" :data_index="index">{{ participant.name }}</span>
+        <span
+          class="participant-name"
+          @click="deleteParticipant"
+          :data_index="index"
+        >{{ participant.name }}</span>
       </span>
       <span
         class="payment-status"
@@ -88,44 +92,27 @@ export default {
 
 <style lang="scss">
 
-.details-section {
-  .payments-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+.participant-name:hover {
+  color: #c0392b;
+  cursor: pointer;
+}
 
-    span:first-child {
-      width: 35%;
-      font-weight: 700;
+.payment-status {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
 
-      span:hover {
-        color: red;
-        cursor: pointer;
-      }
-    }
+.Not {
+  color: #c0392b;
+}
+.Paid {
+  color: #009432;
+}
 
-    .payment-status {
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .Not {
-      color: #ea2027;
-    }
-    .Paid {
-      color: #009432;
-    }
-  }
-
-  .new-participant {
-    input {
-      width: 100%;
-    }
-  }
-
-  div.total-cost {
-    margin-bottom: 10px;
+.new-participant {
+  input {
+    width: 100%;
   }
 }
 

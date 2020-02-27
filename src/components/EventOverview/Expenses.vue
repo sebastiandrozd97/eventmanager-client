@@ -1,8 +1,8 @@
 <template>
-  <div class="summary-section">
+  <div class="section">
     <h2>Expenses</h2>
     <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
-      <span class="expense">
+      <span>
         <span>{{ expense.name }}</span>
       </span>
       <input type="number" v-model="expense.cost" readonly />
@@ -50,24 +50,4 @@ export default {
 </script>
 
 <style lang="scss">
-
-.summary-section {
-  .new-expense {
-    input:first-child {
-      width: 30%;
-      margin-right: 5%;
-    }
-
-    input:last-child {
-      width: 65%;
-    }
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-}
-
 </style>

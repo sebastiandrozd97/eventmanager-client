@@ -1,5 +1,5 @@
 <template>
-  <div class="summary-section">
+  <div class="section">
     <h2>Information</h2>
     <div class="info-row">
       <span>Title</span>

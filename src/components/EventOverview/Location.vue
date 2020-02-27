@@ -1,5 +1,5 @@
 <template>
-  <div class="summary-section">
+  <div class="section">
     <h2>Location</h2>
     <div v-if="event.location.place !== event.location.address" class="info-row">
       <span>Address</span>
@@ -15,7 +15,7 @@
         readonly
       />
     </div>
-    <div class="summary-map" id="map"></div>
+    <div class="map" id="map"></div>
   </div>
 </template>
 <script>
@@ -26,12 +26,6 @@ export default {
     return {
       map: null,
       marker: null,
-      autocomplete: null,
-      address: null,
-      place: null,
-      latLng: null,
-      manualLatLng: null,
-      manualAddress: null,
     }
   },
   methods: {
@@ -70,10 +64,4 @@ export default {
 </script>
 
 <style lang="scss">
-
-.summary-map {
-  width: 100%;
-  height: 0;
-  padding-top: 60%;
-}
 </style>

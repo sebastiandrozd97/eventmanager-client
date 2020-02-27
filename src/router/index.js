@@ -6,7 +6,7 @@ import Profile from '@/views/Profile'
 import SignIn from '@/views/SignIn'
 import SignUp from '@/views/SignUp'
 import EventDetails from '@/components/EventDetails/EventDetails'
-import EventSummary from '@/views/EventSummary'
+import EventOverview from '@/views/EventOverview'
 import PageNotFound from '@/views/PageNotFound'
 import firebase from 'firebase'
 
@@ -59,9 +59,9 @@ const routes = [{
     }
   },
   {
-    path: '/event-summary/:id',
-    name: 'EventSummary',
-    component: EventSummary,
+    path: '/event-overview/:id',
+    name: 'EventOverview',
+    component: EventOverview,
   },
   {
     path: '/page-not-found',
@@ -84,14 +84,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const user = firebase.auth().currentUser
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    const user = firebase.auth().currentUser
     if (user) {
       next();
     } else {
       next({
         name: 'SignIn'
       })
+    }
+  } else if (to.matched.some(rec => rec.path === "")) {
+    if (user) {
+      next({
+        name: 'Events'
+      })
+    } else {
+      next();
     }
   } else {
     next()

@@ -300,14 +300,17 @@ export default {
 </script>
 
 <style lang="scss">
+
 .new-event {
-  width: 40vw;
+  width: 100%;
   height: 90vh;
   margin: auto;
+  overflow-y: scroll;
 }
 
 .new-event-form {
-  margin: 3vh 0 3vh 0;
+  margin: 3vh auto 3vh auto;
+  width: 40%;
 
   .event-date-selection {
     select {
@@ -382,4 +385,34 @@ export default {
     }
   }
 }
+
+.new-event::-webkit-scrollbar {
+  width: 14px;
+  height: 18px;
+}
+
+.new-event::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  -webkit-border-radius: 7px;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05),
+    inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.new-event::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.new-event::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
 </style>

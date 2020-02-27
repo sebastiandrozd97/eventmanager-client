@@ -1,13 +1,13 @@
 <template>
-  <div class="details-section">
+  <div class="section">
     <h2>Information</h2>
     <div class="info-row">
       <span>Title</span>
       <input type="text" v-model="event.title" />
     </div>
-    <div class="info-row event-date-selection">
+    <div class="info-row">
       <span>Event length</span>
-      <select v-model="event.eventLength" name="eventLength" id="eventLength">
+      <select v-model="event.eventLength" class="event-duration">
         <option value="one">One day</option>
         <option value="several">Several days</option>
       </select>
@@ -23,7 +23,7 @@
     </div>
     <div class="info-row">
       <span>Description</span>
-      <textarea rows="3" v-model="event.description"></textarea>
+      <textarea class="event-description" rows="3" v-model="event.description"></textarea>
     </div>
   </div>
 </template>
@@ -36,4 +36,21 @@ export default {
 </script>
 
 <style lang="scss">
+
+.event-duration {
+  width: 65%;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  padding-left: 0;
+
+  &:focus {
+    border-bottom-color: #007bff;
+  }
+}
+
+.event-description:focus {
+  border-bottom-color: #007bff;
+}
+
 </style>

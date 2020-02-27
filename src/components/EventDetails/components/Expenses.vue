@@ -1,8 +1,8 @@
 <template>
-  <div class="details-section">
+  <div class="section">
     <h2>Expenses</h2>
     <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
-      <span class="expense">
+      <span class="expense-name">
         <span @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
       </span>
       <input type="number" v-model="expense.cost" />
@@ -76,22 +76,21 @@ export default {
 
 <style lang="scss">
 
-.details-section {
-  .new-expense {
-    input:first-child {
-      width: 30%;
-      margin-right: 5%;
-    }
+.expense-name {
+  span:hover {
+    color: #c0392b;
+    cursor: pointer;
+  }
+}
 
-    input:last-child {
-      width: 65%;
-    }
+.new-expense {
+  input:first-child {
+    width: 30%;
+    margin-right: 5%;
   }
 
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  input:last-child {
+    width: 65%;
   }
 }
 

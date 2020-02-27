@@ -1,12 +1,20 @@
 <template>
-  <div class="details-section">
+  <div class="section">
     <h2>Location</h2>
+    <div class="info-row">
+      <span>Place</span>
+      <input class="address-info" type="text" v-model="event.location.place" readonly />
+    </div>
+    <div v-if="event.location.place !== event.location.address" class="info-row">
+      <span>Address</span>
+      <input class="address-info" type="text" v-model="event.location.address" readonly />
+    </div>
     <div class="info-row">
       <span>Place a marker on a map</span>
       <input
         placeholder="and manually name the location"
         type="text"
-        v-model="manualAddress"
+        v-model="customAddress"
         @focus="clearAutocomplete"
       />
     </div>
@@ -20,7 +28,7 @@
         onfocus="this.setAttribute('autocomplete', 'new-password');"
       />
     </div>
-    <div class="details-map" id="map"></div>
+    <div class="map" id="map"></div>
   </div>
 </template>
 <script>
@@ -35,8 +43,8 @@ export default {
       address: null,
       place: null,
       latLng: null,
-      manualLatLng: null,
-      manualAddress: null,
+      customLatLng: null,
+      customAddress: null,
     }
   },
   methods: {
@@ -68,8 +76,8 @@ export default {
         this.latLng = {lat: locationInfo.geometry.location.lat(), lng: locationInfo.geometry.location.lng()}
         this.map.setCenter(this.latLng);
         this.setMarker(this.latLng);
-        this.manualLatLng = null;
-        this.manualAddress = null;
+        this.customLatLng = null;
+        this.customAddress = null;
       });
       this.geolocate(google, autocomplete);
     },
@@ -79,17 +87,21 @@ export default {
         this.event.location.place = this.place;
         this.event.location.lat = this.latLng.lat;
         this.event.location.lng = this.latLng.lng;
-      } else if(this.manualAddress || this.manualLatLng) {
-        if(this.manualAddress){
-          this.event.location.address = this.manualAddress;
-          this.event.location.place = this.manualAddress;
+      } else if(this.customAddress || this.customLatLng) {
+        if(this.customAddress){
+          this.event.location.address = this.customAddress;
+          this.event.location.place = this.customAddress;
         }
-        if(this.manualLatLng){
-          this.event.location.lat = this.manualLatLng.lat();
-        this.event.location.lng = this.manualLatLng.lng();
+        if(this.customLatLng){
+          this.event.location.lat = this.customLatLng.lat();
+        this.event.location.lng = this.customLatLng.lng();
         }
       }
       
+    },
+    setMarker(location = { lat: this.event.location.lat, lng: this.event.location.lng}){
+      this.marker.setPosition(location);
+      this.customLatLng = location;
     },
     renderMap(){
       this.map = new this.google.maps.Map(document.getElementById('map'), {
@@ -119,29 +131,21 @@ export default {
 
       return this.map;
     },
-    setMarker(location = { lat: this.event.location.lat, lng: this.event.location.lng}){
-      this.marker.setPosition(location);
-      this.manualLatLng = location;
-    },
   },
   async created() {
-    this.$emit('setAddress')
     this.google = await this.$gmapApiPromiseLazy()
     if(this.google && this.event){
       this.renderMap();
     }
-
     this.initAutocomplete(this.google);
-
   }
 };
 </script>
 
 <style lang="scss">
 
-.details-map {
-  width: 100%;
-  height: 0;
-  padding-top: 60%;
+.address-info:focus {
+  border-bottom-color: rgba(0, 0, 0, 0.1) !important;
 }
+
 </style>

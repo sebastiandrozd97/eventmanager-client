@@ -1,16 +1,11 @@
 <template>
-  <div class="summary-section">
+  <div class="section">
     <h2>People</h2>
-    <div class="total-cost">Each pays {{ calculateEachPayment }}</div>
+    <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
     <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
       <span>
         <span>{{ participant.name }}</span>
       </span>
-      <span
-        class="payment-status"
-        :data_index="index"
-        :class="participant.status"
-      >{{ participant.status }}</span>
     </div>
   </div>
 </template>
@@ -19,14 +14,6 @@
 export default {
   name: 'People',
   props: ['event', 'totalExpenses'],
-  data() {
-    return {
-      participant: {
-        name: null,
-        status: 'Not paid',
-      },
-    };
-  },
   computed: {
     calculateEachPayment() {
       if (
@@ -51,33 +38,4 @@ export default {
 </script>
 
 <style lang="scss">
-
-.summary-section {
-  .payments-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-
-    span:first-child {
-      width: 35%;
-      font-weight: 700;
-    }
-
-    .payment-status {
-      border: none;
-      outline: none;
-    }
-
-    .Not {
-      color: #ea2027;
-    }
-    .Paid {
-      color: #009432;
-    }
-  }
-
-  div.total-cost {
-    margin-bottom: 10px;
-  }
-}
 </style>
