@@ -8,7 +8,9 @@ import SignUp from '@/views/SignUp'
 import EventDetails from '@/components/EventDetails/EventDetails'
 import EventOverview from '@/views/EventOverview'
 import PageNotFound from '@/views/PageNotFound'
-import firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 Vue.use(VueRouter)
 

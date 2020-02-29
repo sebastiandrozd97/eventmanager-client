@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import VModal from 'vue-js-modal'
 import moment from 'moment'
-import firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.config.productionTip = false
