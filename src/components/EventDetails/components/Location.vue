@@ -63,6 +63,7 @@ export default {
     },
     clearAutocomplete(){
       this.address = null;
+      document.getElementById('searchForLocation').value = "";
     },
     initAutocomplete(google){
       const input = document.getElementById('searchForLocation');

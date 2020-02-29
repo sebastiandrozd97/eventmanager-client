@@ -1,5 +1,5 @@
 <template>
-  <div id="event-list">
+  <div>
     <div class="list-group">
       <div class="search-bar">
         <input

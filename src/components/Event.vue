@@ -22,9 +22,6 @@
 export default {
   name: 'Event',
   props: ['event'],
-  data() {
-    return {};
-  },
 };
 </script>
 

@@ -26,7 +26,6 @@ export default {
     return {
       renderKey: 0,
       event: [],
-      locationsArray: [],
       events: [],
     };
   },

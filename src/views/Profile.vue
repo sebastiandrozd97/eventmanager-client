@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <div v-if="user" class="container">
+    <div v-if="user" class="profile-container">
       <h2>Hello, {{ user.firstname }} {{ user.surname }}</h2>
       <form @submit.prevent="updateProfile" class="profile-details">
         <div class="form-group row">
@@ -88,10 +88,10 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
+.profile-container {
   width: 60%;
   color: black;
-  margin-top: 30px;
+  margin: 30px auto 0 auto;
 }
 
 .profile-details {

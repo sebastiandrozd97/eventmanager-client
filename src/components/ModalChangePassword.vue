@@ -1,13 +1,7 @@
 <template>
-  <div class="change-pwd">
-    <a href="/Profile" @click.prevent="show">Reset password</a>
-    <modal
-      class="change-pwd-modal"
-      name="change-password"
-      @opened="opened"
-      :height="380"
-      :width="400"
-    >
+  <div>
+    <a href="/Profile" @click.prevent="show">Change password</a>
+    <modal name="change-password" @opened="opened" :height="380" :width="400">
       <form @submit.prevent="updatePassword" class="change-pwd-form">
         <div class="form-group">
           <label for="oldPassword">Old password</label>

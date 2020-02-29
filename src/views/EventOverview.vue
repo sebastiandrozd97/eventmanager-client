@@ -4,7 +4,7 @@
       <Information :event="event" />
       <Location :event="event" ref="locationComponent" />
       <Expenses :event="event" @total-expenses="totalExpensesComputed" />
-      <People :event="event" :totalExpenses="totalExpenses" />
+      <Participants :event="event" :totalExpenses="totalExpenses" />
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import Information from '@/components/EventOverview/Information';
 import Location from '@/components/EventOverview/Location';
 import Expenses from '@/components/EventOverview/Expenses';
-import People from '@/components/EventOverview/People';
+import Participants from '@/components/EventOverview/Participants';
 import db from '@/firebase/init';
 import moment from 'moment';
 
@@ -22,7 +22,7 @@ export default {
     Information,
     Location,
     Expenses,
-    People
+    Participants
   },
   data() {
     return {

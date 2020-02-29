@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>People</h2>
+    <h2>Participants</h2>
     <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
     <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
       <span>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'People',
+  name: 'Participants',
   props: ['event', 'totalExpenses'],
   computed: {
     calculateEachPayment() {

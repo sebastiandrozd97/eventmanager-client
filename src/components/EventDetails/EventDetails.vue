@@ -4,7 +4,7 @@
       <Information :event="event" />
       <Location :event="event" ref="locationComponent" />
       <Expenses :event="event" @total-expenses="totalExpensesComputed" />
-      <People :event="event" :totalExpenses="totalExpenses" />
+      <Participants :event="event" :totalExpenses="totalExpenses" />
       <div class="section">
         <h2>Event</h2>
         <div class="share-link">
@@ -23,7 +23,7 @@
 import Information from '@/components/EventDetails/components/Information';
 import Location from '@/components/EventDetails/components/Location';
 import Expenses from '@/components/EventDetails/components/Expenses';
-import People from '@/components/EventDetails/components/People';
+import Participants from '@/components/EventDetails/components/Participants';
 import db from '@/firebase/init';
 import slugify from 'slugify';
 import { checkSlugAvailability } from '@/utils/checkSlugAvailability.js';
@@ -34,7 +34,7 @@ export default {
     Information,
     Location,
     Expenses,
-    People,
+    Participants,
   },
   props: ['event'],
   data() {

@@ -1,0 +1,55 @@
+#signin {
+  width: 100vw;
+  height: 100vh;
+  background: #c9c9c9;
+  padding-top: 10vh;
+}
+
+.whole-signin {
+  width: 70vw;
+  height: 80vh;
+  margin: auto;
+  box-shadow: 5px 10px 8px #888888;
+  display: flex;
+}
+
+.signin-form {
+  width: 50%;
+  height: 100%;
+  padding-top: 3%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  background: #fcfcfc;
+
+  .signin-logo {
+    height: 10%;
+  }
+
+  .signin-welcome {
+    margin-top: 5vh;
+
+    span {
+      font-size: 0.8em;
+    }
+
+    height: 20%;
+  }
+
+  form {
+    height: 70%;
+    width: 70%;
+    margin: auto;
+    text-align: left;
+  }
+}
+
+.signin-photo {
+  width: 50%;
+  height: 100%;
+  background-image: url('../assets/img/party.jpg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
