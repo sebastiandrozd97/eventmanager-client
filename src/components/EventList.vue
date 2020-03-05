@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <div class="list-group">
-      <div class="search-bar">
-        <input
-          v-model="searchText"
-          class="list-group-item search"
-          type="text"
-          placeholder="Search..."
-        />
-        <input
-          v-model="searchDate"
-          class="list-group-item search"
-          type="text"
-          placeholder="Date"
-          onfocus="(this.type='date')"
-          onblur="(this.type='text')"
-        />
-      </div>
-      <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
+  <div class="list-group">
+    <div class="search-bar">
+      <input
+        v-model="searchText"
+        class="list-group-item search"
+        type="text"
+        placeholder="Search..."
+      />
+      <input
+        v-model="searchDate"
+        class="list-group-item search"
+        type="text"
+        placeholder="Date"
+        onfocus="(this.type='date')"
+        onblur="(this.type='text')"
+      />
     </div>
+    <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
   </div>
 </template>
 
@@ -67,7 +65,7 @@ export default {
 
 <style lang="scss">
 .list-group {
-  height: 90vh;
+  height: 100%;
   overflow-y: scroll;
 }
 

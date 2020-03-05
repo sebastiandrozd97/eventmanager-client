@@ -9,7 +9,9 @@
         :participants="participants"
       />
       <Expenses ref="expensesComponent" :expenses="expenses" :expense="expense" />
-      <button type="submit" class="btn btn-primary">Create</button>
+      <div class="create-event">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
     </form>
   </div>
 </template>
@@ -112,14 +114,37 @@ export default {
 
 .new-event {
   width: 100%;
-  height: 90vh;
+  height: calc(100vh - 100px);
   margin: auto;
   overflow-y: scroll;
+
+  @media screen and (min-width: $mobile-width) {
+    height: calc(100vh - 80px);
+
+    .new-event-form {
+      width: 55%;
+    }
+  }
+
+  .create-event {
+    width: 100%;
+    text-align: left;
+    
+    button {
+      width: 40%;
+    }
+
+    @media screen and (min-width: $mobile-width) {
+      button {
+        width: 25%;
+      }
+    }
+  }
 }
 
 .new-event-form {
   margin: 3vh auto 3vh auto;
-  width: 40%;
+  width: 80%;
 }
 
 .new-event::-webkit-scrollbar {

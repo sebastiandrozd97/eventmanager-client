@@ -6,14 +6,14 @@
       <Expenses :event="event" @total-expenses="totalExpensesComputed" />
       <Participants :event="event" :totalExpenses="totalExpenses" />
       <div class="section">
-        <h2>Event</h2>
+        <div class="section-header">Event</div>
         <div class="share-link">
-          <h5 v-if="eventShareLink">{{ eventShareLink }}</h5>
+          <span v-if="eventShareLink">{{ eventShareLink }}</span>
         </div>
         <div class="details-buttons">
-          <button id="update-button" @click="updateEvent">Update</button>
-          <button @click="generateLink">Generate link</button>
-          <button @click="$emit('delete-event', event.id)">Delete</button>
+          <button id="update-button" class="btn btn-primary" @click="updateEvent">Update</button>
+          <button class="btn btn-success" @click="generateLink">Share</button>
+          <button class="btn btn-danger" @click="$emit('delete-event', event.id)">Delete</button>
         </div>
       </div>
     </div>
@@ -49,8 +49,9 @@ export default {
     totalExpensesComputed(val) {
       this.totalExpenses = val;
     },
-    generateLink() {
+    async generateLink() {
       this.eventShareLink = "http://localhost:8080/event-overview/" + this.event.id;
+      await navigator.clipboard.writeText(this.eventShareLink);
     },
     slugifyTitle() {
       return slugify(this.event.title, {
@@ -114,8 +115,13 @@ export default {
 @import "../../styles/event.scss";
 
 .event-details {
-  height: 90vh;
+  height: 100%;
+  width: 100vw;
   overflow-y: scroll;
+
+  @media screen and (min-width: $mobile-width) {
+    width: 100%;
+  }
 }
 
 .details-container {
@@ -132,6 +138,11 @@ export default {
 .share-link {
   width: 100%;
   text-align: center;
+  font-size: 0.8em;
+
+  @media screen and (min-width: $mobile-width) {
+    font-size: 1.2em;
+  }
 }
 
 .details-buttons {
@@ -139,22 +150,12 @@ export default {
   text-align: center;
   display: flex;
   justify-content: space-around;
-
+  padding-top: 5px;
 
   button {
-    color: white;
-    background-color: #007bff;
-    border: none;
     width: 30%;
     height: 2.5em;
-
-    &:nth-child(2) {
-      background-color: #2ecc71;
-    }
-
-    &:last-child {
-      background-color: #c0392b;
-    }
+    padding: 0;
   }
 }
 

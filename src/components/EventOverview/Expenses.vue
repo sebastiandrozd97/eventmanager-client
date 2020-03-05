@@ -1,13 +1,13 @@
 <template>
   <div class="section">
-    <h2>Expenses</h2>
-    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
+    <div class="section-header">Expenses</div>
+    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row expense-list-item">
       <span>
         <span>{{ expense.name }}</span>
       </span>
       <input type="number" v-model="expense.cost" readonly />
     </div>
-    <div class="info-row">
+    <div class="info-row expense-list-item">
       <span>Total</span>
       <span>{{ calculateTotal }}</span>
     </div>

@@ -90,10 +90,20 @@ export default {
 </script>
 
 <style lang="scss">
+.profile {
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
+}
+
 .profile-container {
-  width: 60%;
+  width: 80%;
   color: black;
-  margin: 30px auto 0 auto;
+  margin: 10px auto 0 auto;
+
+  @media screen and (min-width: $mobile-width) {
+    width: 60%;
+    margin: 30px auto 0 auto;
+  }
 }
 
 .profile-details {

@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>Participants</h2>
+    <div class="section-header">Participants</div>
     <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
     <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
       <span>
@@ -20,10 +20,16 @@
     <div class="info-row new-participant">
       <input
         @keydown.enter.prevent="newParticipant"
-        placeholder="Name | Press enter to add new participant"
+        placeholder="Name"
         type="text"
         v-model="participant.name"
       />
+    </div>
+    <div class="add-pc">
+      <div>Press enter to add</div>
+    </div>
+    <div class="info-row add-mobile">
+      <button @click="newParticipant" class="btn btn-primary">Add</button>
     </div>
   </div>
 </template>
@@ -112,7 +118,13 @@ export default {
 
 .new-participant {
   input {
-    width: 100%;
+    width: 100% !important;
+  }
+}
+
+.add-pc {
+  div {
+    margin-left: none !important;
   }
 }
 

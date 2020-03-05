@@ -1,12 +1,10 @@
 <template>
   <div class="events">
-    <div class="container-events">
-      <div class="event-selection">
-        <EventList :events="events" />
-      </div>
-      <div class="content" :class="{ 'selected-event': !selectedEvent }">
-        <router-view :event="event[0]" v-on:delete-event="onEventDelete" :key="renderKey"></router-view>
-      </div>
+    <div class="event-selection">
+      <EventList :events="events" />
+    </div>
+    <div class="content" :class="{ 'selected-event': !selectedEvent }">
+      <router-view :event="event[0]" v-on:delete-event="onEventDelete" :key="renderKey"></router-view>
     </div>
   </div>
 </template>
@@ -41,12 +39,14 @@ export default {
       this.renderKey += 1;
     },
     async onEventDelete(id) {
-      this.events = this.events.filter(event => event.id != id);
-      await db
-        .collection('events')
-        .doc(id)
-        .delete();
-      this.$router.push({ name: 'Events' });
+      if (window.confirm("Delete?")) { 
+        this.events = this.events.filter(event => event.id != id);
+        await db
+          .collection('events')
+          .doc(id)
+          .delete();
+        this.$router.push({ name: 'Events' });
+      }
     },
   },
   async created() {
@@ -75,18 +75,38 @@ export default {
 </script>
 
 <style lang="scss">
-.container-events {
-  height: 90vh;
+.events {
+  height: calc(100vh - 100px);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+
+  @media screen and (min-width: $mobile-width) {
+    height: calc(100vh - 80px);
+  }
 }
 
 .event-selection {
-  width: 35vw;
+  width: 100%;
+  height: 100%;
+
+  @media screen and (min-width: $mobile-width) {
+    width: 400px;
+  }
 }
 
 .content {
-  width: 65vw;
+  position: absolute;
+  top: 50px;
+  flex-grow: 1;
+  background-color: white;
+  z-index: 2;
+  height: calc(100vh - 100px);
+
+  @media screen and (min-width: $mobile-width) {
+    position: static;
+    height: 100%;
+  }
 }
 
 .selected-event {

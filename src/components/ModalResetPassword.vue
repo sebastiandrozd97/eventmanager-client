@@ -2,11 +2,11 @@
   <div class="reset-pwd">
     <a href="/Profile" @click.prevent="show">Forgot password</a>?
     <modal
-      class="reset-pwd-modal"
       name="reset-password"
       @opened="opened"
-      :height="200"
       :width="400"
+      :adaptive="true" 
+      :classes="['modal-pwd', 'v--modal']"
     >
       <form @submit.prevent="resetPassword" class="reset-pwd-form">
         <div class="form-group">
@@ -64,16 +64,16 @@ export default {
 </script>
 
 <style lang="scss">
+
+.modal-pwd {
+  height: auto !important;
+  padding: 20px 0 20px !important;
+}
+
 .reset-pwd-form {
-  padding-top: 5%;
   width: 80%;
   margin: auto;
   color: #007bff;
-  margin-top: 20px;
-
-  input {
-    font-size: 1em;
-  }
 }
 
 .feedback-button {
@@ -85,5 +85,6 @@ export default {
   color: #007bff;
   min-height: 35px;
   width: 100%;
+  margin-bottom: 10px;
 }
 </style>

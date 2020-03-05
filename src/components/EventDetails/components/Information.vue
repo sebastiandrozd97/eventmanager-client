@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>Information</h2>
+    <div class="section-header">Information</div>
     <div class="info-row">
       <span>Title</span>
       <input type="text" v-model="event.title" />
@@ -38,7 +38,7 @@ export default {
 <style lang="scss">
 
 .event-duration {
-  width: 65%;
+  width: 100%;
   border: none;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   outline: none;
@@ -46,6 +46,10 @@ export default {
 
   &:focus {
     border-bottom-color: #007bff;
+  }
+
+  @media screen and (min-width: $mobile-width) {
+    width: 65%;
   }
 }
 

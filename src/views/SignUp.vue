@@ -50,26 +50,24 @@ export default {
     };
   },
   methods: {
-    signup() {
+    async signup() {
       if (this.email && this.password) {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.email, this.password)
-          .then(cred => {
-            db.collection('users')
-              .doc(cred.user.uid)
-              .set({
-                gender: null,
-                firstname: 'user',
-                surname: '',
-              })
-              .then(() => {
-                this.$router.push({ name: 'Events' });
-              });
-          })
-          .catch(error => {
-            this.feedback = error.message;
-          });
+        try{
+          const newUser = await firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.email, this.password);
+          await db.collection('users')
+            .doc(newUser.user.uid)
+            .set({
+              gender: null,
+              firstname: 'user',
+              surname: '',
+            })
+
+          this.$router.push({ name: 'Events' });
+        } catch (error) {
+          this.feedback = error.message;
+        }
       } else {
         this.feedback = 'You must enter all fields';
       }

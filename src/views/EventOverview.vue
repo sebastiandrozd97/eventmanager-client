@@ -56,11 +56,15 @@ export default {
 }
 
 .overview-container {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
 
   &:last-child {
     margin-bottom: 3%;
+  }
+
+  @media screen and (min-width: $mobile-width) {
+    width: 60%;
   }
 }
 

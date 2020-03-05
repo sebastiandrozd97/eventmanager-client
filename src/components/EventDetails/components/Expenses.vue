@@ -1,13 +1,13 @@
 <template>
   <div class="section">
-    <h2>Expenses</h2>
-    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row">
+    <div class="section-header">Expenses</div>
+    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row expense-list-item">
       <span class="expense-name">
         <span @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
       </span>
       <input type="number" v-model="expense.cost" />
     </div>
-    <div class="info-row">
+    <div class="info-row expense-list-item">
       <span>Total</span>
       <span>{{ calculateTotal }}</span>
     </div>
@@ -15,10 +15,17 @@
       <input placeholder="Expense" ref="expenseName" type="text" v-model="expense.name" />
       <input
         @keydown.enter.prevent="newExpense"
-        placeholder="Cost | Press enter to add"
+        placeholder="Cost"
         type="number"
+        id="new-expense-cost"
         v-model="expense.cost"
       />
+    </div>
+    <div class="add-expense-pc add-pc">
+      <div>Press enter to add</div>
+    </div>
+    <div class="info-row add-mobile">
+      <button @click="newExpense" class="btn btn-primary">Add</button>
     </div>
   </div>
 </template>
@@ -85,12 +92,37 @@ export default {
 
 .new-expense {
   input:first-child {
-    width: 30%;
+    width: 70%;
     margin-right: 5%;
   }
 
   input:last-child {
-    width: 65%;
+    width: 25%;
+  }
+
+  @media screen and (min-width: $mobile-width) {
+    width: 100%;
+  }
+}
+
+.add-expense-pc {
+  div {
+    margin-left: auto;
+  }
+}
+
+.info-row {
+  &.expense-list-item {
+    flex-direction: row;
+  }
+
+  &.new-expense {
+    flex-direction: row;
+  }
+
+  button {
+    width: 25%;
+    margin-left: auto;
   }
 }
 

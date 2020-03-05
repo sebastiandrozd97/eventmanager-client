@@ -1,7 +1,7 @@
 <template>
   <div>
     <a href="/Profile" @click.prevent="show">Change password</a>
-    <modal name="change-password" @opened="opened" :height="380" :width="400">
+    <modal name="change-password" @opened="opened" :adaptive="true" :classes="['modal-pwd', 'v--modal']">
       <form @submit.prevent="updatePassword" class="change-pwd-form">
         <div class="form-group">
           <label for="oldPassword">Old password</label>
@@ -83,11 +83,15 @@ export default {
 </script>
 
 <style lang="scss">
+
+.modal-pwd {
+  height: auto !important;
+}
+
 .change-pwd-form {
   width: 80%;
-  margin: auto;
+  margin: 20px auto 20px;
   color: #007bff;
-  margin-top: 20px;
 }
 
 .feedback-button {

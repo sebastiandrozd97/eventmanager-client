@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>Participants</h2>
+    <div class="section-header">Participants</div>
     <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
     <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
       <span>

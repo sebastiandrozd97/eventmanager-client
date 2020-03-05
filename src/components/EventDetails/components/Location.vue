@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>Location</h2>
+    <div class="section-header">Location</div>
     <div class="info-row">
       <span>Place</span>
       <input class="address-info" type="text" v-model="event.location.place" readonly />

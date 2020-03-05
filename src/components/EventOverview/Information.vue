@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h2>Information</h2>
+    <div class="section-header">Information</div>
     <div class="info-row">
       <span>Title</span>
       <input type="text" v-model="event.title" readonly />

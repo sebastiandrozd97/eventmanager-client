@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="form-group new-event-container">
     <label for="participants">Expenses and costs</label>
     <div class="form-group row expenses">
       <input
@@ -14,10 +14,16 @@
         type="number"
         @keydown.enter.prevent="addExpense"
         v-model.number="expense.cost"
-        placeholder="Cost | Press enter to add"
+        placeholder="Cost"
         class="form-control expense-cost"
         id="cost"
       />
+    </div>
+    <div class="add-pc">
+      <div>Press enter to add</div>
+    </div>
+    <div class="add-mobile">
+      <button @click.prevent="addExpense" class="btn btn-primary">Add</button>
     </div>
     <div
       v-for="(expense, index) in expenses"
@@ -51,7 +57,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .expenses {
   width: 100%;
   margin: 0;
