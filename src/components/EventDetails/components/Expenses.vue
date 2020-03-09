@@ -1,9 +1,15 @@
 <template>
   <div class="section">
     <div class="section-header">Expenses</div>
-    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row expense-list-item">
+    <div
+      v-for="(expense, index) in event.expenses"
+      :key="index"
+      class="info-row expense-list-item"
+    >
       <span class="expense-name">
-        <span @click="deleteExpense" :data_index="index">{{ expense.name }}</span>
+        <span @click="deleteExpense(index)">
+          {{ expense.name }}
+        </span>
       </span>
       <input type="number" v-model="expense.cost" />
     </div>
@@ -12,7 +18,12 @@
       <span>{{ calculateTotal }}</span>
     </div>
     <div class="info-row new-expense">
-      <input placeholder="Expense" ref="expenseName" type="text" v-model="expense.name" />
+      <input
+        placeholder="Expense"
+        ref="expenseName"
+        type="text"
+        v-model="expense.name"
+      />
       <input
         @keydown.enter.prevent="newExpense"
         placeholder="Cost"
@@ -43,10 +54,9 @@ export default {
     };
   },
   methods: {
-    deleteExpense(e) {
-      const indexOfExpense = e.currentTarget.getAttribute('data_index');
-      this.event.expenses[indexOfExpense].cost = 0;
-      this.event.expenses.splice(indexOfExpense, 1);
+    deleteExpense(index) {
+      this.event.expenses[index].cost = 0;
+      this.event.expenses.splice(index, 1);
     },
     newExpense() {
       if (this.expense.name && this.expense.cost) {
@@ -65,7 +75,7 @@ export default {
       if (this.event && this.event.expenses) {
         return this.event.expenses.reduce(
           (acc, expense) => acc + parseFloat(expense.cost),
-          0
+          0,
         );
       } else {
         return 0;
@@ -82,7 +92,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .expense-name {
   span:hover {
     color: #c0392b;
@@ -125,5 +134,4 @@ export default {
     margin-left: auto;
   }
 }
-
 </style>

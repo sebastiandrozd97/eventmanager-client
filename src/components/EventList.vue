@@ -10,13 +10,17 @@
       <input
         v-model="searchDate"
         class="list-group-item search"
-        type="text"
+        :type="type"
         placeholder="Date"
-        onfocus="(this.type='date')"
-        onblur="(this.type='text')"
+        onfocus="type='date'"
+        onblur="type='text'"
       />
     </div>
-    <Event v-for="(event, index) in filteredEvents" :key="index" :event="event" />
+    <Event
+      v-for="(event, index) in filteredEvents"
+      :key="index"
+      :event="event"
+    />
   </div>
 </template>
 
@@ -34,6 +38,7 @@ export default {
       event,
       searchText: '',
       searchDate: '',
+      type: 'text'
     };
   },
   computed: {

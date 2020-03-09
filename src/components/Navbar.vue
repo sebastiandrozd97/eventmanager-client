@@ -41,7 +41,7 @@ export default {
   name: 'Navbar',
   methods: {
     async logout() {
-      await firebase.auth().signOut()
+      await firebase.auth().signOut();
       this.$router.push({ name: 'SignIn' });
     },
   },
@@ -49,7 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 #navbar {
   display: flex;
   justify-content: flex-end;
@@ -77,7 +76,7 @@ export default {
     }
 
     .logout-button {
-      background-color:rgb(0, 123, 255);
+      background-color: rgb(0, 123, 255);
     }
   }
 }
@@ -181,13 +180,13 @@ export default {
   border: none;
   cursor: pointer;
 
-  @media screen and (min-width: $mobile-width){
+  @media screen and (min-width: $mobile-width) {
     line-height: 0px;
     padding: 9px 25px;
   }
 }
 
 .fas {
-  color:rgb(0, 123, 255);
+  color: rgb(0, 123, 255);
 }
 </style>

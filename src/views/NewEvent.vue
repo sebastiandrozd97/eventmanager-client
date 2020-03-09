@@ -8,7 +8,11 @@
         :participant="participant"
         :participants="participants"
       />
-      <Expenses ref="expensesComponent" :expenses="expenses" :expense="expense" />
+      <Expenses
+        ref="expensesComponent"
+        :expenses="expenses"
+        :expense="expense"
+      />
       <div class="create-event">
         <button type="submit" class="btn btn-primary">Create</button>
       </div>
@@ -79,7 +83,7 @@ export default {
           place: this.location.place,
           address: this.location.address,
           lat: this.location.latLng.lat,
-          lng: this.location.latLng.lng
+          lng: this.location.latLng.lng,
         },
         participants: this.participants,
         expenses: this.expenses,
@@ -95,7 +99,10 @@ export default {
       return await checkSlugAvailability(slugTitle);
     },
     async addEvent() {
-      if ((this.participants || this.participant.name) && this.information.dateFrom) {
+      if (
+        (this.participants || this.participant.name) &&
+        this.information.dateFrom
+      ) {
         this.$refs.participantsComponent.addParticipant();
         this.$refs.expensesComponent.addExpense();
         this.$refs.locationComponent.chooseAddressType();
@@ -111,7 +118,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .new-event {
   width: 100%;
   height: calc(100vh - 100px);
@@ -129,7 +135,7 @@ export default {
   .create-event {
     width: 100%;
     text-align: left;
-    
+
     button {
       width: 40%;
     }
@@ -175,5 +181,4 @@ export default {
 .new-event::-webkit-scrollbar-corner {
   background-color: transparent;
 }
-
 </style>

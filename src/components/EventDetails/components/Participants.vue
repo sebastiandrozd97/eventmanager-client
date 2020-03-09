@@ -1,21 +1,29 @@
 <template>
   <div class="section">
     <div class="section-header">Participants</div>
-    <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
-    <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
+    <div class="total-cost">
+      Cost per one person: {{ calculateEachPayment }}
+    </div>
+    <div
+      v-for="(participant, index) in event.participants"
+      :key="index"
+      class="payments-row"
+    >
       <span>
         <span
           class="participant-name"
-          @click="deleteParticipant"
-          :data_index="index"
-        >{{ participant.name }}</span>
+          @click="deleteParticipant(index)"
+        >
+          {{ participant.name }}
+        </span>
       </span>
       <span
         class="payment-status"
-        :data_index="index"
         :class="participant.status"
-        @click="changeStatus"
-      >{{ participant.status }}</span>
+        @click="changeStatus(index)"
+      >
+        {{ participant.status }}
+      </span>
     </div>
     <div class="info-row new-participant">
       <input
@@ -47,11 +55,9 @@ export default {
     };
   },
   methods: {
-    deleteParticipant(e) {
-      const element = e.currentTarget;
-      const indexOfParticipant = element.getAttribute('data_index');
-      this.event.participants[indexOfParticipant].status = 'To delete';
-      this.event.participants.splice(indexOfParticipant, 1);
+    deleteParticipant(index) {
+      this.event.participants[index].status = 'To delete';
+      this.event.participants.splice(index, 1);
     },
     newParticipant() {
       if (this.participant.name) {
@@ -59,17 +65,11 @@ export default {
         this.participant.name = null;
       }
     },
-    changeStatus(e) {
-      const element = e.currentTarget;
-      const indexOfParticipant = element.getAttribute('data_index');
-      if (this.event.participants[indexOfParticipant].status == 'Paid') {
-        this.event.participants[indexOfParticipant].status = 'Not paid';
-        element.classList.add('Not');
-        element.classList.remove('Paid');
+    changeStatus(index) {
+      if (this.event.participants[index].status === 'Paid') {
+        this.event.participants[index].status = 'Not paid';
       } else {
-        this.event.participants[indexOfParticipant].status = 'Paid';
-        element.classList.add('Paid');
-        element.classList.remove('Not');
+        this.event.participants[index].status = 'Paid';
       }
     },
   },
@@ -97,7 +97,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .participant-name:hover {
   color: #c0392b;
   cursor: pointer;
@@ -127,5 +126,4 @@ export default {
     margin-left: none !important;
   }
 }
-
 </style>

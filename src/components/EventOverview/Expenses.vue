@@ -1,7 +1,11 @@
 <template>
   <div class="section">
     <div class="section-header">Expenses</div>
-    <div v-for="(expense, index) in event.expenses" :key="index" class="info-row expense-list-item">
+    <div
+      v-for="(expense, index) in event.expenses"
+      :key="index"
+      class="info-row expense-list-item"
+    >
       <span>
         <span>{{ expense.name }}</span>
       </span>
@@ -36,7 +40,7 @@ export default {
       if (this.event && this.event.expenses) {
         return this.event.expenses.reduce(
           (acc, expense) => acc + parseFloat(expense.cost),
-          0
+          0,
         );
       } else {
         return 0;
@@ -49,5 +53,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

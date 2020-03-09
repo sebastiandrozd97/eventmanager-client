@@ -7,18 +7,32 @@
         </div>
         <div class="signin-welcome">
           <h5>Welcome!</h5>
-          <small class="form-text text-muted">Ready to plan your next event?</small>
+          <small class="form-text text-muted">
+            Ready to plan your next event?
+          </small>
         </div>
         <div>
           <form @submit.prevent="signin">
             <div class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" v-model="email" />
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                v-model="email"
+              />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" v-model="password" />
-              <small v-if="feedback" class="form-text text-danger">{{ feedback }}</small>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="password"
+              />
+              <small v-if="feedback" class="form-text text-danger">
+                {{ feedback }}
+              </small>
               <small class="form-text text-muted">
                 Doesn't have an account yet?
                 <router-link :to="{ name: 'SignUp' }">Sign up</router-link>
@@ -76,8 +90,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-@import "../styles/signInAndOut.scss";
+@import '../styles/signInAndOut.scss';
 
 .modal-pwd-reset {
   display: flex;

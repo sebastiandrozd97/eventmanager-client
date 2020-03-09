@@ -6,11 +6,11 @@
       <input type="text" v-model="event.title" readonly />
     </div>
     <div class="info-row">
-      <span v-if="event.eventLength == 'one'">Date</span>
+      <span v-if="event.eventLength === 'one'">Date</span>
       <span v-else>Start date</span>
       <input type="date" v-model="event.dateFrom" readonly />
     </div>
-    <div v-if="event.eventLength == 'several'" class="info-row">
+    <div v-if="event.eventLength === 'several'" class="info-row">
       <span>End</span>
       <input type="date" v-model="event.dateTo" readonly />
     </div>
@@ -28,5 +28,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

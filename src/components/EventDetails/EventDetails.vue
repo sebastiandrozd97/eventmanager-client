@@ -11,9 +11,20 @@
           <span v-if="eventShareLink">{{ eventShareLink }}</span>
         </div>
         <div class="details-buttons">
-          <button id="update-button" class="btn btn-primary" @click="updateEvent">Update</button>
+          <button
+            id="update-button"
+            :class="`btn btn-${updateButtonColor}`"
+            @click="updateEvent"
+          >
+            Update
+          </button>
           <button class="btn btn-success" @click="generateLink">Share</button>
-          <button class="btn btn-danger" @click="$emit('delete-event', event.id)">Delete</button>
+          <button
+            class="btn btn-danger"
+            @click="$emit('delete-event', event.id)"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -43,6 +54,7 @@ export default {
       totalExpenses: null,
       initEvent: null,
       eventShareLink: null,
+      updateButtonColor: 'primary',
     };
   },
   methods: {
@@ -50,7 +62,8 @@ export default {
       this.totalExpenses = val;
     },
     async generateLink() {
-      this.eventShareLink = "http://localhost:8080/event-overview/" + this.event.id;
+      this.eventShareLink =
+        'http://localhost:8080/event-overview/' + this.event.id;
       await navigator.clipboard.writeText(this.eventShareLink);
     },
     slugifyTitle() {
@@ -60,7 +73,7 @@ export default {
         lower: true,
       });
     },
-    async updateFirebaseCollection(slug){
+    async updateFirebaseCollection(slug) {
       await db
         .collection('events')
         .doc(this.event.id)
@@ -71,48 +84,51 @@ export default {
             place: this.event.location.place,
             address: this.event.location.address,
             lat: this.event.location.lat,
-            lng: this.event.location.lng
+            lng: this.event.location.lng,
           },
           eventLength: this.event.eventLength,
           dateFrom: Date.parse(this.event.dateFrom),
           dateTo: Date.parse(this.event.dateTo),
           description: this.event.description,
-          expenses: this.event.expenses.filter(
-            expense => expense.cost > 0
-          ),
+          expenses: this.event.expenses.filter(expense => expense.cost > 0),
           participants: this.event.participants.filter(
-            participant => participant.status != 'To delete'
+            participant => participant.status != 'To delete',
           ),
         });
     },
     async updateEvent() {
-      if (this.event.eventLength == 'one') {
+      if (this.event.eventLength === 'one') {
         this.event.dateTo = this.event.dateFrom;
       }
       let verifiedSlug = null;
-      if(this.initTitle === this.event.title){
+      if (this.initTitle === this.event.title) {
         verifiedSlug = this.event.slug;
       } else {
         verifiedSlug = await checkSlugAvailability(this.slugifyTitle());
       }
       this.$refs.locationComponent.setAddress();
-      this.updateFirebaseCollection(verifiedSlug);
-      document.getElementById("update-button").style.background = "green";
+      this.updateButtonColor = 'secondary';
+      try {
+        await this.updateFirebaseCollection(verifiedSlug);
+        this.updateButtonColor = 'success';
+      } catch {
+        this.updateButtonColor = 'danger';
+      }
       setTimeout(() => {
-        document.getElementById("update-button").style.background = "#007bff";
-      }, 1000)
+        this.updateButtonColor = 'primary';
+      }, 2000)
     },
   },
   created() {
-    if(this.event){
+    if (this.event) {
       this.initTitle = this.event.title;
     }
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../../styles/event.scss";
+@import '../../styles/event.scss';
 
 .event-details {
   height: 100%;
@@ -158,5 +174,4 @@ export default {
     padding: 0;
   }
 }
-
 </style>

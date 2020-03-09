@@ -26,7 +26,12 @@
       <label for="location">Date</label>
       <div class="event-date-selection form-group">
         <label for="eventLength">How long the event will last?</label>
-        <select v-model="information.eventLength" name="eventLength" id="eventLength" required>
+        <select
+          v-model="information.eventLength"
+          name="eventLength"
+          id="eventLength"
+          required
+        >
           <option value="one">One day</option>
           <option value="several">Several days</option>
         </select>
@@ -40,7 +45,7 @@
           required
         />
         <input
-          v-if="information.eventLength == 'several'"
+          v-if="information.eventLength === 'several'"
           type="date"
           class="form-control date-to"
           id="dateTo"
@@ -53,18 +58,16 @@
 </template>
 
 <script>
-  export default {
-    name: 'Information',
-    props: ['information'],
-    data() {
-      return {
-      }
-    }
-  }
+export default {
+  name: 'Information',
+  props: ['information'],
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .dates {
   display: flex;
   width: 100%;
@@ -83,5 +86,4 @@
     border: 1px solid #ced4da;
   }
 }
-
 </style>

@@ -1,8 +1,14 @@
 <template>
   <div class="section">
     <div class="section-header">Participants</div>
-    <div class="total-cost">Cost per one person: {{ calculateEachPayment }}</div>
-    <div v-for="(participant, index) in event.participants" :key="index" class="payments-row">
+    <div class="total-cost">
+      Cost per one person: {{ calculateEachPayment }}
+    </div>
+    <div
+      v-for="(participant, index) in event.participants"
+      :key="index"
+      class="payments-row"
+    >
       <span>
         <span>{{ participant.name }}</span>
       </span>
@@ -37,5 +43,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

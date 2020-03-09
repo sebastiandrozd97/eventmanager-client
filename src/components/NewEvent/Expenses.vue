@@ -28,8 +28,7 @@
     <div
       v-for="(expense, index) in expenses"
       :key="index"
-      @click="deleteExpense"
-      :data_index="index"
+      @click="deleteExpense(index)"
       class="item"
     >
       <small class="form-text">{{ expense.name }}: {{ expense.cost }}</small>
@@ -38,23 +37,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'Expenses',
-    props: ['expenses', 'expense'],
-    methods: {
-      addExpense() {
-        if (this.expense.name && this.expense.cost) {
-          this.expenses.push({ ...this.expense });
-          this.expense.name = null;
-          this.expense.cost = null;
-          this.$refs.expenseName.focus();
-        }
-      },
-      deleteExpense(e) {
-        this.expenses.splice(e.currentTarget.getAttribute('data_index'), 1);
-      },
-    }
-  }
+export default {
+  name: 'Expenses',
+  props: ['expenses', 'expense'],
+  methods: {
+    addExpense() {
+      if (this.expense.name && this.expense.cost) {
+        this.expenses.push({ ...this.expense });
+        this.expense.name = null;
+        this.expense.cost = null;
+        this.$refs.expenseName.focus();
+      }
+    },
+    deleteExpense(index) {
+      this.expenses.splice(index, 1);
+    },
+  },
+};
 </script>
 
 <style lang="scss">

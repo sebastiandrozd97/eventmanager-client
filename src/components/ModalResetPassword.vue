@@ -1,11 +1,12 @@
 <template>
   <div class="reset-pwd">
-    <a href="/Profile" @click.prevent="show">Forgot password</a>?
+    <a href="/Profile" @click.prevent="show">Forgot password</a>
+    ?
     <modal
       name="reset-password"
       @opened="opened"
       :width="400"
-      :adaptive="true" 
+      :adaptive="true"
       :classes="['modal-pwd', 'v--modal']"
     >
       <form @submit.prevent="resetPassword" class="reset-pwd-form">
@@ -20,8 +21,16 @@
           />
         </div>
         <div class="feedback-button">
-          <div v-if="feedback" class="reset-password-feedback">{{ feedback }}</div>
-          <button type="submit" class="btn btn-primary" @keydown.tab.exact.prevent>Reset password</button>
+          <div v-if="feedback" class="reset-password-feedback">
+            {{ feedback }}
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            @keydown.tab.exact.prevent
+          >
+            Reset password
+          </button>
         </div>
       </form>
     </modal>
@@ -64,7 +73,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .modal-pwd {
   height: auto !important;
   padding: 20px 0 20px !important;

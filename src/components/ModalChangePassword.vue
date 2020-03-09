@@ -1,7 +1,12 @@
 <template>
   <div>
     <a href="/Profile" @click.prevent="show">Change password</a>
-    <modal name="change-password" @opened="opened" :adaptive="true" :classes="['modal-pwd', 'v--modal']">
+    <modal
+      name="change-password"
+      @opened="opened"
+      :adaptive="true"
+      :classes="['modal-pwd', 'v--modal']"
+    >
       <form @submit.prevent="updatePassword" class="change-pwd-form">
         <div class="form-group">
           <label for="oldPassword">Old password</label>
@@ -25,11 +30,24 @@
         </div>
         <div class="form-group">
           <label for="newPassword2">Re-enter new password</label>
-          <input type="password" class="form-control" id="newPassword2" ref="newPassword2" />
+          <input
+            type="password"
+            class="form-control"
+            id="newPassword2"
+            ref="newPassword2"
+          />
         </div>
         <div class="feedback-button">
-          <div v-if="feedback" class="change-password-feedback">{{ feedback }}</div>
-          <button type="submit" class="btn btn-primary" @keydown.tab.exact.prevent>Submit</button>
+          <div v-if="feedback" class="change-password-feedback">
+            {{ feedback }}
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            @keydown.tab.exact.prevent
+          >
+            Submit
+          </button>
         </div>
       </form>
     </modal>
@@ -62,7 +80,7 @@ export default {
       const user = await firebase.auth().currentUser;
       const credential = await firebase.auth.EmailAuthProvider.credential(
         await firebase.auth().currentUser.email,
-        this.$refs.oldPassword.value
+        this.$refs.oldPassword.value,
       );
 
       try {
@@ -83,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .modal-pwd {
   height: auto !important;
 }

@@ -17,15 +17,15 @@ import 'firebase/firestore';
 export default {
   name: 'PageNotFound',
   methods: {
-    checkAuthentication(){
+    checkAuthentication() {
       const user = firebase.auth().currentUser;
-      if(user){
+      if (user) {
         return true;
       } else {
         return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

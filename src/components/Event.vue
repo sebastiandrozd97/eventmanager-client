@@ -8,11 +8,12 @@
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
         <small class="text-muted">{{ event.location.place }}</small>
-        <small
-          v-if="event.dateFrom != event.dateTo"
-          class="text-muted"
-        >{{ event.dateFrom | getDay }}-{{ event.dateTo | dateFormat }}</small>
-        <small v-else class="text-muted">{{ event.dateFrom | dateFormat }}</small>
+        <small v-if="event.dateFrom != event.dateTo" class="text-muted">
+          {{ event.dateFrom | getDay }}-{{ event.dateTo | dateFormat }}
+        </small>
+        <small v-else class="text-muted">
+          {{ event.dateFrom | dateFormat }}
+        </small>
       </div>
     </router-link>
   </div>

@@ -13,17 +13,21 @@
       </select>
     </div>
     <div class="info-row">
-      <span v-if="event.eventLength == 'one'">Date</span>
+      <span v-if="event.eventLength === 'one'">Date</span>
       <span v-else>Start date</span>
       <input type="date" v-model="event.dateFrom" required />
     </div>
-    <div v-if="event.eventLength == 'several'" class="info-row">
+    <div v-if="event.eventLength === 'several'" class="info-row">
       <span>End</span>
       <input type="date" v-model="event.dateTo" required />
     </div>
     <div class="info-row">
       <span>Description</span>
-      <textarea class="event-description" rows="3" v-model="event.description"></textarea>
+      <textarea
+        class="event-description"
+        rows="3"
+        v-model="event.description"
+      ></textarea>
     </div>
   </div>
 </template>
@@ -36,7 +40,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .event-duration {
   width: 100%;
   border: none;
@@ -56,5 +59,4 @@ export default {
 .event-description:focus {
   border-bottom-color: #007bff;
 }
-
 </style>

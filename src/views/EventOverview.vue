@@ -22,7 +22,7 @@ export default {
     Information,
     Location,
     Expenses,
-    Participants
+    Participants,
   },
   data() {
     return {
@@ -43,12 +43,12 @@ export default {
     this.event = eventsSnapshot.data();
     this.event.dateFrom = moment(this.event.dateFrom).format('YYYY-MM-DD');
     this.event.dateTo = moment(this.event.dateTo).format('YYYY-MM-DD');
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../styles/event.scss";
+@import '../styles/event.scss';
 
 .event-overview {
   height: 100vh;
@@ -67,5 +67,4 @@ export default {
     width: 60%;
   }
 }
-
 </style>

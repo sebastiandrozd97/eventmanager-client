@@ -7,18 +7,32 @@
         </div>
         <div class="signin-welcome">
           <h5>Welcome!</h5>
-          <small class="form-text text-muted">Sign up and organize your first event!</small>
+          <small class="form-text text-muted">
+            Sign up and organize your first event!
+          </small>
         </div>
         <div>
           <form @submit.prevent="signup">
             <div class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" v-model="email" />
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                v-model="email"
+              />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" v-model="password" />
-              <small v-if="feedback" class="form-text text-danger">{{ feedback }}</small>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="password"
+              />
+              <small v-if="feedback" class="form-text text-danger">
+                {{ feedback }}
+              </small>
               <small id="emailHelp" class="form-text text-muted">
                 Already have an account?
                 <router-link :to="{ name: 'SignIn' }">Sign in</router-link>
@@ -52,17 +66,18 @@ export default {
   methods: {
     async signup() {
       if (this.email && this.password) {
-        try{
+        try {
           const newUser = await firebase
             .auth()
             .createUserWithEmailAndPassword(this.email, this.password);
-          await db.collection('users')
+          await db
+            .collection('users')
             .doc(newUser.user.uid)
             .set({
               gender: null,
               firstname: 'user',
               surname: '',
-            })
+            });
 
           this.$router.push({ name: 'Events' });
         } catch (error) {
@@ -77,7 +92,5 @@ export default {
 </script>
 
 <style lang="scss">
-
-@import "../styles/signInAndOut.scss";
-
+@import '../styles/signInAndOut.scss';
 </style>

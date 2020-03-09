@@ -13,8 +13,7 @@
       <div
         v-for="(participant, index) in this.participants"
         :key="index"
-        @click="deleteParticipant"
-        :data_index="index"
+        @click="deleteParticipant(index)"
         class="item"
       >
         <small class="form-text">{{ participant.name }}</small>
@@ -23,32 +22,33 @@
         <div>Press enter to add</div>
       </div>
       <div class="add-mobile">
-        <button @click.prevent="addParticipant" class="btn btn-primary">Add</button>
+        <button @click.prevent="addParticipant" class="btn btn-primary">
+          Add
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'Participants',
-    props: ['participants', 'participant'],
-    methods: {
-      addParticipant() {
-        if (this.participant.name) {
-          this.participants.push({ ...this.participant });
-          this.participant.name = null;
-        }
-      },
-      deleteParticipant(e) {
-        this.participants.splice(e.currentTarget.getAttribute('data_index'), 1);
-      },
+export default {
+  name: 'Participants',
+  props: ['participants', 'participant'],
+  methods: {
+    addParticipant() {
+      if (this.participant.name) {
+        this.participants.push({ ...this.participant });
+        this.participant.name = null;
+      }
     },
-  }
+    deleteParticipant(index) {
+      this.participants.splice(index, 1);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-
 .new-event-container {
   .add-pc {
     display: none;
@@ -71,5 +71,4 @@
     }
   }
 }
-
 </style>

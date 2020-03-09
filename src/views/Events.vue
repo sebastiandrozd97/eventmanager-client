@@ -4,7 +4,11 @@
       <EventList :events="events" />
     </div>
     <div class="content" :class="{ 'selected-event': !selectedEvent }">
-      <router-view :event="event[0]" v-on:delete-event="onEventDelete" :key="renderKey"></router-view>
+      <router-view
+        :event="event[0]"
+        v-on:delete-event="onEventDelete"
+        :key="renderKey"
+      ></router-view>
     </div>
   </div>
 </template>
@@ -39,7 +43,7 @@ export default {
       this.renderKey += 1;
     },
     async onEventDelete(id) {
-      if (window.confirm("Delete?")) { 
+      if (window.confirm('Delete?')) {
         this.events = this.events.filter(event => event.id != id);
         await db
           .collection('events')
