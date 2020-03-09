@@ -1,7 +1,6 @@
 ## eventmanager
 This application is about creating and managing your own events with friends. You can choose name, description, date, location, participants and expenses that people which participate should be aware of. After you finish preparing your event, you can copy a link and send it to your friends. They will see an overview of the event with all necessary details.
 
-## Screenshot
 ![image](https://user-images.githubusercontent.com/38755065/76252804-be1e1a80-6249-11ea-8bf9-ae4c1df75353.png)
 
 ## Platform and framework used
