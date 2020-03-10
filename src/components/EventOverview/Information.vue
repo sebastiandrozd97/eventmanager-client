@@ -27,5 +27,3 @@ export default {
   props: ['event'],
 };
 </script>
-
-<style lang="scss"></style>

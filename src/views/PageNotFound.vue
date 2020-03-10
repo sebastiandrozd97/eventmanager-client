@@ -18,12 +18,7 @@ export default {
   name: 'PageNotFound',
   methods: {
     checkAuthentication() {
-      const user = firebase.auth().currentUser;
-      if (user) {
-        return true;
-      } else {
-        return false;
-      }
+      return firebase.auth().currentUser;
     },
   },
 };

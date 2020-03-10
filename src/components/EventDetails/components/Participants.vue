@@ -98,7 +98,7 @@ export default {
 
 <style lang="scss">
 .participant-name:hover {
-  color: #c0392b;
+  color: $attention-color;
   cursor: pointer;
 }
 
@@ -109,7 +109,7 @@ export default {
 }
 
 .Not {
-  color: #c0392b;
+  color: $attention-color;
 }
 .Paid {
   color: #009432;

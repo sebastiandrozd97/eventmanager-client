@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import NewEvent from '@/views/NewEvent'
-import Events from '@/views/Events'
-import Profile from '@/views/Profile'
-import SignIn from '@/views/SignIn'
-import SignUp from '@/views/SignUp'
-import EventDetails from '@/components/EventDetails/EventDetails'
-import EventOverview from '@/views/EventOverview'
-import PageNotFound from '@/views/PageNotFound'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import NewEvent from '@/views/NewEvent';
+import Events from '@/views/Events';
+import Profile from '@/views/Profile';
+import SignIn from '@/views/SignIn';
+import SignUp from '@/views/SignUp';
+import EventDetails from '@/components/EventDetails/EventDetails';
+import EventOverview from '@/views/EventOverview';
+import PageNotFound from '@/views/PageNotFound';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';

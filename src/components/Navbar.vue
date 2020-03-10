@@ -76,7 +76,7 @@ export default {
     }
 
     .logout-button {
-      background-color: rgb(0, 123, 255);
+      background-color: $primary-color;
     }
   }
 }
@@ -117,7 +117,7 @@ export default {
 
     &:first-child {
       i {
-        color: rgb(0, 123, 255);
+        color: $primary-color;
       }
     }
   }
@@ -142,6 +142,7 @@ export default {
 .logo {
   cursor: pointer;
   margin-right: auto;
+  
   img {
     height: 30px;
 
@@ -165,7 +166,7 @@ export default {
     }
 
     .router-links:hover {
-      color: rgb(0, 123, 255);
+      color: $primary-color;
       cursor: pointer;
       text-decoration: none;
     }
@@ -187,6 +188,6 @@ export default {
 }
 
 .fas {
-  color: rgb(0, 123, 255);
+  color: $primary-color;
 }
 </style>

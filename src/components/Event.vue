@@ -54,7 +54,7 @@ export default {
   }
 
   .router-link-active {
-    background-color: #007bff;
+    background-color: $primary-color;
     color: white;
 
     .text-muted {

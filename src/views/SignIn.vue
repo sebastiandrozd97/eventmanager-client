@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/signInAndOut.scss';
+@import '../styles/auth.scss';
 
 .modal-pwd-reset {
   display: flex;

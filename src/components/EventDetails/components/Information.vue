@@ -48,7 +48,7 @@ export default {
   padding-left: 0;
 
   &:focus {
-    border-bottom-color: #007bff;
+    border-bottom-color: $primary-color;
   }
 
   @media screen and (min-width: $mobile-width) {
@@ -57,6 +57,6 @@ export default {
 }
 
 .event-description:focus {
-  border-bottom-color: #007bff;
+  border-bottom-color: $primary-color;
 }
 </style>

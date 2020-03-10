@@ -60,17 +60,21 @@ export default {
 .expenses {
   width: 100%;
   margin: 0;
+
   input {
     width: 40%;
+
     &:focus {
       z-index: 2;
     }
+
     &:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       border-right: 0;
       width: 60%;
     }
+
     &:last-child {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
@@ -84,11 +88,11 @@ export default {
   display: inline-block;
   padding: 2px 6px;
   margin: 10px 5px 0 0;
+  cursor: pointer;
 
   &:hover {
-    background-color: red;
+    background-color: $attention-color;
     color: white;
-    cursor: pointer;
   }
 }
 </style>

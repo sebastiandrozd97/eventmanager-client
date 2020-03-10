@@ -92,5 +92,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/signInAndOut.scss';
+@import '../styles/auth.scss';
 </style>

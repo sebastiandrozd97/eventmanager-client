@@ -94,7 +94,7 @@ export default {
 <style lang="scss">
 .expense-name {
   span:hover {
-    color: #c0392b;
+    color: $attention-color;
     cursor: pointer;
   }
 }

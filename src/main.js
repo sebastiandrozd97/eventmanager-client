@@ -8,9 +8,9 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import * as VueGoogleMaps from 'vue2-google-maps'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(VModal)
+Vue.use(VModal);
 
 Vue.use(VueGoogleMaps, {
   load: {

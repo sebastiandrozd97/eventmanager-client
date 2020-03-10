@@ -108,7 +108,7 @@ export default {
 .change-pwd-form {
   width: 80%;
   margin: 20px auto 20px;
-  color: #007bff;
+  color: $primary-color;
 }
 
 .feedback-button {
@@ -117,7 +117,7 @@ export default {
 }
 
 .change-password-feedback {
-  color: red;
+  color: $attention-color;
   min-height: 35px;
   width: 100%;
 }

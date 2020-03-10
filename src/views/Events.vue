@@ -5,7 +5,7 @@
     </div>
     <div class="content" :class="{ 'selected-event': !selectedEvent }">
       <router-view
-        :event="event[0]"
+        :event="event"
         v-on:delete-event="onEventDelete"
         :key="renderKey"
       ></router-view>
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       renderKey: 0,
-      event: [],
+      event: null,
       events: [],
     };
   },
@@ -60,7 +60,7 @@ export default {
       .orderBy('dateFrom', 'asc')
       .get();
     eventsSnapshot.forEach(doc => {
-      let event = doc.data();
+      const event = doc.data();
       event.id = doc.id;
       event.dateFrom = moment(event.dateFrom).format('YYYY-MM-DD');
       event.dateTo = moment(event.dateTo).format('YYYY-MM-DD');
@@ -68,7 +68,7 @@ export default {
     });
   },
   beforeUpdate() {
-    this.event = this.events.filter(event => {
+    this.event = this.events.find(event => {
       if (event.slug === this.$route.params.slug) {
         return event;
       }

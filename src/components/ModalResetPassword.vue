@@ -81,7 +81,7 @@ export default {
 .reset-pwd-form {
   width: 80%;
   margin: auto;
-  color: #007bff;
+  color: $primary-color;
 }
 
 .feedback-button {
@@ -90,7 +90,7 @@ export default {
 }
 
 .reset-password-feedback {
-  color: #007bff;
+  color: $primary-color;
   min-height: 35px;
   width: 100%;
   margin-bottom: 10px;

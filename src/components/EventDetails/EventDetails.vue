@@ -146,7 +146,7 @@ export default {
 
   .info-row {
     input:focus {
-      border-bottom-color: #007bff;
+      border-bottom-color: $primary-color;
     }
   }
 }

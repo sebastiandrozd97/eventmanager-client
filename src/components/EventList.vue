@@ -91,7 +91,6 @@ export default {
 .search-bar {
   width: 100%;
   height: 8vh;
-  box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   display: flex;
 
