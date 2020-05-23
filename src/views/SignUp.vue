@@ -48,10 +48,7 @@
 </template>
 
 <script>
-import db from '../firebase/init';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import axios from 'axios';
 
 export default {
   name: 'SignUp',
@@ -67,22 +64,22 @@ export default {
     async signup() {
       if (this.email && this.password) {
         try {
-          const newUser = await firebase
-            .auth()
-            .createUserWithEmailAndPassword(this.email, this.password);
-          await db
-            .collection('users')
-            .doc(newUser.user.uid)
-            .set({
-              gender: null,
-              firstname: 'user',
-              surname: '',
-            });
-
-          this.$router.push({ name: 'Events' });
+          await axios.request({
+            url: `${process.env.VUE_APP_API_URL}/identity/register`,
+            method: "post",
+            data: {
+              "email": this.email,
+              "password": this.password
+            }
+          });
+          this.$router.push({ name: 'SignIn' });
         } catch (error) {
-          this.feedback = error.message;
-        }
+          if(error.response.data.error){
+            this.feedback = error.response.data.error;
+          } else {
+            this.feedback = error.response.data.errors[0];
+          }
+        }  
       } else {
         this.feedback = 'You must enter all fields';
       }

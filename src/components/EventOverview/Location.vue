@@ -2,11 +2,11 @@
   <div class="section">
     <div class="section-header">Location</div>
     <div
-      v-if="event.location.place !== event.location.address"
+      v-if="event.place !== event.address"
       class="info-row"
     >
       <span>Address</span>
-      <input type="text" v-model="event.location.address" readonly />
+      <input type="text" v-model="event.address" readonly />
     </div>
     <div class="info-row">
       <span>Place</span>
@@ -14,7 +14,7 @@
         placeholder="Location"
         type="text"
         id="searchForLocation"
-        v-model="event.location.place"
+        v-model="event.place"
         readonly
       />
     </div>
@@ -35,8 +35,8 @@ export default {
     renderMap() {
       this.map = new this.google.maps.Map(document.getElementById('map'), {
         center: {
-          lat: this.event.location.lat,
-          lng: this.event.location.lng,
+          lat: this.event.lat,
+          lng: this.event.lng,
         },
         zoom: 15,
         maxZoom: 20,
@@ -48,8 +48,8 @@ export default {
 
       this.marker = new this.google.maps.Marker({
         position: {
-          lat: this.event.location.lat,
-          lng: this.event.location.lng,
+          lat: this.event.lat,
+          lng: this.event.lng,
         },
         map: this.map,
       });

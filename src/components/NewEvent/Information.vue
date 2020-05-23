@@ -27,29 +27,29 @@
       <div class="event-date-selection form-group">
         <label for="eventLength">How long the event will last?</label>
         <select
-          v-model="information.eventLength"
+          v-model="information.lastsOneDay"
           name="eventLength"
           id="eventLength"
           required
         >
-          <option value="one">One day</option>
-          <option value="several">Several days</option>
+          <option :value="true">One day</option>
+          <option :value="false">Several days</option>
         </select>
       </div>
-      <div v-if="information.eventLength" class="dates">
+      <div v-if="information.lastsOneDay != null" class="dates">
         <input
           type="date"
           class="form-control date-from"
           id="dateFrom"
-          v-model="information.dateFrom"
+          v-model="information.from"
           required
         />
         <input
-          v-if="information.eventLength === 'several'"
+          v-if="information.lastsOneDay === false"
           type="date"
           class="form-control date-to"
           id="dateTo"
-          v-model="information.dateTo"
+          v-model="information.to"
           required
         />
       </div>

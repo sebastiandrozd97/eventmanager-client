@@ -7,19 +7,19 @@
     </div>
     <div class="info-row">
       <span>Event length</span>
-      <select v-model="event.eventLength" class="event-duration">
-        <option value="one">One day</option>
-        <option value="several">Several days</option>
+      <select v-model="event.lastsOneDay" class="event-duration">
+        <option :value="true">One day</option>
+        <option :value="false">Several days</option>
       </select>
     </div>
     <div class="info-row">
-      <span v-if="event.eventLength === 'one'">Date</span>
+      <span v-if="event.lastsOneDay === true">Date</span>
       <span v-else>Start date</span>
-      <input type="date" v-model="event.dateFrom" required />
+      <input type="date" v-model="event.from" required />
     </div>
-    <div v-if="event.eventLength === 'several'" class="info-row">
+    <div v-if="event.lastsOneDay === false" class="info-row">
       <span>End</span>
-      <input type="date" v-model="event.dateTo" required />
+      <input type="date" v-model="event.to" required />
     </div>
     <div class="info-row">
       <span>Description</span>

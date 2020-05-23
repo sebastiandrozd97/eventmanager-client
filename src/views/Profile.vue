@@ -1,31 +1,31 @@
 <template>
   <div class="profile">
     <div v-if="user" class="profile-container">
-      <h2>Hello, {{ user.firstname }} {{ user.surname }}</h2>
+      <h2>Hello, {{ user.firstName }} {{ user.lastName }}</h2>
       <form @submit.prevent="updateProfile" class="profile-details">
         <div class="form-group row">
           <label for="inputFirstname" class="col-sm-2 col-form-label">
-            Firstname
+            First name
           </label>
           <div class="col-sm-10">
             <input
               type="text"
               class="form-control"
               id="inputFirstname"
-              v-model="user.firstname"
+              v-model="user.firstName"
             />
           </div>
         </div>
         <div class="form-group row">
           <label for="inputSurname" class="col-sm-2 col-form-label">
-            Surname
+            Last name
           </label>
           <div class="col-sm-10">
             <input
               type="text"
               class="form-control"
               id="inputSurname"
-              v-model="user.surname"
+              v-model="user.lastName"
             />
           </div>
         </div>
@@ -53,7 +53,7 @@
         <small v-if="feedback" class="form-text text-success">
           {{ feedback }}
         </small>
-        <ModalChangePassword />
+        <ModalChangePassword :user="user" />
         <div class="form-group row">
           <div class="col-sm-10 mt-3">
             <button class="btn btn-primary">Update</button>
@@ -66,10 +66,7 @@
 
 <script>
 import ModalChangePassword from '@/components/ModalChangePassword';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import db from '@/firebase/init';
+import axios from 'axios';
 
 export default {
   name: 'Profile',
@@ -83,30 +80,36 @@ export default {
     };
   },
   methods: {
-    updateProfile() {
-      db.collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .set({
-          firstname: this.user.firstname,
-          surname: this.user.surname,
-          gender: this.user.gender,
+    async getUser() {
+      try{
+        const user =  await axios.get(`${process.env.VUE_APP_API_URL}/user`, {
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
         })
-        .then(() => {
-          this.feedback = 'Profile has beed updated';
-        })
-        .catch(err => {
-          this.feedback = err.message;
+        this.user = user.data;
+      } catch(error){
+        throw new Error(`Problem handling something: ${error}.`); 
+      }
+    },
+    async updateProfile() {
+      try {
+        await axios.request({
+          url: `${process.env.VUE_APP_API_URL}/user`,
+          method: "put",
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`},
+          data: {
+            "firstName": this.user.firstName,
+            "lastName": this.user.lastName,
+            "gender": this.user.gender
+          }
         });
+        this.feedback = 'Profile has beed updated';
+      } catch (error) {
+        this.feedback = error.message;
+      }
     },
   },
   async created() {
-    const snapshot = await db
-      .collection('users')
-      .doc(firebase.auth().currentUser.uid)
-      .get();
-    this.user = snapshot.data();
-    this.user.email = firebase.auth().currentUser.email;
-    this.userAuth = firebase.auth().currentUser;
+    await this.getUser();
   },
 };
 </script>

@@ -7,12 +7,12 @@
       <h6 class="mb-1">{{ event.title }}</h6>
       <p class="mb-1 description">{{ event.description }}</p>
       <div class="d-flex w-100 justify-content-between">
-        <small class="text-muted">{{ event.location.place }}</small>
-        <small v-if="event.dateFrom != event.dateTo" class="text-muted">
-          {{ event.dateFrom | getDay }}-{{ event.dateTo | dateFormat }}
+        <small class="text-muted">{{ event.place }}</small>
+        <small v-if="event.from != event.to" class="text-muted">
+          {{ event.from | getDay }}-{{ event.to | dateFormat }}
         </small>
         <small v-else class="text-muted">
-          {{ event.dateFrom | dateFormat }}
+          {{ event.from | dateFormat }}
         </small>
       </div>
     </router-link>

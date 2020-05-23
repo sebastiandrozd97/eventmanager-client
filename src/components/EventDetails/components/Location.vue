@@ -6,19 +6,19 @@
       <input
         class="address-info"
         type="text"
-        v-model="event.location.place"
+        v-model="event.place"
         readonly
       />
     </div>
     <div
-      v-if="event.location.place !== event.location.address"
+      v-if="event.place !== event.address"
       class="info-row"
     >
       <span>Address</span>
       <input
         class="address-info"
         type="text"
-        v-model="event.location.address"
+        v-model="event.address"
         readonly
       />
     </div>
@@ -102,23 +102,23 @@ export default {
     },
     setAddress() {
       if (this.address) {
-        this.event.location.address = this.address;
-        this.event.location.place = this.place;
-        this.event.location.lat = this.latLng.lat;
-        this.event.location.lng = this.latLng.lng;
+        this.eventaddress = this.address;
+        this.eventplace = this.place;
+        this.eventlat = this.latLng.lat;
+        this.eventlng = this.latLng.lng;
       } else if (this.customAddress || this.customLatLng) {
         if (this.customAddress) {
-          this.event.location.address = this.customAddress;
-          this.event.location.place = this.customAddress;
+          this.event.address = this.customAddress;
+          this.event.place = this.customAddress;
         }
         if (this.customLatLng) {
-          this.event.location.lat = this.customLatLng.lat();
-          this.event.location.lng = this.customLatLng.lng();
+          this.event.lat = this.customLatLng.lat();
+          this.event.lng = this.customLatLng.lng();
         }
       }
     },
     setMarker(
-      location = { lat: this.event.location.lat, lng: this.event.location.lng },
+      location = { lat: this.event.lat, lng: this.event.lng },
     ) {
       this.marker.setPosition(location);
       this.customLatLng = location;
@@ -126,8 +126,8 @@ export default {
     renderMap() {
       this.map = new this.google.maps.Map(document.getElementById('map'), {
         center: {
-          lat: this.event.location.lat,
-          lng: this.event.location.lng,
+          lat: this.event.lat,
+          lng: this.event.lng,
         },
         zoom: 15,
         maxZoom: 20,
@@ -139,8 +139,8 @@ export default {
 
       this.marker = new this.google.maps.Marker({
         position: {
-          lat: this.event.location.lat,
-          lng: this.event.location.lng,
+          lat: this.event.lat,
+          lng: this.event.lng,
         },
         map: this.map,
       });

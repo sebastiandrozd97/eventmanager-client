@@ -14,8 +14,10 @@
             type="password"
             class="form-control"
             id="oldPassword"
+            v-model="oldPassword"
             ref="oldPassword"
             @keydown.shift.tab.prevent
+            required
           />
         </div>
         <div class="form-group">
@@ -24,8 +26,9 @@
             type="password"
             class="form-control"
             id="newPassword1"
-            ref="newPassword1"
+            v-model="newPassword1"
             @keydown.shift.tab.prevent
+            required
           />
         </div>
         <div class="form-group">
@@ -34,7 +37,8 @@
             type="password"
             class="form-control"
             id="newPassword2"
-            ref="newPassword2"
+            v-model="newPassword2"
+            required
           />
         </div>
         <div class="feedback-button">
@@ -55,14 +59,16 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import axios from 'axios';
 
 export default {
   name: 'ModalChangePassword',
+  props: ['user'],
   data() {
     return {
+      oldPassword: null,
+      newPassword1: null,
+      newPassword2: null,
       feedback: null,
     };
   },
@@ -76,24 +82,46 @@ export default {
     opened() {
       this.$refs.oldPassword.focus();
     },
-    async updatePassword() {
-      const user = await firebase.auth().currentUser;
-      const credential = await firebase.auth.EmailAuthProvider.credential(
-        await firebase.auth().currentUser.email,
-        this.$refs.oldPassword.value,
-      );
+    // async updatePassword2() {
+    //   const credential = await firebase.auth.EmailAuthProvider.credential(
+    //     await firebase.auth().currentUser.email,
+    //     this.$refs.oldPassword.value,
+    //   );
 
+    //   try {
+    //     await user.reauthenticateWithCredential(credential);
+    //     if (this.$refs.newPassword1.value === this.$refs.newPassword2.value) {
+    //       await user.updatePassword(this.$refs.newPassword1.value);
+    //       this.feedback = null;
+    //       this.hide();
+    //     } else {
+    //       this.feedback = 'Fields are not equal';
+    //     }
+    //   } catch (error) {
+    //     this.feedback = error.message;
+    //   }
+    // },
+    async updatePassword() {
       try {
-        await user.reauthenticateWithCredential(credential);
-        if (this.$refs.newPassword1.value === this.$refs.newPassword2.value) {
-          await user.updatePassword(this.$refs.newPassword1.value);
-          this.feedback = null;
-          this.hide();
-        } else {
-          this.feedback = 'Fields are not equal';
-        }
+        await axios.request({
+          url: `${process.env.VUE_APP_API_URL}/user`,
+          method: "post",
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`},
+          data: {
+            "currentPassword": this.oldPassword,
+            "newPassword": this.newPassword1,
+            "confirmPassword": this.newPassword2
+          }
+        });
+        this.feedback = 'Password has beed updated';
       } catch (error) {
-        this.feedback = error.message;
+        if(error.response.data.error){
+          this.feedback = error.response.data.error;
+          console.log(error.response.data.error);
+        } else {
+          this.feedback = error.response.data.errors[0];
+          console.log(error.response.data.errors[0]);
+        }
       }
     },
   },

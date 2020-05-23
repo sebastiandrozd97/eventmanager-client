@@ -45,8 +45,8 @@ export default {
     filteredEvents: function() {
       return this.events.filter(event => {
         if (this.searchDate) {
-          const dateFrom = new Date(event.dateFrom);
-          const dateTo = new Date(event.dateTo);
+          const dateFrom = new Date(event.from);
+          const dateTo = new Date(event.to);
           const date = new Date(this.searchDate);
           return (
             event.title

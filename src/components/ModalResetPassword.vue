@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
+// import 'firebase/firestore';
 
 export default {
   name: 'ModalResetPassword',
@@ -59,16 +59,16 @@ export default {
     opened() {
       this.$refs.email.focus();
     },
-    async resetPassword() {
-      const email = this.$refs.email.value;
-      try {
-        await firebase.auth().sendPasswordResetEmail(email);
-        this.feedback = 'Check your mailbox';
-      } catch (error) {
-        this.feedback = error.message;
-      }
+//     async resetPassword() {
+//       const email = this.$refs.email.value;
+//       try {
+//         await firebase.auth().sendPasswordResetEmail(email);
+//         this.feedback = 'Check your mailbox';
+//       } catch (error) {
+//         this.feedback = error.message;
+//       }
     },
-  },
+//   },
 };
 </script>
 

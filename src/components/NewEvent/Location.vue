@@ -97,7 +97,7 @@ export default {
       location = { lat: this.event.location.lat, lng: this.event.location.lng },
     ) {
       this.marker.setPosition(location);
-      this.location.manualLatLng = location;
+      this.location.manualLatLng = JSON.parse(JSON.stringify(location));
     },
   },
   async created() {

@@ -6,13 +6,13 @@
       <input type="text" v-model="event.title" readonly />
     </div>
     <div class="info-row">
-      <span v-if="event.eventLength === 'one'">Date</span>
+      <span v-if="event.lastsOneDay === true">Date</span>
       <span v-else>Start date</span>
-      <input type="date" v-model="event.dateFrom" readonly />
+      <input type="date" v-model="event.from" readonly />
     </div>
-    <div v-if="event.eventLength === 'several'" class="info-row">
+    <div v-if="event.lastsOneDay === false" class="info-row">
       <span>End</span>
-      <input type="date" v-model="event.dateTo" readonly />
+      <input type="date" v-model="event.to" readonly />
     </div>
     <div class="info-row">
       <span>Description</span>

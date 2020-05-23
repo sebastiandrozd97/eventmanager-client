@@ -8,9 +8,10 @@ import SignUp from '@/views/SignUp';
 import EventDetails from '@/components/EventDetails/EventDetails';
 import EventOverview from '@/views/EventOverview';
 import PageNotFound from '@/views/PageNotFound';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import axios from 'axios';
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
+// import 'firebase/firestore';
 
 Vue.use(VueRouter)
 
@@ -85,10 +86,31 @@ const router = new VueRouter({
   mode: 'history',
 })
 
-router.beforeEach((to, from, next) => {
-  const user = firebase.auth().currentUser
+router.beforeEach(async (to, from, next) => {
+  let isLoggedIn = false;
+  try {
+    isLoggedIn = await axios.get(`${process.env.VUE_APP_API_URL}/identity/loggedin`, {
+      headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
+    });
+    isLoggedIn = isLoggedIn.data;
+  } catch (error) {
+    try {
+      isLoggedIn = await axios.get(`${process.env.VUE_APP_API_URL}/identity/refresh`, {
+        headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`},
+        data: {
+          "token": localStorage.getItem('accessToken'),
+          "refreshToken": localStorage.getItem('refreshToken')
+        }
+      });
+      isLoggedIn = isLoggedIn.data;
+      localStorage.setItem('accessToken', isLoggedIn.token);
+      console.log("Poszedł refresh skubany");
+    } catch (error) {
+      isLoggedIn = false;
+    }
+  }
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    if (user) {
+    if (isLoggedIn) {
       next();
     } else {
       next({
@@ -96,7 +118,7 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else if (to.matched.some(rec => rec.path === "")) {
-    if (user) {
+    if (isLoggedIn) {
       next({
         name: 'Events'
       })

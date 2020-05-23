@@ -33,15 +33,12 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-
 export default {
   name: 'Navbar',
   methods: {
     async logout() {
-      await firebase.auth().signOut();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       this.$router.push({ name: 'SignIn' });
     },
   },

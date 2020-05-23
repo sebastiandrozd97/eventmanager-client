@@ -35,9 +35,9 @@ import Information from '@/components/EventDetails/components/Information';
 import Location from '@/components/EventDetails/components/Location';
 import Expenses from '@/components/EventDetails/components/Expenses';
 import Participants from '@/components/EventDetails/components/Participants';
-import db from '@/firebase/init';
 import slugify from 'slugify';
 import { checkSlugAvailability } from '@/utils/checkSlugAvailability.js';
+import axios from 'axios';
 
 export default {
   name: 'EventDetails',
@@ -74,27 +74,31 @@ export default {
       });
     },
     async updateFirebaseCollection(slug) {
-      await db
-        .collection('events')
-        .doc(this.event.id)
-        .update({
-          title: this.event.title,
-          slug,
-          location: {
-            place: this.event.location.place,
-            address: this.event.location.address,
-            lat: this.event.location.lat,
-            lng: this.event.location.lng,
-          },
-          eventLength: this.event.eventLength,
-          dateFrom: Date.parse(this.event.dateFrom),
-          dateTo: Date.parse(this.event.dateTo),
-          description: this.event.description,
-          expenses: this.event.expenses.filter(expense => expense.cost > 0),
-          participants: this.event.participants.filter(
-            participant => participant.status != 'To delete',
-          ),
-        });
+      try {
+        await axios.request({
+          url: `${process.env.VUE_APP_API_URL}/events/${this.event.id}`,
+          method: "put",
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`},
+          data: {
+            "title": this.event.title,
+            "slug": slug,
+            "description": this.event.description,
+            "from": this.event.from,
+            "to": this.event.to,
+            "lastsOneDay": this.event.lastsOneDay,
+            "address": this.event.address,
+            "place": this.event.place,
+            "lat": this.event.lat,
+            "lng": this.event.lng,
+            "expenses": this.event.expenses.filter(expense => expense.cost > 0),
+            participants: this.event.participants.filter(
+              participant => participant.status != 'To delete',
+            )
+          }
+        })
+      } catch (error) {
+        alert(error.response.data);
+      }
     },
     async updateEvent() {
       if (this.event.eventLength === 'one') {

@@ -13,8 +13,8 @@ import Information from '@/components/EventOverview/Information';
 import Location from '@/components/EventOverview/Location';
 import Expenses from '@/components/EventOverview/Expenses';
 import Participants from '@/components/EventOverview/Participants';
-import db from '@/firebase/init';
 import moment from 'moment';
+import axios from 'axios';
 
 export default {
   name: 'EventOverview',
@@ -34,15 +34,22 @@ export default {
     totalExpensesComputed(val) {
       this.totalExpenses = val;
     },
+    async getEvent() {
+      try{
+        const event =  await axios.get(`${process.env.VUE_APP_API_URL}/events/${this.$route.params.id}`, {
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
+        })
+        this.event = event.data;
+        this.event.from = moment(this.event.from).format('YYYY-MM-DD');
+        this.event.to = moment(this.event.to).format('YYYY-MM-DD');
+        console.log(event);
+      } catch(error){
+        throw new Error(`Problem handling something: ${error}.`); 
+      }
+    },
   },
   async created() {
-    const eventsSnapshot = await db
-      .collection('events')
-      .doc(this.$route.params.id)
-      .get();
-    this.event = eventsSnapshot.data();
-    this.event.dateFrom = moment(this.event.dateFrom).format('YYYY-MM-DD');
-    this.event.dateTo = moment(this.event.dateTo).format('YYYY-MM-DD');
+    await this.getEvent()
   },
 };
 </script>

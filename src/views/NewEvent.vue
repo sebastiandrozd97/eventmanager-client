@@ -25,12 +25,9 @@ import Information from '@/components/NewEvent/Information';
 import Location from '@/components/NewEvent/Location';
 import Participants from '@/components/NewEvent/Participants';
 import Expenses from '@/components/NewEvent/Expenses';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import db from '@/firebase/init';
 import slugify from 'slugify';
 import { checkSlugAvailability } from '@/utils/checkSlugAvailability.js';
+import axios from 'axios';
 
 export default {
   name: 'NewEvent',
@@ -45,9 +42,9 @@ export default {
       information: {
         title: null,
         description: null,
-        eventLength: null,
-        dateFrom: null,
-        dateTo: null,
+        lastsOneDay: null,
+        from: null,
+        to: null,
       },
       location: {
         map: null,
@@ -72,23 +69,29 @@ export default {
   },
   methods: {
     async addEventDocument(slugTitle) {
-      await db.collection('events').add({
-        userId: firebase.auth().currentUser.uid,
-        title: this.information.title,
-        description: this.information.description,
-        eventLength: this.information.eventLength,
-        dateFrom: Date.parse(this.information.dateFrom),
-        dateTo: Date.parse(this.information.dateTo),
-        location: {
-          place: this.location.place,
-          address: this.location.address,
-          lat: this.location.latLng.lat,
-          lng: this.location.latLng.lng,
-        },
-        participants: this.participants,
-        expenses: this.expenses,
-        slug: slugTitle,
-      });
+      try {
+        await axios.request({
+          url: `${process.env.VUE_APP_API_URL}/events`,
+          method: "post",
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`},
+          data: {
+            "title": this.information.title,
+            "slug": slugTitle,
+            "description": this.information.description,
+            "from": this.information.from,
+            "to": this.information.to,
+            "lastsOneDay": this.information.lastsOneDay,
+            "address": this.location.address,
+            "place": this.location.place,
+            "lat": this.location.latLng.lat,
+            "lng": this.location.latLng.lng,
+            "expenses": this.expenses,
+            "participants": this.participants
+          }
+        })
+      } catch (error) {
+        console.log(error.response);
+      }
     },
     async getSlugTitleVerified() {
       const slugTitle = slugify(this.information.title, {
@@ -101,16 +104,20 @@ export default {
     async addEvent() {
       if (
         (this.participants || this.participant.name) &&
-        this.information.dateFrom
+        this.information.from
       ) {
         this.$refs.participantsComponent.addParticipant();
         this.$refs.expensesComponent.addExpense();
         this.$refs.locationComponent.chooseAddressType();
-        if (!this.information.dateTo) {
-          this.information.dateTo = this.information.dateFrom;
+        if (this.information.lastsOneDay) {
+          this.information.to = this.information.from;
         }
         await this.addEventDocument(await this.getSlugTitleVerified());
-        this.$router.push({ name: 'Events' });
+        try {
+          this.$router.push({ name: 'Events' });
+        } catch (error) {
+          throw new Error(`Problem handling something: ${error}.`); 
+        }
       }
     },
   },

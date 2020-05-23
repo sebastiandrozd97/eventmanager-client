@@ -16,10 +16,7 @@
 <script>
 import EventList from '@/components/EventList';
 import moment from 'moment';
-import db from '@/firebase/init';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import axios from 'axios';
 
 export default {
   name: 'Events',
@@ -42,30 +39,38 @@ export default {
     forceEventDetailsRerender() {
       this.renderKey += 1;
     },
+    async getEvents() {
+      try{
+        const events =  await axios.get(`${process.env.VUE_APP_API_URL}/events`, {
+          headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
+        })
+        this.events = events.data;
+        this.events.forEach(event => {
+          event.from = moment(event.from).format('YYYY-MM-DD');
+          event.to = moment(event.to).format('YYYY-MM-DD');
+        })
+      } catch(error){
+        throw new Error(`Problem handling something: ${error}.`); 
+      }
+    },
     async onEventDelete(id) {
       if (window.confirm('Delete?')) {
-        this.events = this.events.filter(event => event.id != id);
-        await db
-          .collection('events')
-          .doc(id)
-          .delete();
-        this.$router.push({ name: 'Events' });
+        try {
+          await axios.request({
+            url: `${process.env.VUE_APP_API_URL}/events/${this.event.id}`,
+            method: "delete",
+            headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
+          })
+          this.events = this.events.filter(event => event.id != id);
+          this.$router.push({ name: 'Events' });
+        } catch (error) {
+          alert(error.response.data);
+        }
       }
     },
   },
   async created() {
-    const eventsSnapshot = await db
-      .collection('events')
-      .where('userId', '==', firebase.auth().currentUser.uid)
-      .orderBy('dateFrom', 'asc')
-      .get();
-    eventsSnapshot.forEach(doc => {
-      const event = doc.data();
-      event.id = doc.id;
-      event.dateFrom = moment(event.dateFrom).format('YYYY-MM-DD');
-      event.dateTo = moment(event.dateTo).format('YYYY-MM-DD');
-      this.events.push(event);
-    });
+    await this.getEvents();
   },
   beforeUpdate() {
     this.event = this.events.find(event => {

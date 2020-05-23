@@ -1,10 +1,9 @@
-import db from '@/firebase/init'
+import axios from 'axios';
 
 const getEvents = async () => {
-  return await db
-          .collection('events')
-          .orderBy('slug')
-          .get();
+  return await axios.get(`${process.env.VUE_APP_API_URL}/events`, {
+    headers: {'Authorization': `bearer ${localStorage.getItem('accessToken')}`}
+  })
 }
 
 const check = (events, slug, suffix) => {
@@ -27,9 +26,9 @@ const check = (events, slug, suffix) => {
 export const checkSlugAvailability = async (slug) => {
   const filteredEvents = [];
   let events = await getEvents();
-  events.forEach(event => {
-    if (event.data().slug.includes(slug)) {
-      filteredEvents.push(event.data());
+  events.data.forEach(event => {
+    if (event.slug.includes(slug)) {
+      filteredEvents.push(event);
     }
   })
   if (filteredEvents) {

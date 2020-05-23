@@ -12,7 +12,7 @@
           </small>
         </div>
         <div>
-          <form @submit.prevent="signin">
+          <form @submit.prevent="signIn">
             <div class="form-group">
               <label for="email">Email address</label>
               <input
@@ -37,11 +37,6 @@
                 Doesn't have an account yet?
                 <router-link :to="{ name: 'SignUp' }">Sign up</router-link>
               </small>
-              <small class="form-text text-muted modal-pwd-reset">
-                <span>
-                  <ModalResetPassword />
-                </span>
-              </small>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
           </form>
@@ -53,34 +48,36 @@
 </template>
 
 <script>
-import ModalResetPassword from '@/components/ModalResetPassword';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import axios from 'axios';
 
 export default {
   name: 'signin',
-  components: {
-    ModalResetPassword,
-  },
   data() {
     return {
       email: null,
       password: null,
-      feedback: null,
+      feedback: '',
+      token: null,
     };
   },
   methods: {
-    async signin() {
+    async signIn() {
       if (this.email && this.password) {
-        try {
-          await firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password);
+        axios.request({
+          url: `${process.env.VUE_APP_API_URL}/identity/login`,
+          method: "post",
+          data: {
+            "email": this.email,
+            "password": this.password
+          }
+        }).then(respose => {
+          localStorage.setItem('accessToken', respose.data.token);
           this.$router.push({ name: 'Events' });
-        } catch (e) {
-          this.feedback = e.message;
-        }
+        }).catch(error => {
+          error.response.data.errors.forEach(error => {
+            this.feedback += error;
+          });
+        });
       } else {
         this.feedback = 'You must enter all fields';
       }
